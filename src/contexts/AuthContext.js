@@ -19,8 +19,17 @@ export function AuthProvider({ children }) {
     return unsubscribe;
   }, []);
 
-  function signup(email, password) {
-    return auth.createUserWithEmailAndPassword(email, password);
+  function signup(email, password, fullName) {
+    auth
+      .createUserWithEmailAndPassword(email, password)
+      .then((result) => {
+        return result.user.updateProfile({
+          displayName: fullName,
+        });
+      })
+      .catch((err) => {
+        return err;
+      });
   }
 
   function login(email, password) {

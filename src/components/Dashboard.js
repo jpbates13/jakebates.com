@@ -23,6 +23,8 @@ export default function Dashboard() {
           <h2 className="textcenter mb-4">Dashboard</h2>
           {error && <Alert variant="danger">{error}</Alert>}
           <strong>Email: </strong> {currentUser.email}
+          <br />
+          <strong>Name: </strong> {currentUser.displayName}
         </Card.Body>
       </Card>
       <div className="w-100 text-center mt-2">
