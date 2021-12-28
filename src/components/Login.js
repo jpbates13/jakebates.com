@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import { Form, Button, Card, Alert } from "react-bootstrap";
 import { useAuth } from "../contexts/AuthContext";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, Navigate } from "react-router-dom";
 
 export default function Login() {
   const emailRef = useRef();
@@ -10,7 +10,7 @@ export default function Login() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const { login } = useAuth();
+  const { login, currentUser } = useAuth();
 
   const navigate = useNavigate();
 
@@ -21,7 +21,7 @@ export default function Login() {
       setError("");
       setLoading(true);
       await login(emailRef.current.value, passwordRef.current.value);
-      navigate("/");
+      navigate("/dashboard");
     } catch {
       setError("Failed to log in");
     }
@@ -29,8 +29,12 @@ export default function Login() {
     setLoading(false);
   }
 
+  if (currentUser) {
+    return <Navigate to="/dashboard" />;
+  }
+
   return (
-    <>
+    <div className="w-100" style={{ maxWidth: "400px" }}>
       <Card>
         <Card.Body>
           <h2 className="textcenter mb-4">Log In</h2>
@@ -54,6 +58,6 @@ export default function Login() {
       <div className="w-100 text-center mt-2">
         Need an account? <Link to="/signup">Sign up</Link>
       </div>
-    </>
+    </div>
   );
 }

@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { Card, Button, Alert } from "react-bootstrap";
 import { useAuth } from "../contexts/AuthContext";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function Dashboard() {
   const [error, setError] = useState("");
   const { currentUser, logout } = useAuth();
+
   const navigate = useNavigate();
 
   async function handleLogout() {
@@ -17,7 +18,7 @@ export default function Dashboard() {
     }
   }
   return (
-    <>
+    <div className="w-100" style={{ maxWidth: "400px" }}>
       <Card>
         <Card.Body>
           <h2 className="textcenter mb-4">Dashboard</h2>
@@ -32,6 +33,6 @@ export default function Dashboard() {
           Log out
         </Button>
       </div>
-    </>
+    </div>
   );
 }

@@ -19,16 +19,16 @@ export function AuthProvider({ children }) {
     return unsubscribe;
   }, []);
 
-  function signup(email, password, fullName) {
-    auth
+  async function signup(email, password, fullName) {
+    await auth
       .createUserWithEmailAndPassword(email, password)
       .then((result) => {
         return result.user.updateProfile({
           displayName: fullName,
         });
       })
-      .catch((err) => {
-        return err;
+      .catch((error) => {
+        throw error;
       });
   }
 
