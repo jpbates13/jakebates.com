@@ -53,6 +53,7 @@ function CreatePost(props) {
 
   return (
     <div>
+      <h2>Create a New Post</h2>
       <Form.Control placeholder="Enter a title..." ref={titleRef} type="text" />
       <br />
       <Form.Control placeholder="Enter some tags..." ref={tagRef} type="text" />
