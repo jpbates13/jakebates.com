@@ -3,7 +3,6 @@ import Editor from "./editor/Editor";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { useNavigate } from "react-router";
-import firebase from "@firebase/app-compat";
 import db from "../firebase";
 import { onSnapshot, collection, addDoc } from "firebase/firestore";
 import { Form, Button } from "react-bootstrap";

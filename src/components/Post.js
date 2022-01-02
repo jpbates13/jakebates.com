@@ -23,7 +23,7 @@ export default function Post(props) {
   return (
     <div>
       <div key={post.id} style={{ paddingBottom: "50px" }}>
-        <h2>{post.title}</h2>
+        <h2 style={{ textAlign: "center" }}>{post.title}</h2>
         <div
           dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(post.body) }}
         />

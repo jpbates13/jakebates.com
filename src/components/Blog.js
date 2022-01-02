@@ -3,8 +3,9 @@ import { onSnapshot, collection } from "firebase/firestore";
 import { Link } from "react-router-dom";
 import db from "../firebase";
 import DOMPurify from "dompurify";
-
+import { useAuth } from "../contexts/AuthContext";
 function Blog() {
+  const { currentUser } = useAuth();
   const [posts, setPosts] = useState([{ title: "Loading...", id: "initial" }]);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -26,9 +27,16 @@ function Blog() {
           {isLoading ? (
             <h2>{post.title}</h2>
           ) : (
-            <Link to={"/post?postId=" + post.id}>
-              <h2>{post.title}</h2>
-            </Link>
+            <div>
+              <Link to={"/post?postId=" + post.id}>
+                <h2>{post.title}</h2>
+              </Link>
+              {currentUser && (
+                <Link state={{ post: post }} to={"/edit?postId=" + post.id}>
+                  Edit
+                </Link>
+              )}
+            </div>
           )}
           <div
             dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(post.body) }}

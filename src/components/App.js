@@ -11,12 +11,13 @@ import Blog from "./Blog";
 import Post from "./Post";
 import CreatePost from "./CreatePost";
 import PageLayout from "./PageLayout";
+import EditPost from "./EditPost";
 function App() {
   return (
     <PageLayout>
       <Container
         className="d-flex align-items-center justify-content-center"
-        style={{ minHeight: "100vh" }}
+        style={{ paddingTop: "20px" }}
       >
         <Router>
           <AuthProvider>
@@ -39,6 +40,14 @@ function App() {
                 element={
                   <PrivateRoute>
                     <CreatePost />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/edit"
+                element={
+                  <PrivateRoute>
+                    <EditPost />
                   </PrivateRoute>
                 }
               />
