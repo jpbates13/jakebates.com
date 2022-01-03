@@ -32,9 +32,19 @@ function Blog() {
             <h2>{post.title}</h2>
           ) : (
             <div>
-              <Link to={"/post?postId=" + post.id}>
-                <h2>{post.title}</h2>
+              <Link
+                style={{
+                  textDecoration: "none",
+                  color: "black",
+                  fontSize: "36px",
+                  fontWeight: "bold",
+                }}
+                className="blogTitleLink"
+                to={"/post?postId=" + post.id}
+              >
+                {post.title}
               </Link>
+              <br />
               {currentUser && (
                 <Link state={{ post: post }} to={"/edit?postId=" + post.id}>
                   Edit

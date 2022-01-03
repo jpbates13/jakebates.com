@@ -2,6 +2,7 @@ import React from "react";
 import "../styles/App.scss";
 import Github from "../images/svg/social-1_logo-github.svg";
 import LinkedIn from "../images/svg/social-1_logo-linkedin.svg";
+import { Navbar, Nav, Container } from "react-bootstrap";
 
 export default function PageLayout({ children }) {
   const currentYear = new Date().getFullYear();
@@ -11,51 +12,52 @@ export default function PageLayout({ children }) {
       <div class="container page-content">
         <div class="header page-header">
           <div class="header-content">
-            <div class="pageTitle">
-              <h1>Jake Bates</h1>
-            </div>
+            <a href="/" style={{ textDecoration: "none", color: "black" }}>
+              <div class="pageTitle">
+                <h1>Jake Bates</h1>
+              </div>
+            </a>
             <div class="pageMenu">
-              <nav class="navbar navbar-expand-lg navbar-light">
-                <button
-                  class="navbar-toggler"
-                  type="button"
-                  data-toggle="collapse"
-                  data-target="#navbarSupportedContent"
-                  aria-controls="navbarSupportedContent"
-                  aria-expanded="false"
-                  aria-label="Toggle navigation"
-                >
-                  <span class="mobileMenuIcon navbar-toggler-icon"></span>
-                </button>
+              <Navbar
+                collapseOnSelect
+                expand="sm"
+                class="navbar navbar-expand-lg navbar-light"
+              >
+                <Container>
+                  <Navbar.Toggle
+                    class="navbar-toggler"
+                    type="button"
+                    data-toggle="collapse"
+                    data-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+                  >
+                    <span class="mobileMenuIcon navbar-toggler-icon"></span>
+                  </Navbar.Toggle>
 
-                <div
-                  class="collapse navbar-collapse"
-                  id="navbarSupportedContent"
-                >
-                  <ul class="navbar-nav ml-auto">
-                    <li class="nav-item active">
-                      <a class="nav-link" href="/">
+                  <Navbar.Collapse
+                    class="collapse navbar-collapse"
+                    id="navbarSupportedContent"
+                  >
+                    <Nav>
+                      <Nav.Link class="nav-item active" href="/">
                         <b>Home</b>
-                      </a>
-                    </li>
-                    <li class="nav-item active">
-                      <a class="nav-link" href="/projects.html">
+                      </Nav.Link>
+                      <Nav.Link class="nav-item active" href="/projects">
                         <b>Projects</b>
-                      </a>
-                    </li>
-                    <li class="nav-item active">
-                      <a class="nav-link" href="/blog">
+                      </Nav.Link>
+                      <Nav.Link class="nav-item active" href="/blog">
                         <b>Blog</b>
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </nav>
+                      </Nav.Link>
+                    </Nav>
+                  </Navbar.Collapse>
+                </Container>
+              </Navbar>
             </div>
           </div>
-          <hr />
         </div>
-        <div class="pageContent">{children}</div>
+        <div class="current-content">{children}</div>
       </div>
       <footer class="footer page-footer text-center block third bg-light">
         <br />

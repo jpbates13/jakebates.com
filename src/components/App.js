@@ -15,10 +15,7 @@ import EditPost from "./EditPost";
 function App() {
   return (
     <PageLayout>
-      <Container
-        className="d-flex align-items-center justify-content-center"
-        style={{ paddingTop: "20px" }}
-      >
+      <Container style={{ paddingTop: "20px" }}>
         <Router>
           <AuthProvider>
             <Routes>

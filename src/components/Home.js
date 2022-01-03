@@ -10,7 +10,7 @@ export default function Home() {
           <div class="block second">
             <br />
             <img
-              style={{ maxWidth: "66%", height: "auto" }}
+              style={{ minWidth: "70%", maxWidth: "70%", height: "auto" }}
               class="img-fluid"
               src={Headshot}
             />
