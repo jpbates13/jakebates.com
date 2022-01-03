@@ -2,9 +2,14 @@ import React, { useRef, useState } from "react";
 import Editor from "./editor/Editor";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
+import Document from "@tiptap/extension-document";
+import Paragraph from "@tiptap/extension-paragraph";
+import Text from "@tiptap/extension-text";
+import Image from "@tiptap/extension-image";
+import Dropcursor from "@tiptap/extension-dropcursor";
 import { useNavigate } from "react-router";
 import db from "../firebase";
-import { onSnapshot, collection, addDoc } from "firebase/firestore";
+import { onSnapshot, collection, addDoc, Timestamp } from "firebase/firestore";
 import { Form, Button } from "react-bootstrap";
 
 function CreatePost(props) {
@@ -14,7 +19,15 @@ function CreatePost(props) {
   const navigate = useNavigate();
 
   const editor = useEditor({
-    extensions: [StarterKit],
+    extensions: [
+      StarterKit,
+      Image,
+      Document,
+      Paragraph,
+      Text,
+      Image,
+      Dropcursor,
+    ],
     content: "",
   });
 
@@ -26,6 +39,8 @@ function CreatePost(props) {
       body: body,
       tags: tags,
       title: title,
+      date: Timestamp.now(),
+      updatedDate: null,
     };
     const collectionRef = collection(db, "posts");
     const docRef = await addDoc(collectionRef, data);

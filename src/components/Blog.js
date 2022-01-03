@@ -13,8 +13,12 @@ function Blog() {
     setIsLoading(true);
     onSnapshot(collection(db, "posts"), (snapshot) => {
       setPosts(
-        // we reverse it so its in reverse chronological roder
-        snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })).reverse()
+        // we sort it so the most recent posts are on top
+        snapshot.docs
+          .map((doc) => ({ ...doc.data(), id: doc.id }))
+          .sort((a, b) => {
+            return b.date.toDate() - a.date.toDate();
+          })
       );
       setIsLoading(false);
     });

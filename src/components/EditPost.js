@@ -2,9 +2,14 @@ import React, { useRef, useState, useEffect } from "react";
 import Editor from "./editor/Editor";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
+import Document from "@tiptap/extension-document";
+import Paragraph from "@tiptap/extension-paragraph";
+import Text from "@tiptap/extension-text";
+import Image from "@tiptap/extension-image";
+import Dropcursor from "@tiptap/extension-dropcursor";
 import { useNavigate } from "react-router";
 import db from "../firebase";
-import { onSnapshot, collection, addDoc } from "firebase/firestore";
+import { Timestamp } from "firebase/firestore";
 import { Form, Button } from "react-bootstrap";
 import { doc, updateDoc } from "firebase/firestore";
 import { useLocation } from "react-router-dom";
@@ -23,7 +28,15 @@ function EditPost(props) {
   const docuemntRef = doc(db, "posts", post.id);
 
   let editor = useEditor({
-    extensions: [StarterKit],
+    extensions: [
+      StarterKit,
+      Image,
+      Document,
+      Paragraph,
+      Text,
+      Image,
+      Dropcursor,
+    ],
     content: post.body,
   });
 
@@ -32,6 +45,7 @@ function EditPost(props) {
       body: body,
       tags: tags,
       title: title,
+      updatedDate: Timestamp.now(),
     }).catch((err) => {
       console.log(err);
     });

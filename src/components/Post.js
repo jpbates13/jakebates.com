@@ -3,8 +3,11 @@ import { doc, getDoc } from "firebase/firestore";
 import { useSearchParams } from "react-router-dom";
 import db from "../firebase";
 import DOMPurify from "dompurify";
+import { useAuth } from "../contexts/AuthContext";
+import { Link } from "react-router-dom";
 
 export default function Post(props) {
+  const { currentUser } = useAuth();
   const [post, setPost] = useState({ title: "Loading...", id: "initial" });
   const [serachParam, setSearchParam] = useSearchParams();
   serachParam.get("postId");
@@ -23,7 +26,20 @@ export default function Post(props) {
   return (
     <div>
       <div key={post.id} style={{ paddingBottom: "50px" }}>
-        <h2 style={{ textAlign: "center" }}>{post.title}</h2>
+        <div style={{ lineHeight: "1%" }}>
+          <h2 style={{ textAlign: "center", fontSize: "36px" }}>
+            {post.title}
+          </h2>
+          <p style={{ textAlign: "center", fontSize: "small" }}>
+            <b>{post.date?.toDate().toDateString()}</b>
+          </p>
+          {post.updatedDate && (
+            <p style={{ textAlign: "center", fontSize: "small" }}>
+              <i>Updated {post.updatedDate?.toDate().toDateString()}</i>
+            </p>
+          )}
+          <hr />
+        </div>
         <div
           dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(post.body) }}
         />

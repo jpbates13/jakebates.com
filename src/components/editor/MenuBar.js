@@ -6,6 +6,13 @@ export default function MenuBar({ editor }) {
     return null;
   }
 
+  function addImage() {
+    const url = window.prompt("URL");
+    if (url) {
+      editor.chain().focus().setImage({ src: url }).run();
+    }
+  }
+
   return (
     <>
       <button
@@ -110,6 +117,7 @@ export default function MenuBar({ editor }) {
       <button onClick={() => editor.chain().focus().setHardBreak().run()}>
         hard break
       </button>
+      <button onClick={addImage}>add image</button>
       <button onClick={() => editor.chain().focus().undo().run()}>undo</button>
       <button onClick={() => editor.chain().focus().redo().run()}>redo</button>
     </>
