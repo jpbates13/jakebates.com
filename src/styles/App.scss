@@ -81,6 +81,7 @@ pre {
     text-align: center;
   }
   .header {
+    background-color: #ffffff;
     position: sticky;
     left: 0;
     width: 100%;
@@ -97,7 +98,6 @@ pre {
   padding-top: 10%;
 }
 .header {
-  background-color: #ffffff;
   padding-top: 25px;
   margin-bottom: 25px;
 }
@@ -191,40 +191,33 @@ hr {
   margin: 2rem 0;
 }
 
-// .blogTitleLink {
-//   position: relative;
-//   text-decoration: none;
-//   color: black;
-//   text-align: center;
-//   width: auto;
-// }
-
-// .blogTitleLink::before {
-//   content: "";
-//   position: absolute;
-//   display: block;
-//   width: 100%;
-//   height: 2px;
-//   bottom: 0;
-//   left: 0;
-//   background-color: #000;
-//   transform: scaleX(0);
-//   transition: transform 0.3s ease;
-// }
-
-// .blogTitleLink:hover::before {
-//   transform: scaleX(1);
-// }
-.blogTitleLink {
-  text-decoration: none;
-  background-image: linear-gradient(currentColor, currentColor);
-  background-position: 0% 100%;
-  background-repeat: no-repeat;
-  background-size: 0% 2px;
-  transition: background-size 0.3s;
+.post-content {
+  flex: 1 0 30%;
+  background-color: whitesmoke;
+  padding: 20px;
+  border-radius: 10px;
+  margin: 10px;
+  border: 3px solid white;
+  transition: border-color 0.3s;
+  .blogTitleLink {
+    text-decoration: none;
+    background-image: linear-gradient(currentColor, #0d6efd);
+    background-position: 0% 100%;
+    background-repeat: no-repeat;
+    background-size: 0% 2px;
+    transition: background-size 0.3s;
+  }
+}
+.post-content:hover {
+  border-color: #0d6efd;
+  cursor: pointer;
+  .blogTitleLink {
+    background-size: 100% 2px;
+  }
 }
 
-.blogTitleLink:hover,
-.blogTitleLink:focus {
-  background-size: 100% 2px;
+.all-posts {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
 }

@@ -25,9 +25,9 @@ function Blog() {
   }, []);
 
   return (
-    <div>
+    <div className="all-posts">
       {posts.map((post) => (
-        <div key={post.id} style={{ paddingBottom: "50px" }}>
+        <div className="post-content" key={post.id}>
           {isLoading ? (
             <h2>{post.title}</h2>
           ) : (
@@ -44,6 +44,9 @@ function Blog() {
               >
                 {post.title}
               </Link>
+              <p style={{ fontSize: "small" }}>
+                <b>{post.date?.toDate().toDateString()}</b>
+              </p>
               <br />
               {currentUser && (
                 <Link state={{ post: post }} to={"/edit?postId=" + post.id}>
@@ -52,9 +55,6 @@ function Blog() {
               )}
             </div>
           )}
-          <div
-            dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(post.body) }}
-          />
         </div>
       ))}
     </div>
