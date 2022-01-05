@@ -1,15 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { doc, getDoc } from "firebase/firestore";
 import { useSearchParams } from "react-router-dom";
 import db from "../firebase";
 import DOMPurify from "dompurify";
 import { useAuth } from "../contexts/AuthContext";
-import { Link } from "react-router-dom";
 
 export default function Post(props) {
-  const { currentUser } = useAuth();
   const [post, setPost] = useState({ title: "Loading...", id: "initial" });
-  const [serachParam, setSearchParam] = useSearchParams();
+  const [serachParam] = useSearchParams();
   serachParam.get("postId");
 
   const docRef = doc(db, "posts", serachParam.get("postId"));

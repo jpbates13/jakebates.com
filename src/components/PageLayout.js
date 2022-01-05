@@ -3,6 +3,7 @@ import "../styles/App.scss";
 import Github from "../images/svg/social-1_logo-github.svg";
 import LinkedIn from "../images/svg/social-1_logo-linkedin.svg";
 import { Navbar, Nav, Container } from "react-bootstrap";
+import Resume from "../assets/resume.pdf";
 
 export default function PageLayout({ children }) {
   const currentYear = new Date().getFullYear();
@@ -44,11 +45,14 @@ export default function PageLayout({ children }) {
                       <Nav.Link class="nav-item active" href="/">
                         <b>Home</b>
                       </Nav.Link>
+                      <Nav.Link class="nav-item active" href="/blog">
+                        <b>Blog</b>
+                      </Nav.Link>
                       <Nav.Link class="nav-item active" href="/projects">
                         <b>Projects</b>
                       </Nav.Link>
-                      <Nav.Link class="nav-item active" href="/blog">
-                        <b>Blog</b>
+                      <Nav.Link class="nav-item active" href={Resume}>
+                        <b>Resume</b>
                       </Nav.Link>
                     </Nav>
                   </Navbar.Collapse>
