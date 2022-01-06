@@ -129,6 +129,10 @@ pre {
   animation-iteration-count: 1;
   animation-fill-mode: forwards;
 }
+.post-block {
+  display: block;
+  text-decoration: none;
+}
 
 @keyframes fadeInAnimation {
   0% {
@@ -240,4 +244,8 @@ hr {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
+}
+
+.github-button:hover {
+  transform: scale(1.08);
 }

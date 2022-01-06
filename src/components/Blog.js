@@ -31,7 +31,7 @@ function Blog() {
           {isLoading ? (
             <h2>{post.title}</h2>
           ) : (
-            <div>
+            <a className="post-block" href={"/post?postId=" + post.id}>
               <Link
                 style={{
                   textDecoration: "none",
@@ -53,7 +53,7 @@ function Blog() {
                   Edit
                 </Link>
               )}
-            </div>
+            </a>
           )}
         </div>
       ))}

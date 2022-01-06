@@ -79,7 +79,7 @@ export default function PageLayout({ children }) {
         </div>
         <br />
         <p>
-          Copyright &copy; {currentYear} <a href="/index.html">JakeBates.com</a>
+          Copyright &copy; {currentYear} <a href="/">JakeBates.com</a>
         </p>
       </footer>
     </div>
