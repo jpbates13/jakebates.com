@@ -13,7 +13,7 @@ import CreatePost from "./CreatePost";
 import PageLayout from "./PageLayout";
 import EditPost from "./EditPost";
 import Projects from "./Projects";
-import Resume from "../assets/resume.pdf";
+
 function App() {
   return (
     <PageLayout>

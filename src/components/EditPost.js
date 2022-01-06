@@ -1,6 +1,6 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState } from "react";
 import Editor from "./editor/Editor";
-import { useEditor, EditorContent } from "@tiptap/react";
+import { useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Document from "@tiptap/extension-document";
 import Paragraph from "@tiptap/extension-paragraph";
@@ -47,7 +47,7 @@ function EditPost(props) {
       title: title,
       updatedDate: Timestamp.now(),
     }).catch((err) => {
-      console.log(err);
+      setError(err);
     });
   }
 
@@ -72,6 +72,7 @@ function EditPost(props) {
   return (
     <div>
       <h2>Edit Post</h2>
+      {error && <p style={{ color: "red" }}>{error}</p>}
       <Form.Control defaultValue={post.title} ref={titleRef} type="text" />
       <br />
       <Form.Control

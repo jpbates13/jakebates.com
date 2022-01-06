@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import Editor from "./editor/Editor";
-import { useEditor, EditorContent } from "@tiptap/react";
+import { useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Document from "@tiptap/extension-document";
 import Paragraph from "@tiptap/extension-paragraph";
@@ -9,7 +9,7 @@ import Image from "@tiptap/extension-image";
 import Dropcursor from "@tiptap/extension-dropcursor";
 import { useNavigate } from "react-router";
 import db from "../firebase";
-import { onSnapshot, collection, addDoc, Timestamp } from "firebase/firestore";
+import { collection, addDoc, Timestamp } from "firebase/firestore";
 import { Form, Button } from "react-bootstrap";
 
 function CreatePost(props) {
@@ -43,8 +43,7 @@ function CreatePost(props) {
       updatedDate: null,
     };
     const collectionRef = collection(db, "posts");
-    const docRef = await addDoc(collectionRef, data);
-    console.log("The new ID is: " + docRef.id);
+    await addDoc(collectionRef, data);
   }
 
   async function handlePost(e) {
@@ -68,6 +67,7 @@ function CreatePost(props) {
   return (
     <div>
       <h2>Create a New Post</h2>
+      {error && <p style={{ color: "red" }}>{error}</p>}
       <Form.Control placeholder="Enter a title..." ref={titleRef} type="text" />
       <br />
       <Form.Control placeholder="Enter some tags..." ref={tagRef} type="text" />

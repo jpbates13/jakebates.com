@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import Headshot from "../images/headshot.png";
 
 export default function Home() {
@@ -13,6 +12,7 @@ export default function Home() {
               style={{ minWidth: "70%", maxWidth: "70%", height: "auto" }}
               class="img-fluid"
               src={Headshot}
+              alt="Headshot of Jake"
             />
           </div>
         </div>

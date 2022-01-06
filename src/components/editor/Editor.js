@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useEditor, EditorContent } from "@tiptap/react";
+import React from "react";
+import { EditorContent } from "@tiptap/react";
 import "../../styles/EditorStyles.scss";
 import MenuBar from "./MenuBar";
 

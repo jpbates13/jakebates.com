@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { onSnapshot, collection } from "firebase/firestore";
 import { Link } from "react-router-dom";
 import db from "../firebase";
-import DOMPurify from "dompurify";
 import { useAuth } from "../contexts/AuthContext";
 function Blog() {
   const { currentUser } = useAuth();

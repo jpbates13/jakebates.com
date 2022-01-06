@@ -1,4 +1,3 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState, useEffect } from "react";
 import { Button } from "react-bootstrap";
 import {
@@ -68,7 +67,7 @@ function Projects(props) {
       clearInterval(interval);
     }
     return () => clearInterval(interval);
-  }, [pause]);
+  }, [pause, length]);
 
   if (!Array.isArray(projects) || projects.length <= 0) {
     return null;

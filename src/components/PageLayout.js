@@ -68,12 +68,12 @@ export default function PageLayout({ children }) {
         <div class="social-icon-set">
           <div class="social-icon">
             <a href="https://www.linkedin.com/in/joshua-jake-bates/">
-              <img src={LinkedIn} />
+              <img alt="" src={LinkedIn} />
             </a>
           </div>
           <div class="social-icon">
             <a href="https://github.com/jpbates13">
-              <img src={Github} />
+              <img alt="" src={Github} />
             </a>
           </div>
         </div>

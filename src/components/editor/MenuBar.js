@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import "../../styles/EditorStyles.scss";
 
 export default function MenuBar({ editor }) {
