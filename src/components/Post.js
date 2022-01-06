@@ -3,7 +3,6 @@ import { doc, getDoc } from "firebase/firestore";
 import { useSearchParams } from "react-router-dom";
 import db from "../firebase";
 import DOMPurify from "dompurify";
-import { useAuth } from "../contexts/AuthContext";
 
 export default function Post(props) {
   const [post, setPost] = useState({ title: "Loading...", id: "initial" });
