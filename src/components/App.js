@@ -16,10 +16,10 @@ import Projects from "./Projects";
 
 function App() {
   return (
-    <PageLayout>
-      <Container style={{ paddingTop: "20px" }}>
-        <Router>
-          <AuthProvider>
+    <Router>
+      <AuthProvider>
+        <PageLayout>
+          <Container style={{ paddingTop: "20px" }}>
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
@@ -61,10 +61,10 @@ function App() {
                 }
               />
             </Routes>
-          </AuthProvider>
-        </Router>
-      </Container>
-    </PageLayout>
+          </Container>
+        </PageLayout>
+      </AuthProvider>
+    </Router>
   );
 }
 
