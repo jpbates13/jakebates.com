@@ -106,9 +106,10 @@ export default function PageLayout({ children }) {
                       <Nav.Link class="nav-item active" href="/">
                         <b>Home</b>
                       </Nav.Link>
-                      <Nav.Link class="nav-item active" href="/blog">
+                      {/* Temporarily disabling blog until we have actual content */}
+                      {/* <Nav.Link class="nav-item active" href="/blog">
                         <b>Blog</b>
-                      </Nav.Link>
+                      </Nav.Link> */}
                       <Nav.Link class="nav-item active" href="/projects">
                         <b>Projects</b>
                       </Nav.Link>
