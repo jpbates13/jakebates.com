@@ -16,6 +16,7 @@ import Projects from "./Projects";
 import Drafts from "./Drafts";
 
 function App() {
+  document.title = "JakeBates.com";
   return (
     <Router>
       <AuthProvider>

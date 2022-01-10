@@ -1,6 +1,12 @@
 .env.local
+.env.local_DEV
+.env.local_PROD
 node_modules/.cache/.eslintcache
 node_modules/
+build/
 .DS_STORE
 .DS_Store
 makeAdmin.js
+*.cache
+.firebaserc
+firebase.json
