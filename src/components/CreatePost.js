@@ -46,6 +46,19 @@ function CreatePost(props) {
     await addDoc(collectionRef, data);
   }
 
+  async function submitDraft(title, body, tags) {
+    const data = {
+      body: body,
+      tags: tags,
+      title: title,
+      date: Timestamp.now(),
+      updatedDate: null,
+      isDraft: true,
+    };
+    const collectionRef = collection(db, "drafts");
+    await addDoc(collectionRef, data);
+  }
+
   async function handlePost(e) {
     e.preventDefault();
     try {
@@ -63,6 +76,24 @@ function CreatePost(props) {
 
     setLoading(false);
   }
+  async function handleDraft(e) {
+    e.preventDefault();
+    try {
+      setError("");
+      setLoading(true);
+      await submitDraft(
+        titleRef.current.value,
+        editor.getHTML(),
+        tagRef.current.value
+      );
+      navigate("/drafts");
+    } catch (err) {
+      setError("Failed to submit drfaft");
+      console.log(err);
+    }
+
+    setLoading(false);
+  }
 
   return (
     <div>
@@ -76,6 +107,13 @@ function CreatePost(props) {
       <br />
       <Button disabled={loading} onClick={handlePost}>
         Post
+      </Button>{" "}
+      <Button
+        variant="outline-primary"
+        disabled={loading}
+        onClick={handleDraft}
+      >
+        Save Draft
       </Button>
     </div>
   );

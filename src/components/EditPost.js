@@ -9,9 +9,15 @@ import Image from "@tiptap/extension-image";
 import Dropcursor from "@tiptap/extension-dropcursor";
 import { useNavigate } from "react-router";
 import db from "../firebase";
-import { Timestamp } from "firebase/firestore";
 import { Form, Button } from "react-bootstrap";
-import { doc, updateDoc } from "firebase/firestore";
+import {
+  doc,
+  updateDoc,
+  collection,
+  addDoc,
+  deleteDoc,
+  Timestamp,
+} from "firebase/firestore";
 import { useLocation } from "react-router-dom";
 
 function EditPost(props) {
@@ -25,7 +31,6 @@ function EditPost(props) {
 
   const location = useLocation();
   const post = location.state.post;
-  const docuemntRef = doc(db, "posts", post.id);
 
   let editor = useEditor({
     extensions: [
@@ -41,7 +46,34 @@ function EditPost(props) {
   });
 
   async function submitPost(title, body, tags) {
-    await updateDoc(docuemntRef, {
+    if (post.isDraft) {
+      const collectionRef = collection(db, "posts");
+      const draftDocRef = doc(db, "drafts", post.id);
+      await addDoc(collectionRef, {
+        body: body,
+        tags: tags,
+        title: title,
+        date: Timestamp.now(),
+        updatedDate: null,
+      }).catch((err) => {
+        setError(err);
+      });
+      await deleteDoc(draftDocRef);
+    } else {
+      const documentRef = doc(db, "posts", post.id);
+      await updateDoc(documentRef, {
+        body: body,
+        tags: tags,
+        title: title,
+        updatedDate: Timestamp.now(),
+      }).catch((err) => {
+        setError(err);
+      });
+    }
+  }
+  async function submitDraft(title, body, tags) {
+    const documentRef = doc(db, "drafts", post.id);
+    await updateDoc(documentRef, {
       body: body,
       tags: tags,
       title: title,
@@ -68,6 +100,23 @@ function EditPost(props) {
 
     setLoading(false);
   }
+  async function handleDraft(e) {
+    e.preventDefault();
+    try {
+      setError("");
+      setLoading(true);
+      await submitDraft(
+        titleRef.current.value,
+        editor.getHTML(),
+        tagRef.current.value
+      );
+      navigate("/drafts");
+    } catch {
+      setError("Failed to submit draft");
+    }
+
+    setLoading(false);
+  }
 
   return (
     <div>
@@ -86,6 +135,13 @@ function EditPost(props) {
       <br />
       <Button disabled={loading} onClick={handlePost}>
         Post
+      </Button>
+      <Button
+        variant="outline-primary"
+        disabled={loading}
+        onClick={handleDraft}
+      >
+        Save Draft
       </Button>
     </div>
   );

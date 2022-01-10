@@ -64,6 +64,9 @@ export default function PageLayout({ children }) {
                         <Nav.Link class="nav-item active" href="/create-post">
                           <b>Create Post</b>
                         </Nav.Link>
+                        <Nav.Link class="nav-item active" href="/drafts">
+                          <b>Drafts</b>
+                        </Nav.Link>
                         <Nav.Link
                           class="nav-item active"
                           onClick={handleLogout}

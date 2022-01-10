@@ -13,6 +13,7 @@ import CreatePost from "./CreatePost";
 import PageLayout from "./PageLayout";
 import EditPost from "./EditPost";
 import Projects from "./Projects";
+import Drafts from "./Drafts";
 
 function App() {
   return (
@@ -57,6 +58,14 @@ function App() {
                 element={
                   <PrivateRoute>
                     <EditPost />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/drafts"
+                element={
+                  <PrivateRoute>
+                    <Drafts />
                   </PrivateRoute>
                 }
               />
