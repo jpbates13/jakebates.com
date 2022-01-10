@@ -1,0 +1,251 @@
+@import url("https://fonts.googleapis.com/css2?family=Spartan:wght@700&display=swap");
+
+.nav-link {
+  position: relative;
+  color: #000;
+  text-decoration: none;
+}
+
+.nav-link:hover {
+  color: #000;
+}
+
+.nav-link::before {
+  content: "";
+  position: absolute;
+  display: block;
+  width: 100%;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: #000;
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.nav-link:hover::before {
+  transform: scaleX(1);
+}
+
+.pageTitle {
+  position: relative;
+  text-decoration: none;
+}
+
+.pageTitle::before {
+  content: "";
+  position: absolute;
+  display: block;
+  width: 100%;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: #000;
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.pageTitle:hover::before {
+  transform: scaleX(1);
+}
+
+.pageTitle {
+  font-family: "Spartan", sans-serif;
+  line-height: 0%;
+  padding-top: 10px;
+}
+
+pre {
+  background: #282c34;
+  color: #61dafb;
+  font-family: "JetBrainsMono", monospace;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+
+  code {
+    color: inherit;
+    padding: 0;
+    background: none;
+    font-size: 0.8rem;
+  }
+}
+
+/* Old website CSS */
+/* Desktop Only CSS */
+@media only screen and (min-width: 767px) {
+  .footer {
+    position: relative;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+  }
+  .header {
+    background-color: #ffffff;
+    position: sticky;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    top: 0;
+    z-index: 1;
+  }
+}
+.social-icon {
+  display: inline-block;
+  padding: 5px;
+}
+.bio {
+  padding-top: 10%;
+}
+.header {
+  padding-top: 25px;
+  margin-bottom: 25px;
+}
+.header-content {
+  display: flex;
+  justify-content: space-between;
+}
+.page-content {
+  min-height: 85vh;
+  display: flex;
+  flex-direction: column;
+}
+.footer {
+  margin-top: 25px;
+  min-height: 15vh;
+}
+
+.current-content {
+  padding-left: 5%;
+  padding-right: 5%;
+}
+.headshot {
+  animation: fadeInAnimation ease 1s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+.bio {
+  animation: fadeInAnimation ease 1s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+.post-block {
+  display: block;
+  text-decoration: none;
+}
+
+@keyframes fadeInAnimation {
+  0% {
+    opacity: 0;
+    transform: scale(1.3);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+/* Mobile Only CSS*/
+@media only screen and (max-width: 767px) {
+  .bio {
+    text-align: center !important;
+  }
+  .headshot {
+    text-align: center !important;
+    display: inline-block !important;
+  }
+  .pageMenu {
+    display: inline-block !important;
+    text-align: left !important;
+  }
+}
+
+/* Code to match WYSIWYG Editor */
+
+> * + * {
+  margin-top: 0.75em;
+}
+
+ul,
+ol {
+  padding: 0 1rem;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  line-height: 1.1;
+}
+
+code {
+  background-color: rgba(#616161, 0.1);
+  color: #616161;
+}
+
+pre {
+  background: #282c34;
+  color: #61dafb;
+  font-family: "JetBrainsMono", monospace;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+
+  code {
+    color: inherit;
+    padding: 0;
+    background: none;
+    font-size: 0.8rem;
+  }
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+blockquote {
+  padding-left: 1rem;
+  border-left: 2px solid rgba(#0d0d0d, 0.1);
+}
+
+hr {
+  border: none;
+  border-top: 2px solid rgba(#0d0d0d, 0.1);
+  margin: 2rem 0;
+}
+
+.post-content {
+  flex: 1 0 30%;
+  background-color: whitesmoke;
+  padding: 20px;
+  border-radius: 10px;
+  margin: 10px;
+  border: 3px solid white;
+  transition: border-color 0.3s;
+  .blogTitleLink {
+    text-decoration: none;
+    background-image: linear-gradient(currentColor, #0d6efd);
+    background-position: 0% 100%;
+    background-repeat: no-repeat;
+    background-size: 0% 2px;
+    transition: background-size 0.3s;
+  }
+}
+.post-content:hover {
+  border-color: #0d6efd;
+  cursor: pointer;
+  .blogTitleLink {
+    background-size: 100% 2px;
+  }
+}
+
+.all-posts {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.github-button:hover {
+  transform: scale(1.08);
+}

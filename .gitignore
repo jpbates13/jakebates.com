@@ -1,0 +1,6 @@
+.env.local
+node_modules/.cache/.eslintcache
+node_modules/
+.DS_STORE
+.DS_Store
+makeAdmin.js
