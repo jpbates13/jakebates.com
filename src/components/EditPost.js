@@ -72,15 +72,31 @@ function EditPost(props) {
     }
   }
   async function submitDraft(title, body, tags) {
-    const documentRef = doc(db, "drafts", post.id);
-    await updateDoc(documentRef, {
-      body: body,
-      tags: tags,
-      title: title,
-      updatedDate: Timestamp.now(),
-    }).catch((err) => {
-      setError(err);
-    });
+    if (post.isDraft) {
+      const documentRef = doc(db, "drafts", post.id);
+      await updateDoc(documentRef, {
+        body: body,
+        tags: tags,
+        title: title,
+        updatedDate: Timestamp.now(),
+      }).catch((err) => {
+        setError(err);
+      });
+    } else {
+      const collectionRef = collection(db, "drafts");
+      const postDocRef = doc(db, "posts", post.id);
+      await addDoc(collectionRef, {
+        body: body,
+        tags: tags,
+        title: title,
+        isDraft: true,
+        date: Timestamp.now(),
+        updatedDate: null,
+      }).catch((err) => {
+        setError(err);
+      });
+      await deleteDoc(postDocRef);
+    }
   }
 
   async function handlePost(e) {
@@ -135,7 +151,7 @@ function EditPost(props) {
       <br />
       <Button disabled={loading} onClick={handlePost}>
         Post
-      </Button>
+      </Button>{" "}
       <Button
         variant="outline-primary"
         disabled={loading}
