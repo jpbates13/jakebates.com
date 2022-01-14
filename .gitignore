@@ -9,4 +9,3 @@ build/
 makeAdmin.js
 *.cache
 .firebaserc
-firebase.json
