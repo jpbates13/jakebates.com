@@ -17,7 +17,7 @@ const projects = [
     repository: "https://github.com/jpbates13/jakebates.com",
   },
   {
-    title: "Trustee Campaign Wesbite",
+    title: "Trustee Campaign Website",
     date: "February 2021",
     description:
       "A website I created for my campaign to be UMass Boston's 2021-22 Student Trustee. I spent a lot of time getting the very unqiue design just right and I was very happy with the way it turned out.",

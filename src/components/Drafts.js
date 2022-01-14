@@ -33,7 +33,7 @@ function Drafts() {
             <Link
               className="post-block"
               state={{ post: post }}
-              to={"/edit?postId=" + post.id}
+              to={"/preview?postId=" + post.id}
             >
               <Link
                 style={{
@@ -44,7 +44,7 @@ function Drafts() {
                 }}
                 state={{ post: post }}
                 className="blogTitleLink"
-                to={"/edit?postId=" + post.id}
+                to={"/preview?postId=" + post.id}
               >
                 {post.title}
               </Link>

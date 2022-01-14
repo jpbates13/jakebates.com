@@ -4,13 +4,13 @@ import { useSearchParams } from "react-router-dom";
 import db from "../firebase";
 import DOMPurify from "dompurify";
 
-export default function Post(props) {
+export default function Preview(props) {
   const [post, setPost] = useState({ title: "Loading...", id: "initial" });
   const [serachParam] = useSearchParams();
   serachParam.get("postId");
 
   useEffect(() => {
-    const docRef = doc(db, "posts", serachParam.get("postId"));
+    const docRef = doc(db, "drafts", serachParam.get("postId"));
     getDoc(docRef).then((result) => {
       if (result.exists()) {
         console.log("Document data:", result.data());

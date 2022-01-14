@@ -12,6 +12,25 @@ export default function MenuBar({ editor }) {
       editor.chain().focus().setImage({ src: url }).run();
     }
   }
+  function setLink(editor) {
+    const previousUrl = editor.getAttributes("link").href;
+    const url = window.prompt("URL", previousUrl);
+
+    // cancelled
+    if (url === null) {
+      return;
+    }
+
+    // empty
+    if (url === "") {
+      editor.chain().focus().extendMarkRange("link").unsetLink().run();
+
+      return;
+    }
+
+    // update link
+    editor.chain().focus().extendMarkRange("link").setLink({ href: url }).run();
+  }
 
   return (
     <>
@@ -118,6 +137,18 @@ export default function MenuBar({ editor }) {
         hard break
       </button>
       <button onClick={addImage}>add image</button>
+      <button
+        onClick={() => setLink(editor)}
+        className={editor.isActive("link") ? "is-active" : ""}
+      >
+        setLink
+      </button>
+      <button
+        onClick={() => editor.chain().focus().unsetLink().run()}
+        disabled={!editor.isActive("link")}
+      >
+        unsetLink
+      </button>
       <button onClick={() => editor.chain().focus().undo().run()}>undo</button>
       <button onClick={() => editor.chain().focus().redo().run()}>redo</button>
     </>

@@ -14,6 +14,7 @@ import PageLayout from "./PageLayout";
 import EditPost from "./EditPost";
 import Projects from "./Projects";
 import Drafts from "./Drafts";
+import Preview from "./Preview";
 
 function App() {
   document.title = "JakeBates.com";
@@ -67,6 +68,14 @@ function App() {
                 element={
                   <PrivateRoute>
                     <Drafts />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/preview"
+                element={
+                  <PrivateRoute>
+                    <Preview />
                   </PrivateRoute>
                 }
               />

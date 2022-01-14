@@ -7,6 +7,7 @@ import Paragraph from "@tiptap/extension-paragraph";
 import Text from "@tiptap/extension-text";
 import Image from "@tiptap/extension-image";
 import Dropcursor from "@tiptap/extension-dropcursor";
+import Link from "@tiptap/extension-link";
 import { useNavigate } from "react-router";
 import db from "../firebase";
 import { Form, Button } from "react-bootstrap";
@@ -41,6 +42,7 @@ function EditPost(props) {
       Text,
       Image,
       Dropcursor,
+      Link,
     ],
     content: post.body,
   });
