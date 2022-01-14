@@ -20,7 +20,7 @@ export default function Post(props) {
         console.log("No such document!");
       }
     });
-  }, []);
+  }, [serachParam]);
 
   return (
     <div>
