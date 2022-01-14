@@ -27,7 +27,7 @@ const projects = [
     title: "Apartment Travel Predictions",
     date: "September 2020",
     description:
-      "This is a python/flask app I use to see when busses are arriving near my apartment using the MBTA API. I run it on a raspberry pi, making it accessible to everyone on my apartment's network so that my roommates can also see when busses are arriving.",
+      "This is a python/flask app I use to see when a bus is arriving near my apartment using the MBTA API. I run it on a raspberry pi, making it accessible to everyone on my apartment's network so that my roommates can also see when busses are arriving.",
     repository: "https://github.com/jpbates13/apartment-travel-predictions",
   },
   {
