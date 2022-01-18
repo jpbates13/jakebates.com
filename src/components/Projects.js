@@ -76,7 +76,7 @@ function Projects(props) {
         <IconContext.Provider
           value={{ color: props.theme === "light" ? "black" : "#EEEEEE" }}
         >
-          <FaArrowLeft className="left-arrow" onClick={nextSlide} />
+          <FaArrowLeft className="left-arrow" onClick={prevSlide} />
         </IconContext.Provider>
         <section className="slider">
           {projects.map((slide, index) => {
