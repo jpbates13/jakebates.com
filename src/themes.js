@@ -86,4 +86,10 @@ export const GlobalStyles = createGlobalStyle`
     .blogTitleLink{
         color: ${(props) => props.theme.fontColor};
     }
+    .navbar-light .navbar-toggler-icon {
+        filter: ${(props) => props.theme.svgFilter};
+    }
+    .header{
+        background-color: ${(props) => props.theme.body};
+    }
 `;
