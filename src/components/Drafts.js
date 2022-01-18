@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import db from "../firebase";
 import { useAuth } from "../contexts/AuthContext";
 function Drafts() {
+  document.title = "JakeBates.com | Drafts";
   const { currentUser } = useAuth();
   const [posts, setPosts] = useState([{ title: "Loading...", id: "initial" }]);
   const [isLoading, setIsLoading] = useState(false);
@@ -38,7 +39,6 @@ function Drafts() {
               <Link
                 style={{
                   textDecoration: "none",
-                  color: "black",
                   fontSize: "36px",
                   fontWeight: "bold",
                 }}

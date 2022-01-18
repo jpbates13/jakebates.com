@@ -4,6 +4,7 @@ import { useAuth } from "../contexts/AuthContext";
 import { Link, useNavigate, Navigate } from "react-router-dom";
 
 export default function Signup() {
+  document.title = "JakeBates.com | Sign Up";
   const emailRef = useRef();
   const passwordRef = useRef();
   const passwordConfirmRef = useRef();
@@ -31,14 +32,11 @@ export default function Signup() {
     try {
       setError("");
       setLoading(true);
-      console.log(
-        await signup(
-          emailRef.current.value,
-          passwordRef.current.value,
-          firstNameRef.current.value + " " + lastNameRef.current.value
-        )
+      await signup(
+        emailRef.current.value,
+        passwordRef.current.value,
+        firstNameRef.current.value + " " + lastNameRef.current.value
       );
-      console.log("stopped waiting");
       navigate("/dashboard");
     } catch {
       setError("Failed to create an account");

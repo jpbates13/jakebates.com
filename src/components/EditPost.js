@@ -22,6 +22,7 @@ import {
 import { useLocation } from "react-router-dom";
 
 function EditPost(props) {
+  document.title = "JakeBates.com | Edit Post";
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 

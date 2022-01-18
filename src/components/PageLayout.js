@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../styles/App.scss";
 import Github from "../images/svg/social-1_logo-github.svg";
 import LinkedIn from "../images/svg/social-1_logo-linkedin.svg";
@@ -6,13 +6,19 @@ import { Navbar, Nav, Container } from "react-bootstrap";
 import Resume from "../assets/resume.pdf";
 import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { Button } from "react-bootstrap";
+import { FaMoon, FaSun } from "react-icons/fa";
 
-export default function PageLayout({ children }) {
+export default function PageLayout(props) {
   const currentYear = new Date().getFullYear();
   const [error, setError] = useState("");
   const { currentUser, logout } = useAuth();
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    localStorage.setItem("theme", props.theme);
+  }, []);
 
   async function handleLogout() {
     try {
@@ -27,7 +33,7 @@ export default function PageLayout({ children }) {
       <div class="container page-content">
         <div class="header page-header">
           <div class="header-content">
-            <a href="/" style={{ textDecoration: "none", color: "black" }}>
+            <a href="/" style={{ textDecoration: "none" }}>
               <div class="pageTitle">
                 <h1>Jake Bates</h1>
               </div>
@@ -38,7 +44,7 @@ export default function PageLayout({ children }) {
                 <Navbar
                   collapseOnSelect
                   expand="sm"
-                  class="navbar navbar-expand-lg navbar-light"
+                  class="navbar navbar-expand-lg"
                 >
                   <Container>
                     <Navbar.Toggle
@@ -117,25 +123,36 @@ export default function PageLayout({ children }) {
                         <b>Resume</b>
                       </Nav.Link>
                     </Nav>
+                    <Button onClick={props.themeToggler}>
+                      {props.theme === "light" ? <FaSun /> : <FaMoon />}
+                    </Button>
                   </Navbar.Collapse>
                 </Container>
               </Navbar>
             </div>
           </div>
         </div>
-        <div class="current-content">{children}</div>
+        <div class="current-content">{props.children}</div>
       </div>
-      <footer class="footer page-footer text-center block third bg-light">
+      <footer class="footer page-footer text-center block third">
         <br />
         <div class="social-icon-set">
           <div class="social-icon">
             <a href="https://www.linkedin.com/in/joshua-jake-bates/">
-              <img alt="" src={LinkedIn} />
+              <img
+                class={props.theme === "dark" ? "social-svg-lighter" : ""}
+                alt=""
+                src={LinkedIn}
+              />
             </a>
           </div>
           <div class="social-icon">
             <a href="https://github.com/jpbates13">
-              <img alt="" src={Github} />
+              <img
+                class={props.theme === "dark" ? "social-svg-lighter" : ""}
+                alt=""
+                src={Github}
+              />
             </a>
           </div>
         </div>

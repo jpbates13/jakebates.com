@@ -14,6 +14,7 @@ import { collection, addDoc, Timestamp } from "firebase/firestore";
 import { Form, Button } from "react-bootstrap";
 
 function CreatePost(props) {
+  document.title = "JakeBates.com | Create Post";
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 

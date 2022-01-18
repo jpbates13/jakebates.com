@@ -1,11 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "react-bootstrap";
-import {
-  FaArrowAltCircleRight,
-  FaArrowAltCircleLeft,
-  FaPlay,
-  FaPause,
-} from "react-icons/fa";
+import { IconContext } from "react-icons";
+import { FaArrowRight, FaArrowLeft, FaPlay, FaPause } from "react-icons/fa";
 import "../styles/Slider.scss";
 
 const projects = [
@@ -50,6 +46,7 @@ function Projects(props) {
   const [current, setCurrent] = useState(0);
   const [pause, setPause] = useState(false);
   const length = projects.length;
+  document.title = "JakeBates.com | Projects";
 
   async function nextSlide() {
     await setCurrent(current === length - 1 ? 0 : current + 1);
@@ -76,7 +73,11 @@ function Projects(props) {
   return (
     <div>
       <div className="projects">
-        <FaArrowAltCircleLeft className="left-arrow" onClick={prevSlide} />
+        <IconContext.Provider
+          value={{ color: props.theme === "light" ? "black" : "#EEEEEE" }}
+        >
+          <FaArrowLeft className="left-arrow" onClick={nextSlide} />
+        </IconContext.Provider>
         <section className="slider">
           {projects.map((slide, index) => {
             return (
@@ -104,7 +105,12 @@ function Projects(props) {
             );
           })}
         </section>
-        <FaArrowAltCircleRight className="right-arrow" onClick={nextSlide} />
+        <IconContext.Provider
+          value={{ color: props.theme === "light" ? "black" : "#EEEEEE" }}
+        >
+          <FaArrowRight className="right-arrow" onClick={nextSlide} />
+        </IconContext.Provider>
+
         <br />
       </div>
       <div class="container">

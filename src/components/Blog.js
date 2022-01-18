@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import db from "../firebase";
 import { useAuth } from "../contexts/AuthContext";
 function Blog() {
+  document.title = "JakeBates.com | Blog";
   const { currentUser } = useAuth();
   const [posts, setPosts] = useState([{ title: "Loading...", id: "initial" }]);
   const [isLoading, setIsLoading] = useState(false);

@@ -1,7 +1,9 @@
 import React from "react";
 import Headshot from "../images/headshot.png";
+import Resume from "../assets/resume.pdf";
 
 export default function Home() {
+  document.title = "JakeBates.com | Home";
   return (
     <div>
       <div class="row d-flex h-100">
@@ -28,7 +30,7 @@ export default function Home() {
               coursework. I have experience in all kinds of software engineering
               including web and mobile app development, both professionally and
               recreationally. You can check out more of my resume{" "}
-              <a href="/assets/resume.pdf">here</a> and my personal projects{" "}
+              <a href={Resume}>here</a> and my personal projects{" "}
               <a href="https://github.com/jpbates13">here</a>.
             </p>
           </div>

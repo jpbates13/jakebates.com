@@ -2,12 +2,7 @@
 
 .nav-link {
   position: relative;
-  color: #000;
   text-decoration: none;
-}
-
-.nav-link:hover {
-  color: #000;
 }
 
 .nav-link::before {
@@ -18,7 +13,6 @@
   height: 2px;
   bottom: 0;
   left: 0;
-  background-color: #000;
   transform: scaleX(0);
   transition: transform 0.3s ease;
 }
@@ -40,7 +34,6 @@
   height: 2px;
   bottom: 0;
   left: 0;
-  background-color: #000;
   transform: scaleX(0);
   transition: transform 0.3s ease;
 }
@@ -81,7 +74,6 @@ pre {
     text-align: center;
   }
   .header {
-    background-color: #ffffff;
     position: sticky;
     left: 0;
     width: 100%;
@@ -111,8 +103,8 @@ pre {
   flex-direction: column;
 }
 .footer {
-  margin-top: 25px;
   min-height: 15vh;
+  margin-top: 2vh;
 }
 
 .current-content {
@@ -248,4 +240,8 @@ hr {
 
 .github-button:hover {
   transform: scale(1.08);
+}
+
+.social-svg-lighter {
+  filter: invert(110%);
 }

@@ -13,8 +13,8 @@ export default function Post(props) {
     const docRef = doc(db, "posts", serachParam.get("postId"));
     getDoc(docRef).then((result) => {
       if (result.exists()) {
-        console.log("Document data:", result.data());
         setPost(result.data());
+        document.title = "JakeBates.com | " + result.data().title;
       } else {
         // doc.data() will be undefined in this case
         console.log("No such document!");
