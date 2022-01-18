@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "../styles/App.scss";
 import Github from "../images/svg/social-1_logo-github.svg";
 import LinkedIn from "../images/svg/social-1_logo-linkedin.svg";
@@ -15,10 +15,6 @@ export default function PageLayout(props) {
   const { currentUser, logout } = useAuth();
 
   const navigate = useNavigate();
-
-  useEffect(() => {
-    localStorage.setItem("theme", props.theme);
-  }, []);
 
   async function handleLogout() {
     try {
