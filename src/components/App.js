@@ -19,12 +19,10 @@ import styled, { ThemeProvider } from "styled-components";
 import { lightTheme, darkTheme, GlobalStyles } from "../themes";
 
 function App() {
-  document.title = "JakeBates.com";
-
   const [theme, setTheme] = useState(() => {
     // getting stored value
     const saved = localStorage.getItem("theme");
-    return saved || "light";
+    return saved || "dark";
   });
 
   const themeToggler = () => {

@@ -4,12 +4,13 @@ import { createGlobalStyle } from "styled-components";
 
 export const lightTheme = {
   body: "#fff",
-  fontColor: "#000",
-  linkColor: "blue",
+  fontColor: "black",
+  linkColor: "#11468F",
   titleColor: "black",
   navColor: "black",
   svgFilter: "invert(0%)",
   secondaryBackground: "whitesmoke",
+  buttonFontColor: "white",
 };
 
 export const darkTheme = {
@@ -20,6 +21,7 @@ export const darkTheme = {
   navColor: "#FFD369",
   svgFilter: "invert(100%)",
   secondaryBackground: "#393E46",
+  buttonFontColor: "#393E46",
 };
 
 export const GlobalStyles = createGlobalStyle`
@@ -63,12 +65,12 @@ export const GlobalStyles = createGlobalStyle`
     .btn-primary{
         background-color: ${(props) => props.theme.linkColor};
         border-color: ${(props) => props.theme.linkColor};
-        color: ${(props) => props.theme.secondaryBackground}
+        color: ${(props) => props.theme.buttonFontColor}
     }
     .btn-primary:hover{
         background-color: ${(props) => props.theme.linkColor};
         border-color: ${(props) => props.theme.linkColor};
-        color: ${(props) => props.theme.secondaryBackground};
+        color: ${(props) => props.theme.buttonFontColor};
     }
     .btn-outline-primary{
         color: ${(props) => props.theme.linkColor};

@@ -105,6 +105,7 @@ pre {
 .footer {
   min-height: 15vh;
   margin-top: 2vh;
+  padding-bottom: 2vh;
 }
 
 .current-content {
@@ -244,8 +245,4 @@ hr {
 
 .social-svg-lighter {
   filter: invert(110%);
-}
-
-.navbar-light .navbar-toggler-icon {
-  filter: invert(100%);
 }

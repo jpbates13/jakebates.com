@@ -35,7 +35,6 @@ function Blog() {
               <Link
                 style={{
                   textDecoration: "none",
-                  color: "black",
                   fontSize: "36px",
                   fontWeight: "bold",
                 }}
