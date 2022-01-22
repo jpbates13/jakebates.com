@@ -17,6 +17,7 @@ import Drafts from "./Drafts";
 import Preview from "./Preview";
 import styled, { ThemeProvider } from "styled-components";
 import { lightTheme, darkTheme, GlobalStyles } from "../themes";
+import Recorder from "./code-walkthrough/Recorder";
 
 function App() {
   const [theme, setTheme] = useState(() => {
@@ -100,6 +101,14 @@ function App() {
                     element={
                       <PrivateRoute>
                         <Preview />
+                      </PrivateRoute>
+                    }
+                  />
+                  <Route
+                    path="/code-walkthrough"
+                    element={
+                      <PrivateRoute>
+                        <Recorder />
                       </PrivateRoute>
                     }
                   />
