@@ -4,6 +4,7 @@ import { useAuth } from "../contexts/AuthContext";
 import { Link, useNavigate, Navigate } from "react-router-dom";
 
 export default function Login() {
+  document.title = "JakeBates.com | Login";
   const emailRef = useRef();
   const passwordRef = useRef();
 
@@ -37,7 +38,7 @@ export default function Login() {
     <div>
       <Card>
         <Card.Body>
-          <h2 className="textcenter ">Log In</h2>
+          <h2 className="textcenter">Log In</h2>
           {error && <Alert variant="danger">{error}</Alert>}
           <Form onSubmit={handleSubmit}>
             <Form.Group id="email">
