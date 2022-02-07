@@ -9,3 +9,4 @@ build/
 makeAdmin.js
 *.cache
 .firebaserc
+.DS_Store
