@@ -3,6 +3,7 @@ import { doc, getDoc } from "firebase/firestore";
 import { useSearchParams } from "react-router-dom";
 import db from "../firebase";
 import DOMPurify from "dompurify";
+import { Helmet } from "react-helmet";
 
 export default function Post(props) {
   const [post, setPost] = useState({ title: "Loading...", id: "initial" });
@@ -14,7 +15,6 @@ export default function Post(props) {
     getDoc(docRef).then((result) => {
       if (result.exists()) {
         setPost(result.data());
-        document.title = "JakeBates.com | " + result.data().title;
       } else {
         // doc.data() will be undefined in this case
         console.log("No such document!");
@@ -24,6 +24,9 @@ export default function Post(props) {
 
   return (
     <div>
+      <Helmet>
+        <title>{post.title} | JakeBates.com</title>
+      </Helmet>
       <div key={post.id} style={{ paddingBottom: "50px" }}>
         <div style={{ lineHeight: "1%" }}>
           <h2 style={{ textAlign: "center", fontSize: "36px" }}>

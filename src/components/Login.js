@@ -2,9 +2,9 @@ import React, { useRef, useState } from "react";
 import { Form, Button, Card, Alert } from "react-bootstrap";
 import { useAuth } from "../contexts/AuthContext";
 import { Link, useNavigate, Navigate } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 export default function Login() {
-  document.title = "JakeBates.com | Login";
   const emailRef = useRef();
   const passwordRef = useRef();
 
@@ -36,6 +36,9 @@ export default function Login() {
 
   return (
     <div>
+      <Helmet>
+        <title>JakeBates.com | Login</title>
+      </Helmet>
       <Card>
         <Card.Body>
           <h2 className="textcenter">Log In</h2>

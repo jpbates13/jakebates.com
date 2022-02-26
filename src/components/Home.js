@@ -1,11 +1,14 @@
 import React from "react";
 import Headshot from "../images/headshot.png";
 import Resume from "../assets/resume.pdf";
+import { Helmet } from "react-helmet";
 
 export default function Home() {
-  document.title = "JakeBates.com | Home";
   return (
     <div>
+      <Helmet>
+        <title>JakeBates.com | Home</title>
+      </Helmet>
       <div class="row d-flex h-100">
         <div class="headshot col-md-6 justify-content-center">
           <div class="block second">

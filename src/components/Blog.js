@@ -3,8 +3,8 @@ import { onSnapshot, collection } from "firebase/firestore";
 import { Link } from "react-router-dom";
 import db from "../firebase";
 import { useAuth } from "../contexts/AuthContext";
+import { Helmet } from "react-helmet";
 function Blog() {
-  document.title = "JakeBates.com | Blog";
   const { currentUser } = useAuth();
   const [posts, setPosts] = useState([{ title: "Loading...", id: "initial" }]);
   const [isLoading, setIsLoading] = useState(false);
@@ -26,6 +26,9 @@ function Blog() {
 
   return (
     <div className="all-posts">
+      <Helmet>
+        <title>JakeBates.com | Blog</title>
+      </Helmet>
       {posts.map((post) => (
         <div className="post-content" key={post.id}>
           {isLoading ? (

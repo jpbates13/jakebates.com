@@ -2,9 +2,9 @@ import React, { useRef, useState } from "react";
 import { Form, Button, Card, Alert } from "react-bootstrap";
 import { useAuth } from "../contexts/AuthContext";
 import { Link, useNavigate, Navigate } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 export default function Signup() {
-  document.title = "JakeBates.com | Sign Up";
   const emailRef = useRef();
   const passwordRef = useRef();
   const passwordConfirmRef = useRef();
@@ -47,6 +47,9 @@ export default function Signup() {
 
   return (
     <div>
+      <Helmet>
+        <title>JakeBates.com | Signup</title>
+      </Helmet>
       <Card>
         <Card.Body>
           <h2 className="textcenter mb-4">Sign Up</h2>

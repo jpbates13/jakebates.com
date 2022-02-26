@@ -3,6 +3,7 @@ import { Button } from "react-bootstrap";
 import { IconContext } from "react-icons";
 import { FaArrowRight, FaArrowLeft, FaPlay, FaPause } from "react-icons/fa";
 import "../styles/Slider.scss";
+import { Helmet } from "react-helmet";
 
 const projects = [
   {
@@ -46,7 +47,6 @@ function Projects(props) {
   const [current, setCurrent] = useState(0);
   const [pause, setPause] = useState(false);
   const length = projects.length;
-  document.title = "JakeBates.com | Projects";
 
   async function nextSlide() {
     await setCurrent(current === length - 1 ? 0 : current + 1);
@@ -72,6 +72,9 @@ function Projects(props) {
 
   return (
     <div>
+      <Helmet>
+        <title>JakeBates.com | Projects</title>
+      </Helmet>
       <div className="projects">
         <IconContext.Provider
           value={{ color: props.theme === "light" ? "black" : "#EEEEEE" }}

@@ -12,9 +12,9 @@ import { useNavigate } from "react-router";
 import db from "../firebase";
 import { collection, addDoc, Timestamp } from "firebase/firestore";
 import { Form, Button } from "react-bootstrap";
+import { Helmet } from "react-helmet";
 
 function CreatePost(props) {
-  document.title = "JakeBates.com | Create Post";
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -100,6 +100,9 @@ function CreatePost(props) {
 
   return (
     <div>
+      <Helmet>
+        <title>JakeBates.com</title>
+      </Helmet>
       <h2>Create a New Post</h2>
       {error && <p style={{ color: "red" }}>{error}</p>}
       <Form.Control placeholder="Enter a title..." ref={titleRef} type="text" />

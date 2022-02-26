@@ -28,6 +28,15 @@ export default function Dashboard() {
           <strong>Name: </strong> {currentUser.displayName}
         </Card.Body>
       </Card>
+      <p></p>
+      <Card>
+        <Card.Body>
+          <h2 className="textcenter mb-4">Content Management</h2>
+          {error && <Alert variant="danger">{error}</Alert>}
+          <strong>Home: </strong>
+          <textarea></textarea>
+        </Card.Body>
+      </Card>
       <div className="w-100 text-center mt-2">
         <Button variant="link" onClick={handleLogout}>
           Log out

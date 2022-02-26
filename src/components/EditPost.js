@@ -20,9 +20,9 @@ import {
   Timestamp,
 } from "firebase/firestore";
 import { useLocation } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 function EditPost(props) {
-  document.title = "JakeBates.com | Edit Post";
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -139,6 +139,9 @@ function EditPost(props) {
 
   return (
     <div>
+      <Helmet>
+        <title>JakeBates.com | Editing {post.title}</title>
+      </Helmet>
       <h2>Edit Post</h2>
       {error && <p style={{ color: "red" }}>{error}</p>}
       <Form.Control defaultValue={post.title} ref={titleRef} type="text" />
