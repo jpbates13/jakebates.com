@@ -8,6 +8,7 @@ import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import { FaMoon, FaSun } from "react-icons/fa";
+import CookieConsent from "react-cookie-consent";
 
 export default function PageLayout(props) {
   const currentYear = new Date().getFullYear();
@@ -26,6 +27,10 @@ export default function PageLayout(props) {
   }
   return (
     <div>
+      <CookieConsent>
+        This website uses cookies to improve user experience and analyze website
+        traffic.
+      </CookieConsent>
       <div class="container page-content">
         <div class="header page-header">
           <div class="header-content">
