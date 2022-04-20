@@ -1,5 +1,6 @@
 .projects {
   display: flex;
+  align-items: flex-end;
 }
 .slider {
   position: relative;
@@ -14,26 +15,21 @@
 .pause-button {
   font-size: 2rem;
 }
+.sliderControls {
+  display: flex;
+  align-items: center;
+}
+
 .right-arrow {
-  position: absolute;
-  top: 50%;
-  right: 64px;
+  padding-top: 1rem;
   font-size: 3rem;
-  color: #000;
-  z-index: 10;
   cursor: pointer;
-  user-select: none;
 }
 
 .left-arrow {
-  position: absolute;
-  top: 50%;
-  left: 64px;
+  padding-top: 1rem;
   font-size: 3rem;
-  color: #000;
-  z-index: 10;
   cursor: pointer;
-  user-select: none;
 }
 
 .slide {
@@ -53,25 +49,10 @@
     max-width: 85%;
   }
   .right-arrow {
-    position: absolute;
-    top: 50%;
-    right: 10px;
-    font-size: 2rem;
-    color: #000;
-    z-index: 10;
-    cursor: pointer;
-    user-select: none;
+    font-size: 3rem;
   }
-
   .left-arrow {
-    position: absolute;
-    top: 50%;
-    left: 10px;
-    font-size: 2rem;
-    color: #000;
-    z-index: 10;
-    cursor: pointer;
-    user-select: none;
+    font-size: 3rem;
   }
 }
 

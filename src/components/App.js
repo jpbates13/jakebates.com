@@ -12,7 +12,7 @@ import Post from "./Post";
 import CreatePost from "./CreatePost";
 import PageLayout from "./PageLayout";
 import EditPost from "./EditPost";
-import Projects from "./Projects";
+import Projects from "./ProjectSlider/Projects";
 import Drafts from "./Drafts";
 import Preview from "./Preview";
 import styled, { ThemeProvider } from "styled-components";
