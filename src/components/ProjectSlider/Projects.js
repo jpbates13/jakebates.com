@@ -5,6 +5,7 @@ import { FaArrowRight, FaArrowLeft, FaPlay, FaPause } from "react-icons/fa";
 import "../../styles/Slider.scss";
 import { Helmet } from "react-helmet";
 import projects from "./ProjectData";
+import { Tooltip } from "@mui/material";
 
 function Projects(props) {
   const [current, setCurrent] = useState(0);
@@ -76,7 +77,11 @@ function Projects(props) {
           <IconContext.Provider
             value={{ color: props.theme === "light" ? "black" : "#EEEEEE" }}
           >
-            <FaArrowLeft className="left-arrow" onClick={prevSlide} />
+            <Tooltip title="Previous slide">
+              <div>
+                <FaArrowLeft className="left-arrow" onClick={prevSlide} />
+              </div>
+            </Tooltip>
           </IconContext.Provider>
           <div
             class="col text-center"
@@ -86,15 +91,27 @@ function Projects(props) {
             }}
           >
             {pause ? (
-              <FaPlay className="play-button" />
+              <Tooltip title="Start autoscrolling">
+                <div>
+                  <FaPlay className="play-button" />
+                </div>
+              </Tooltip>
             ) : (
-              <FaPause className="pause-button" />
+              <Tooltip title="Stop autoscrolling">
+                <div>
+                  <FaPause className="pause-button" />
+                </div>
+              </Tooltip>
             )}
           </div>
           <IconContext.Provider
             value={{ color: props.theme === "light" ? "black" : "#EEEEEE" }}
           >
-            <FaArrowRight className="right-arrow" onClick={nextSlide} />
+            <Tooltip title="Next slide">
+              <div>
+                <FaArrowRight className="right-arrow" onClick={nextSlide} />
+              </div>
+            </Tooltip>
           </IconContext.Provider>
         </div>
       </div>

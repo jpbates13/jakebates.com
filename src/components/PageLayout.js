@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import { FaMoon, FaSun } from "react-icons/fa";
 import CookieConsent from "react-cookie-consent";
+import { Tooltip } from "@mui/material";
 
 export default function PageLayout(props) {
   const currentYear = new Date().getFullYear();
@@ -124,9 +125,11 @@ export default function PageLayout(props) {
                         <b>Resume</b>
                       </Nav.Link>
                     </Nav>
-                    <Button onClick={props.themeToggler}>
-                      {props.theme === "light" ? <FaSun /> : <FaMoon />}
-                    </Button>
+                    <Tooltip title="Change theme">
+                      <Button onClick={props.themeToggler}>
+                        {props.theme === "light" ? <FaSun /> : <FaMoon />}
+                      </Button>
+                    </Tooltip>
                   </Navbar.Collapse>
                 </Container>
               </Navbar>
