@@ -22,6 +22,15 @@ function App() {
   const [theme, setTheme] = useState(() => {
     // getting stored value
     const saved = localStorage.getItem("theme");
+    if (!saved && window.matchMedia("(prefers-color-scheme: dark)").matches) {
+      return "dark";
+    } else if (
+      !saved &&
+      window.matchMedia("(prefers-color-scheme: light)").matches
+    ) {
+      return "light";
+    }
+
     return saved || "dark";
   });
 
