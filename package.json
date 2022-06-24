@@ -1,65 +1,35 @@
 {
   "name": "jakebates.com",
-  "version": "0.1.0",
-  "private": true,
-  "homepage": ".",
-  "dependencies": {
-    "@emotion/react": "^11.9.0",
-    "@emotion/styled": "^11.8.1",
-    "@fortawesome/fontawesome-svg-core": "^1.2.36",
-    "@fortawesome/free-solid-svg-icons": "^5.15.4",
-    "@fortawesome/react-fontawesome": "^0.1.16",
-    "@mui/material": "^5.6.2",
-    "@testing-library/jest-dom": "^5.15.0",
-    "@testing-library/react": "^11.2.7",
-    "@testing-library/user-event": "^12.8.3",
-    "@tiptap/extension-image": "^2.0.0-beta.24",
-    "@tiptap/extension-link": "^2.0.0-beta.35",
-    "@tiptap/react": "^2.0.0-beta.102",
-    "@tiptap/starter-kit": "^2.0.0-beta.164",
-    "bootstrap": "^5.1.3",
-    "dompurify": "^2.3.4",
-    "dotenv": "^10.0.0",
-    "draft-js": "^0.11.7",
-    "firebase": "^9.3.0",
-    "font-awesome": "^4.7.0",
-    "highlight.js": "^11.3.1",
-    "react": "^17.0.2",
-    "react-bootstrap": "^2.0.2",
-    "react-cookie-consent": "^7.3.1",
-    "react-dom": "^17.0.2",
-    "react-fontawesome": "^1.7.1",
-    "react-helmet": "^6.1.0",
-    "react-icons": "^4.3.1",
-    "react-router-dom": "^6.0.1",
-    "react-scripts": "^5.0.0",
-    "rerousel": "^0.1.9",
-    "sass": "^1.45.1",
-    "styled-components": "^5.3.3",
-    "web-vitals": "^1.1.2"
-  },
+  "version": "1.0.0",
+  "description": "A constantly maintained personal website that serves as a directory of my resume, personal projects, as well as other relevant documents. Previously this website was hosted via Github Pages with a custom layout I created, using Jekyll as a templating engine. It is now written in React using a Node/Express backend",
+  "main": "index.js",
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "node backend/server.js",
+    "server": "nodemon backend/server.js",
+    "client": "npm start --prefix frontend",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jpbates13/jakebates.com.git"
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "author": "Jake Bates",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jpbates13/jakebates.com/issues"
+  },
+  "homepage": "https://github.com/jpbates13/jakebates.com#readme",
+  "devDependencies": {
+    "concurrently": "^7.2.2",
+    "nodemon": "^2.0.16"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "colors": "^1.4.0",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "express-async-handler": "^1.2.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.3.8"
   }
 }
