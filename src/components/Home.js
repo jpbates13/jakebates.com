@@ -2,8 +2,27 @@ import React from "react";
 import Headshot from "../images/headshot.png";
 import Resume from "../assets/resume.pdf";
 import { Helmet } from "react-helmet";
+import { useState, useEffect } from "react";
+import { doc, getDoc } from "firebase/firestore";
+import db from "../firebase";
 
 export default function Home() {
+
+  const [bio, setBio] = useState("")
+
+  useEffect(() => {
+    const docRef = doc(db, "content", "bio");
+    getDoc(docRef).then((result) => {
+      if (result.exists()) {
+        setBio(result.data().content);
+      } else {
+        // doc.data() will be undefined in this case
+        console.log("No such document!");
+      }
+    });
+  }, []);
+
+
   return (
     <div>
       <Helmet>
@@ -23,17 +42,8 @@ export default function Home() {
         </div>
         <div class="bio col-md-6 align-middle text-left hidden-sm align-self-auto">
           <div class="block first">
-            <p>
-              Hello! My name is Jake Bates. I am a Technology Associate at
-              Liberty Mutual. I am a graduate of the University of Massachusetts
-              Boston with a degree Computer Science and a minor in Political
-              Science. I also previously served as Student Trustee on the UMass
-              Board of Trustees. I have taken courses in Data Structures,
-              Algorithms, Database Management, Software Engineering, Artificial
-              Intelligence, Computation Theory, LISP, in addition to a variety
-              of math classes and Honors College coursework. I have experience
-              in all kinds of software engineering including web and mobile app
-              development, both professionally and recreationally. You can check
+            <p>{bio}{" "}
+              You can check
               out more of my resume <a href={Resume}>here</a> and my personal
               projects <a href="https://github.com/jpbates13">here</a>.
             </p>

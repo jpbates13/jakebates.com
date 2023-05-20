@@ -1,7 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Card, Button, Alert } from "react-bootstrap";
 import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
+import db from "../firebase";
+
 
 export default function Dashboard() {
   const [error, setError] = useState("");
@@ -17,6 +20,32 @@ export default function Dashboard() {
       setError("There was a problem logging out");
     }
   }
+
+  const [bio, setBio] = useState("")
+
+  useEffect(() => {
+    const docRef = doc(db, "content", "bio");
+    getDoc(docRef).then((result) => {
+      if (result.exists()) {
+        setBio(result.data().content);
+      } else {
+        // doc.data() will be undefined in this case
+        console.log("No such document!");
+      }
+    });
+  }, []);
+
+  async function submitBio() {
+    const documentRef = doc(db, "content", "bio");
+    await updateDoc(documentRef, {
+      content: bio
+    }).catch((err) => {
+      console.log(err)
+    });
+    navigate("/")
+  }
+
+
   return (
     <div>
       <Card>
@@ -33,8 +62,9 @@ export default function Dashboard() {
         <Card.Body>
           <h2 className="textcenter mb-4">Content Management</h2>
           {error && <Alert variant="danger">{error}</Alert>}
-          <strong>Home: </strong>
-          <textarea></textarea>
+          <strong>Bio: </strong>
+          <textarea value={bio} style={{ width: "90%", height: "75%" }} onChange={(e) => { setBio(e.target.value) }}></textarea>
+          <Button onClick={submitBio}>Submit</Button>
         </Card.Body>
       </Card>
       <div className="w-100 text-center mt-2">
