@@ -28,8 +28,8 @@ export default function Home() {
       <Helmet>
         <title>JakeBates.com | Home</title>
       </Helmet>
-      <div class="row d-flex h-100">
-        <div class="headshot col-md-6 justify-content-center">
+      <div class="row d-flex h-100 homepage-content">
+        <div class="headshot col-lg-6 justify-content-center">
           <div class="block second">
             <br />
             <img
@@ -40,7 +40,7 @@ export default function Home() {
             />
           </div>
         </div>
-        <div class="bio col-md-6 align-middle text-left hidden-sm align-self-auto">
+        <div class="bio col-lg-6 align-middle text-left hidden-sm align-self-auto">
           <div class="block first">
             <p>{bio}{" "}
               You can check

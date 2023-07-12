@@ -65,7 +65,7 @@ pre {
 
 /* Old website CSS */
 /* Desktop Only CSS */
-@media only screen and (min-width: 767px) {
+@media only screen and (min-width: 992px) {
   .footer {
     position: relative;
     left: 0;
@@ -80,6 +80,33 @@ pre {
     text-align: center;
     top: 0;
     z-index: 1;
+  }
+}
+/* Mobile Only CSS*/
+@media only screen and (max-width: 767px) {
+  .bio {
+    text-align: center !important;
+  }
+  .headshot {
+    text-align: center !important;
+    display: inline-block !important;
+  }
+  .pageMenu {
+    display: inline-block !important;
+    text-align: left !important;
+  }
+}
+/* Portrait Tablet Only CSS*/
+@media only screen and (max-width: 992px) {
+  .bio {
+    text-align: center !important;
+  }
+  .headshot {
+    text-align: center !important;
+    display: inline-block !important;
+    width: 80% !important;
+    margin-left: 10%;
+    margin-right: 10%;
   }
 }
 .social-icon {
@@ -137,20 +164,7 @@ pre {
     transform: scale(1);
   }
 }
-/* Mobile Only CSS*/
-@media only screen and (max-width: 767px) {
-  .bio {
-    text-align: center !important;
-  }
-  .headshot {
-    text-align: center !important;
-    display: inline-block !important;
-  }
-  .pageMenu {
-    display: inline-block !important;
-    text-align: left !important;
-  }
-}
+
 
 /* Code to match WYSIWYG Editor */
 
