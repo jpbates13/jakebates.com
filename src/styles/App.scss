@@ -260,3 +260,17 @@ hr {
 .social-svg-lighter {
   filter: invert(110%);
 }
+
+.edit-projects{
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.edit-project{
+  margin-left: 10px;
+  flex: 1 0 21%;
+  flex-basis: 21%;
+  width: 21%
+}

@@ -4,13 +4,16 @@ import { IconContext } from "react-icons";
 import { FaArrowRight, FaArrowLeft, FaPlay, FaPause } from "react-icons/fa";
 import "../../styles/Slider.scss";
 import { Helmet } from "react-helmet";
-import projects from "./ProjectData";
+// import projects from "./ProjectData";
 import { Tooltip } from "@mui/material";
+import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
+import db from "../../firebase";
 
 function Projects(props) {
   const [current, setCurrent] = useState(0);
   const [pause, setPause] = useState(true);
-  const length = projects.length;
+  const [projects, setProjects] = useState([])
+  const [length, setLength] = useState(0)
 
   async function nextSlide() {
     await setCurrent(current === length - 1 ? 0 : current + 1);
@@ -30,9 +33,26 @@ function Projects(props) {
     return () => clearInterval(interval);
   }, [pause, length]);
 
-  if (!Array.isArray(projects) || projects.length <= 0) {
-    return null;
-  }
+
+  useEffect(() => {
+    const collectionRef = collection(db, "projects");
+    const q = query(collectionRef, orderBy("date", "desc"));
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      const projectData = [];
+      querySnapshot.forEach((doc) => {
+        projectData.push(doc.data());
+      });
+      console.log(projectData);
+      setProjects(projectData);
+      setLength(projectData.length)
+    });
+    return () => unsubscribe();
+  }, []);
+
+
+  // if (!Array.isArray(projects) || projects.length <= 0) {
+  //   return null;
+  // }
 
   return (
     <div>

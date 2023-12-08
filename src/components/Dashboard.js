@@ -4,6 +4,7 @@ import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import db from "../firebase";
+import EditProjects from "./EditProjects";
 
 
 export default function Dashboard() {
@@ -61,12 +62,17 @@ export default function Dashboard() {
       <Card>
         <Card.Body>
           <h2 className="textcenter mb-4">Content Management</h2>
+          <h3>Bio</h3>
           {error && <Alert variant="danger">{error}</Alert>}
           <strong>Bio: </strong>
           <textarea value={bio} style={{ width: "90%", height: "75%" }} onChange={(e) => { setBio(e.target.value) }}></textarea>
-          <Button onClick={submitBio}>Submit</Button>
+          <Button onClick={submitBio}>Submit Bio</Button>
+          <p></p>
+          <h3>Projects</h3>
+          <EditProjects/>
         </Card.Body>
       </Card>
+      <p></p>
       <div className="w-100 text-center mt-2">
         <Button variant="link" onClick={handleLogout}>
           Log out
