@@ -23,11 +23,12 @@
     "draft-js": "^0.11.7",
     "firebase": "^9.3.0",
     "font-awesome": "^4.7.0",
+    "framer-motion": "^10.16.16",
     "highlight.js": "^11.3.1",
-    "react": "^17.0.2",
+    "react": "^18.2.0",
     "react-bootstrap": "^2.0.2",
     "react-cookie-consent": "^7.3.1",
-    "react-dom": "^17.0.2",
+    "react-dom": "^18.2.0",
     "react-fontawesome": "^1.7.1",
     "react-helmet": "^6.1.0",
     "react-icons": "^4.3.1",
@@ -35,7 +36,7 @@
     "react-scripts": "^5.0.0",
     "rerousel": "^0.1.9",
     "sass": "^1.45.1",
-    "styled-components": "^5.3.3",
+    "styled-components": "^5.3.11",
     "web-vitals": "^1.1.2"
   },
   "scripts": {

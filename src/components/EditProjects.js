@@ -2,11 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
 import db from "../firebase";
 import { updateDoc, doc, writeBatch, deleteDoc } from "firebase/firestore";
+import Modal from "./Modal";
+
 
 const EditProjects = () => {
 
     const [projects, setProjects] = useState([])
     const [toDelete, setToDelete] = useState([])
+    const [showModal, setShowModal] = useState(false);
+    const [currentProject, setCurrentProject] = useState(null);
+    const [newProjectTitle, setNewProjectTitle] = useState(null);
+
 
     useEffect(() => {
         const collectionRef = collection(db, "projects");
@@ -22,6 +28,11 @@ const EditProjects = () => {
         return () => unsubscribe();
     }, []);
 
+
+    const handleShowModal = (show, index) => {
+        setShowModal(show);
+        setCurrentProject(index);
+    }
 
     const handleDateChange = (e, index) => {
         const { value } = e.target;
@@ -68,7 +79,7 @@ const EditProjects = () => {
     const addProject = () => {
         const list = [...projects];
         list.push({
-            title: "",
+            title: newProjectTitle,
             date: "",
             description: "",
             repository: ""
@@ -82,51 +93,85 @@ const EditProjects = () => {
 
         // Remove the project from the local state
         list.splice(index, 1);
-        setProjects(list);
+
+        Promise.resolve()
+        .then(() => { setCurrentProject(null)})
+        .then(() => setProjects(list))
+
+        setShowModal(false)
     }
 
+
+
     return (
-        <div className="edit-projects">
-            {projects.map((project, index) => (
-                <div key={index} className="edit-project">
-                    <p className="project-title">{project.title}</p>
-                    <input
-                        className="project-input"
-                        placeholder="Date"
-                        type="text"
-                        value={project.date}
-                        onChange={(e) => handleDateChange(e, index)}
-                    />
-                    <textarea
-                        className="project-input"
-                        placeholder="Description"
-                        value={project.description}
-                        onChange={(e) => handleDescriptionChange(e, index)}
-                    ></textarea>
-                    <input
-                        className="project-input"
-                        placeholder="Repository"
-                        type="text"
-                        value={project.repository}
-                        onChange={(e) => handleRepositoryChange(e, index)}
-                    />
-                    <button
-                        className="delete-button"
-                        onClick={(e) => deleteProject(index)}
-                    >
-                        Delete Project
+        <>
+            {!projects && <div>Loading...</div>}
+
+            {projects && <div>
+                <Modal
+                    isOpen={showModal}
+                    handleClose={() => {
+                        handleShowModal(false, 0);
+                    }}
+                >
+                    {currentProject != null &&
+                        <div style={{display: "flex", justifyContent: "space-around"}}>
+                            <input
+                                className="project-input"
+                                placeholder="Date"
+                                type="text"
+                                value={projects[currentProject].date}
+                                onChange={(e) => handleDateChange(e, currentProject)}
+                            />
+                            <textarea
+                                className="project-input"
+                                placeholder="Description"
+                                value={projects[currentProject].description}
+                                onChange={(e) => handleDescriptionChange(e, currentProject)}
+                            ></textarea>
+                            <input
+                                className="project-input"
+                                placeholder="Repository"
+                                type="text"
+                                value={projects[currentProject].repository}
+                                onChange={(e) => handleRepositoryChange(e, currentProject)}
+                            />
+                            <button
+                                className="delete-button"
+                                onClick={(e) => deleteProject(currentProject)}
+                            >
+                                Delete Project
+                            </button>
+                        </div>
+                    }
+                </Modal>
+                <ul>
+                    {projects.map((project, index) => (
+                        <>
+                            <li key={index}>
+                                <p className="project-title" onClick={() => { handleShowModal(true, index) }}>{project.title}</p>
+                            </li>
+                        </>
+                    ))}
+                </ul>
+                <input
+                    className="new-project-input"
+                    placeholder="New Project Title"
+                    type="text"
+                    onChange={(e) => setNewProjectTitle(e.target.value)}
+                />
+                <div className="button-container">
+                    <button className="submit-button" onClick={handleSubmit}>
+                        Submit
+                    </button>
+                    <button className="add-button" onClick={addProject} disabled={newProjectTitle == null || newProjectTitle == ""}>
+                        Add Project
                     </button>
                 </div>
-            ))}
-            <div className="button-container">
-                <button className="submit-button" onClick={handleSubmit}>
-                    Submit
-                </button>
-                <button className="add-button" onClick={addProject}>
-                    Add Project
-                </button>
-            </div>
-        </div>
+
+
+            </div>}
+        </>
     );
 };
 
