@@ -12,8 +12,8 @@ import db from "../../firebase";
 function Projects(props) {
   const [current, setCurrent] = useState(0);
   const [pause, setPause] = useState(true);
-  const [projects, setProjects] = useState([])
-  const [length, setLength] = useState(0)
+  const [projects, setProjects] = useState([]);
+  const [length, setLength] = useState(0);
 
   async function nextSlide() {
     await setCurrent(current === length - 1 ? 0 : current + 1);
@@ -33,7 +33,6 @@ function Projects(props) {
     return () => clearInterval(interval);
   }, [pause, length]);
 
-
   useEffect(() => {
     const collectionRef = collection(db, "projects");
     const q = query(collectionRef, orderBy("date", "desc"));
@@ -42,13 +41,15 @@ function Projects(props) {
       querySnapshot.forEach((doc) => {
         projectData.push(doc.data());
       });
-      console.log(projectData);
+      //sort projects by date
+      projectData.sort((a, b) => {
+        return new Date(b.date) - new Date(a.date);
+      });
       setProjects(projectData);
-      setLength(projectData.length)
+      setLength(projectData.length);
     });
     return () => unsubscribe();
   }, []);
-
 
   // if (!Array.isArray(projects) || projects.length <= 0) {
   //   return null;
