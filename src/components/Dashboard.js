@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import db from "../firebase";
 import EditProjects from "./EditProjects";
-
+import ResumeUpload from "./ResumeUpload";
 
 export default function Dashboard() {
   const [error, setError] = useState("");
@@ -22,7 +22,7 @@ export default function Dashboard() {
     }
   }
 
-  const [bio, setBio] = useState("")
+  const [bio, setBio] = useState("");
 
   useEffect(() => {
     const docRef = doc(db, "content", "bio");
@@ -39,13 +39,12 @@ export default function Dashboard() {
   async function submitBio() {
     const documentRef = doc(db, "content", "bio");
     await updateDoc(documentRef, {
-      content: bio
+      content: bio,
     }).catch((err) => {
-      console.log(err)
+      console.log(err);
     });
-    navigate("/")
+    navigate("/");
   }
-
 
   return (
     <div>
@@ -65,11 +64,20 @@ export default function Dashboard() {
           <h3>Bio</h3>
           {error && <Alert variant="danger">{error}</Alert>}
           <strong>Bio: </strong>
-          <textarea value={bio} style={{ width: "90%", height: "75%" }} onChange={(e) => { setBio(e.target.value) }}></textarea>
+          <textarea
+            value={bio}
+            style={{ width: "90%", height: "75%" }}
+            onChange={(e) => {
+              setBio(e.target.value);
+            }}
+          ></textarea>
           <Button onClick={submitBio}>Submit Bio</Button>
           <p></p>
           <h3>Projects</h3>
-          <EditProjects/>
+          <EditProjects />
+          <p></p>
+          <h3>Resume Upload</h3>
+          <ResumeUpload />
         </Card.Body>
       </Card>
       <p></p>

@@ -3,18 +3,50 @@ import "../styles/App.scss";
 import Github from "../images/svg/social-1_logo-github.svg";
 import LinkedIn from "../images/svg/social-1_logo-linkedin.svg";
 import { Navbar, Nav, Container } from "react-bootstrap";
-import Resume from "../assets/resume.pdf";
 import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import { FaMoon, FaSun } from "react-icons/fa";
 import CookieConsent from "react-cookie-consent";
 import { Tooltip } from "@mui/material";
+import { doc, getDoc } from "firebase/firestore";
+import db from "../firebase";
 
 export default function PageLayout(props) {
   const currentYear = new Date().getFullYear();
   const [error, setError] = useState("");
   const { currentUser, logout } = useAuth();
+
+  function getResume() {
+    //get resume from firebase
+    const docRef = doc(db, "resume", "resume");
+    getDoc(docRef).then((result) => {
+      if (result.exists()) {
+        openBase64PDFInNewTab(result.data().base64);
+      } else {
+        // doc.data() will be undefined in this case
+        console.log("No such document!");
+      }
+    });
+  }
+
+  function openBase64PDFInNewTab(base64Data) {
+    const byteCharacters = atob(base64Data);
+    const byteNumbers = new Array(byteCharacters.length);
+    for (let i = 0; i < byteCharacters.length; i++) {
+      byteNumbers[i] = byteCharacters.charCodeAt(i);
+    }
+    const byteArray = new Uint8Array(byteNumbers);
+    const blob = new Blob([byteArray], { type: "application/pdf" });
+    const url = URL.createObjectURL(blob);
+
+    const newTab = window.open();
+    newTab.document.write(
+      '<iframe src="' +
+        url +
+        '" style="width:100%; height:100%;" frameborder="0"></iframe>'
+    );
+  }
 
   const navigate = useNavigate();
 
@@ -121,7 +153,7 @@ export default function PageLayout(props) {
                       <Nav.Link class="nav-item active" href="/projects">
                         <b>Projects</b>
                       </Nav.Link>
-                      <Nav.Link class="nav-item active" href={Resume}>
+                      <Nav.Link class="nav-item active" onClick={getResume}>
                         <b>Resume</b>
                       </Nav.Link>
                     </Nav>
