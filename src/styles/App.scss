@@ -274,3 +274,25 @@ hr {
   flex-basis: 21%;
   width: 21%
 }
+.project-input{
+  width: 100%;
+  margin-bottom: 10px;
+}
+.delete-button{
+  background-color: red;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 10px;
+  width: fit-content;
+}
+.ok-project{
+  background-color: green;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 10px;
+  width: fit-content;
+}

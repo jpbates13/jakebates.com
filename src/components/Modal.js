@@ -11,11 +11,10 @@ const Overlay = styled(motion.div)`
   background: rgba(0, 0, 0, 0.3);
 `;
 const ModalContainer = styled(motion.div)`
-  width: 50%;
-  height: 50%;
-  background-color: white;
+  width: 85%;
+  height: 53%;
   position: absolute;
-  padding: 5%;
+  padding: 2%;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -75%);
@@ -33,12 +32,12 @@ const CloseButton = styled.svg`
 const modalVariant = {
   initial: { opacity: 0 },
   isOpen: { opacity: 1 },
-  exit: { opacity: 0 }
+  exit: { opacity: 0 },
 };
 const containerVariant = {
   initial: { top: "-50%", transition: { type: "spring" } },
   isOpen: { top: "50%" },
-  exit: { top: "-50%" }
+  exit: { top: "-50%" },
 };
 const Modal = ({ handleClose, children, isOpen }) => {
   return (
@@ -50,7 +49,7 @@ const Modal = ({ handleClose, children, isOpen }) => {
           exit={"exit"}
           variants={modalVariant}
         >
-          <ModalContainer variants={containerVariant}>
+          <ModalContainer variants={containerVariant} className="modal-content">
             <CloseButton
               onClick={handleClose}
               xmlns="http://www.w3.org/2000/svg"

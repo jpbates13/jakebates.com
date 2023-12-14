@@ -10,19 +10,9 @@ import ResumeUpload from "./ResumeUpload";
 export default function Dashboard() {
   const [error, setError] = useState("");
   const { currentUser, logout } = useAuth();
-
   const navigate = useNavigate();
-
-  async function handleLogout() {
-    try {
-      await logout();
-      navigate("/login");
-    } catch {
-      setError("There was a problem logging out");
-    }
-  }
-
   const [bio, setBio] = useState("");
+  const [selectedComponent, setSelectedComponent] = useState("bio");
 
   useEffect(() => {
     const docRef = doc(db, "content", "bio");
@@ -30,7 +20,6 @@ export default function Dashboard() {
       if (result.exists()) {
         setBio(result.data().content);
       } else {
-        // doc.data() will be undefined in this case
         console.log("No such document!");
       }
     });
@@ -46,43 +35,72 @@ export default function Dashboard() {
     navigate("/");
   }
 
+  function handleComponentChange(component) {
+    setSelectedComponent(component);
+  }
+
   return (
     <div>
-      <Card>
-        <Card.Body>
-          <h2 className="textcenter mb-4">Dashboard</h2>
-          {error && <Alert variant="danger">{error}</Alert>}
-          <strong>Email: </strong> {currentUser.email}
-          <br />
-          <strong>Name: </strong> {currentUser.displayName}
-        </Card.Body>
-      </Card>
+      <h2 className="textcenter mb-4">Content Management</h2>
+      <hr />
+      <div>
+        <Button
+          variant={selectedComponent === "bio" ? "primary" : "outline-primary"}
+          onClick={() => handleComponentChange("bio")}
+        >
+          Bio
+        </Button>{" "}
+        <Button
+          variant={
+            selectedComponent === "projects" ? "primary" : "outline-primary"
+          }
+          onClick={() => handleComponentChange("projects")}
+        >
+          Projects
+        </Button>{" "}
+        <Button
+          variant={
+            selectedComponent === "resume" ? "primary" : "outline-primary"
+          }
+          onClick={() => handleComponentChange("resume")}
+        >
+          Resume Upload
+        </Button>
+      </div>
       <p></p>
-      <Card>
-        <Card.Body>
-          <h2 className="textcenter mb-4">Content Management</h2>
+      {selectedComponent === "bio" && (
+        <>
           <h3>Bio</h3>
           {error && <Alert variant="danger">{error}</Alert>}
-          <strong>Bio: </strong>
           <textarea
             value={bio}
             style={{ width: "90%", height: "75%" }}
             onChange={(e) => {
               setBio(e.target.value);
             }}
+            rows={6}
           ></textarea>
+          <p />
           <Button onClick={submitBio}>Submit Bio</Button>
           <p></p>
+        </>
+      )}
+      {selectedComponent === "projects" && (
+        <>
           <h3>Projects</h3>
           <EditProjects />
           <p></p>
+        </>
+      )}
+      {selectedComponent === "resume" && (
+        <>
           <h3>Resume Upload</h3>
           <ResumeUpload />
-        </Card.Body>
-      </Card>
-      <p></p>
+          <p></p>
+        </>
+      )}
       <div className="w-100 text-center mt-2">
-        <Button variant="link" onClick={handleLogout}>
+        <Button variant="link" href="/logout">
           Log out
         </Button>
       </div>

@@ -30,11 +30,27 @@ export const GlobalStyles = createGlobalStyle`
         color: ${(props) => props.theme.fontColor};
 	}
 
+    .modal-content{
+        background-color: ${(props) => props.theme.secondaryBackground}
+    }
+
     a{
         color: ${(props) => props.theme.linkColor}
     }
     .pageTitle{
         color: ${(props) => props.theme.titleColor}
+    }
+    h3{
+        color: ${(props) => props.theme.titleColor}
+    }
+    h2{
+        color: ${(props) => props.theme.titleColor}
+    }
+    li{
+        color: ${(props) => props.theme.fontColor}
+    }
+    strong{
+        color: ${(props) => props.theme.fontColor}
     }
     .pageTitle:before{
         background-color: ${(props) => props.theme.titleColor}
@@ -81,6 +97,12 @@ export const GlobalStyles = createGlobalStyle`
         border-color: ${(props) => props.theme.linkColor};
         color: ${(props) => props.theme.secondaryBackground};
     }
+    .btn-primary:disabled{
+        background-color: ${(props) => props.theme.secondaryBackground};
+        border-color: ${(props) => props.theme.linkColor};
+        color: ${(props) => props.theme.fontColor};
+        cursor: not-allowed;
+    }
     .post-content{
         background-color: ${(props) => props.theme.secondaryBackground};
         border-color: ${(props) => props.theme.body}
@@ -93,5 +115,8 @@ export const GlobalStyles = createGlobalStyle`
     }
     .header{
         background-color: ${(props) => props.theme.body};
+    }
+    hr{
+        color: ${(props) => props.theme.fontColor};
     }
 `;

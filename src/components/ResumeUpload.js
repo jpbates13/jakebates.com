@@ -12,6 +12,8 @@ import {
 } from "firebase/firestore";
 import "firebase/firestore";
 import db from "../firebase";
+import { Input } from "@mui/material";
+import { Button, Form } from "react-bootstrap";
 
 function ResumeUpload() {
   const [file, setFile] = useState(null);
@@ -35,18 +37,19 @@ function ResumeUpload() {
 
   return (
     <div>
-      <input
-        type="file"
-        onChange={(e) => {
-          setFile(e.target.files[0]);
-          fileToBase64(e.target.files[0]).then((result) => {
-            //we drop the data:application/octet-stream;base64, prefix so we can set it to pdf on download
-            setBase64(result.split(",")[1]);
-          });
-        }}
-      />
-      <img src={base64} />
-      <button onClick={upload}>Upload</button>
+      <Form.Group controlId="formFile" className="mb-3">
+        <Form.Control
+          type="file"
+          onChange={(e) => {
+            setFile(e.target.files[0]);
+            fileToBase64(e.target.files[0]).then((result) => {
+              //we drop the data:application/octet-stream;base64, prefix so we can set it to pdf on download
+              setBase64(result.split(",")[1]);
+            });
+          }}
+        />
+      </Form.Group>
+      <Button onClick={upload}>Upload</Button>
     </div>
   );
 }
