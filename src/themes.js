@@ -101,7 +101,6 @@ export const GlobalStyles = createGlobalStyle`
         background-color: ${(props) => props.theme.secondaryBackground};
         border-color: ${(props) => props.theme.linkColor};
         color: ${(props) => props.theme.fontColor};
-        cursor: not-allowed;
     }
     .post-content{
         background-color: ${(props) => props.theme.secondaryBackground};
@@ -118,5 +117,8 @@ export const GlobalStyles = createGlobalStyle`
     }
     hr{
         color: ${(props) => props.theme.fontColor};
+    }
+    .project-list li:hover{
+        background-color: ${(props) => props.theme.secondaryBackground};
     }
 `;

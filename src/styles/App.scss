@@ -296,3 +296,21 @@ hr {
   padding: 10px;
   width: fit-content;
 }
+.project-list{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  margin-bottom: 10px;
+  list-style-type: none;
+  cursor: pointer;
+}
+
+.project-list li{
+  padding: 1px;
+  font-size: large;
+  margin-right: 10px;
+}
+
+.modal-overlay {
+  z-index: 5;
+}

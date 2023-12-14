@@ -174,7 +174,7 @@ const EditProjects = () => {
               </div>
             )}
           </Modal>
-          <ul>
+          <ul className="project-list">
             {projects.map((project, index) => (
               <>
                 <li key={index}>
@@ -195,6 +195,9 @@ const EditProjects = () => {
                 placeholder="New Project Title"
                 type="text"
                 onChange={(e) => setNewProjectTitle(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") addProject();
+                }}
               />
             </li>
           </ul>

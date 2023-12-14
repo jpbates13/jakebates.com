@@ -48,6 +48,7 @@ const Modal = ({ handleClose, children, isOpen }) => {
           animate={"isOpen"}
           exit={"exit"}
           variants={modalVariant}
+          className="modal-overlay"
         >
           <ModalContainer variants={containerVariant} className="modal-content">
             <CloseButton
