@@ -14,10 +14,13 @@ import "firebase/firestore";
 import db from "../firebase";
 import { Input } from "@mui/material";
 import { Button, Form } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+
 
 function ResumeUpload() {
   const [file, setFile] = useState(null);
   const [base64, setBase64] = useState(null);
+  const navigate = useNavigate();
 
   const upload = () => {
     // Update the "base64" attribute in the "resume" document
@@ -29,6 +32,7 @@ function ResumeUpload() {
     })
       .then(() => {
         console.log("Base64 string updated successfully!");
+        navigate("/");
       })
       .catch((error) => {
         console.error("Error updating base64 string: ", error);

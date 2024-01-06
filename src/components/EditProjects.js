@@ -7,6 +7,7 @@ import { FormLabel } from "react-bootstrap";
 import { IconContext } from "react-icons";
 import { FaCheck, FaTrash } from "react-icons/fa";
 import { Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 const EditProjects = () => {
   const [projects, setProjects] = useState([]);
@@ -14,6 +15,8 @@ const EditProjects = () => {
   const [showModal, setShowModal] = useState(false);
   const [currentProject, setCurrentProject] = useState(null);
   const [newProjectTitle, setNewProjectTitle] = useState(null);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const collectionRef = collection(db, "projects");
@@ -74,6 +77,8 @@ const EditProjects = () => {
       deleteBatch.delete(projectDoc);
     });
     await deleteBatch.commit();
+
+    navigate("/");
   };
 
   const addProject = () => {
