@@ -69,7 +69,7 @@ export default function PageLayout(props) {
           <div class="header-content">
             <a href="/" style={{ textDecoration: "none" }}>
               <div class="pageTitle">
-                <h1>Jake Bates</h1>
+                <h1 class="pageTitleText">Jake Bates</h1>
               </div>
             </a>
             {error && <p>error</p>}
