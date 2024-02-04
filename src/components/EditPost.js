@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Editor from "./editor/Editor";
 import { useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
@@ -18,9 +18,12 @@ import {
   addDoc,
   deleteDoc,
   Timestamp,
+  writeBatch,
 } from "firebase/firestore";
 import { useLocation } from "react-router-dom";
 import { Helmet } from "react-helmet";
+import { getDoc } from "firebase/firestore";
+import { useSearchParams } from "react-router-dom";
 
 function EditPost(props) {
   const [error, setError] = useState("");
@@ -30,11 +33,35 @@ function EditPost(props) {
 
   const titleRef = useRef();
   const tagRef = useRef();
+  const categoryRef = useRef();
 
-  const location = useLocation();
-  const post = location.state.post;
+  const [post, setPost] = useState({});
 
-  let editor = useEditor({
+  const [serachParam] = useSearchParams();
+
+  const [confirmDelete, setConfirmDelete] = useState(false);
+
+  const [secondsLeft, setSecondsLeft] = useState(10);
+  const secondsLeftRef = useRef(secondsLeft);
+  secondsLeftRef.current = secondsLeft;
+
+  // reset the confirm delete state after 10 seconds
+  useEffect(() => {
+    if (!confirmDelete) return;
+    const timeout = setTimeout(() => {
+      setConfirmDelete(false);
+      setSecondsLeft(10);
+    }, 10000);
+    const secondsLeftInterval = setInterval(() => {
+      setSecondsLeft(secondsLeftRef.current - 1);
+    }, 1000);
+    return () => {
+      clearTimeout(timeout);
+      clearInterval(secondsLeftInterval);
+    };
+  }, [confirmDelete]);
+
+  const editor = useEditor({
     extensions: [
       StarterKit,
       Image,
@@ -45,10 +72,31 @@ function EditPost(props) {
       Dropcursor,
       Link,
     ],
-    content: post.body,
+    content: "",
   });
 
-  async function submitPost(title, body, tags) {
+  useEffect(() => {
+    let docRef;
+    //get the post from firebase using the postId in the query string
+    if (serachParam.get("draft") == "true") {
+      docRef = doc(db, "drafts", serachParam.get("postId"));
+    } else {
+      docRef = doc(db, "posts", serachParam.get("postId"));
+    }
+    getDoc(docRef).then((result) => {
+      if (result.exists()) {
+        setPost({ ...result.data(), id: result.id });
+        if (editor) {
+          editor.commands.setContent(result.data().body);
+        }
+      } else {
+        // doc.data() will be undefined in this case
+        console.log("No such document!");
+      }
+    });
+  }, [serachParam, editor]);
+
+  async function submitPost(title, body, tags, category) {
     if (post.isDraft) {
       const collectionRef = collection(db, "posts");
       const draftDocRef = doc(db, "drafts", post.id);
@@ -56,6 +104,7 @@ function EditPost(props) {
         body: body,
         tags: tags,
         title: title,
+        category: category,
         date: Timestamp.now(),
         updatedDate: null,
       }).catch((err) => {
@@ -68,19 +117,21 @@ function EditPost(props) {
         body: body,
         tags: tags,
         title: title,
+        category: category,
         updatedDate: Timestamp.now(),
       }).catch((err) => {
         setError(err);
       });
     }
   }
-  async function submitDraft(title, body, tags) {
+  async function submitDraft(title, body, tags, category) {
     if (post.isDraft) {
       const documentRef = doc(db, "drafts", post.id);
       await updateDoc(documentRef, {
         body: body,
         tags: tags,
         title: title,
+        category: category,
         updatedDate: Timestamp.now(),
       }).catch((err) => {
         setError(err);
@@ -92,6 +143,7 @@ function EditPost(props) {
         body: body,
         tags: tags,
         title: title,
+        category: category,
         isDraft: true,
         date: Timestamp.now(),
         updatedDate: null,
@@ -110,7 +162,8 @@ function EditPost(props) {
       await submitPost(
         titleRef.current.value,
         editor.getHTML(),
-        tagRef.current.value
+        tagRef.current.value,
+        categoryRef.current.value
       );
       navigate("/blog");
     } catch {
@@ -127,7 +180,8 @@ function EditPost(props) {
       await submitDraft(
         titleRef.current.value,
         editor.getHTML(),
-        tagRef.current.value
+        tagRef.current.value,
+        categoryRef.current.value
       );
       navigate("/drafts");
     } catch {
@@ -140,7 +194,7 @@ function EditPost(props) {
   return (
     <div>
       <Helmet>
-        <title>JakeBates.com | Editing {post.title}</title>
+        <title>JakeBates.com | Editing {post.title ? post.title : ""}</title>
       </Helmet>
       <h2>Edit Post</h2>
       {error && <p style={{ color: "red" }}>{error}</p>}
@@ -150,6 +204,13 @@ function EditPost(props) {
         placeholder="Enter some tags..."
         defaultValue={post.tags}
         ref={tagRef}
+        type="text"
+      />
+      <br />
+      <Form.Control
+        placeholder="Enter a category"
+        defaultValue={post.category}
+        ref={categoryRef}
         type="text"
       />
       <br />
@@ -164,6 +225,31 @@ function EditPost(props) {
         onClick={handleDraft}
       >
         Save Draft
+      </Button>{" "}
+      <Button
+        disabled={loading}
+        style={{
+          backgroundColor: `rgba(255, 0, 0, ${secondsLeftRef.current / 10})`,
+        }}
+        onClick={async () => {
+          // delete the post from firebase
+          if (!confirmDelete) {
+            setConfirmDelete(true);
+            return;
+          }
+          if (post.isDraft) {
+            let draftDocRef = doc(db, "drafts", post.id);
+            await deleteDoc(draftDocRef);
+            navigate("/drafts");
+          } else {
+            let postDocRef = doc(db, "posts", post.id);
+            await deleteDoc(postDocRef);
+            navigate("/blog");
+          }
+        }}
+      >
+        {confirmDelete ? "Click again to confirm deletion..." : "Delete Post"}
+        {confirmDelete && secondsLeftRef.current}
       </Button>
     </div>
   );

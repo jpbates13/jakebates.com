@@ -36,12 +36,14 @@ function CreatePost(props) {
 
   const titleRef = useRef();
   const tagRef = useRef();
+  const categoryRef = useRef();
 
-  async function submitPost(title, body, tags) {
+  async function submitPost(title, body, tags, category) {
     const data = {
       body: body,
       tags: tags,
       title: title,
+      category: category,
       date: Timestamp.now(),
       updatedDate: null,
     };
@@ -49,11 +51,12 @@ function CreatePost(props) {
     await addDoc(collectionRef, data);
   }
 
-  async function submitDraft(title, body, tags) {
+  async function submitDraft(title, body, tags, category) {
     const data = {
       body: body,
       tags: tags,
       title: title,
+      category: category,
       date: Timestamp.now(),
       updatedDate: null,
       isDraft: true,
@@ -70,7 +73,8 @@ function CreatePost(props) {
       await submitPost(
         titleRef.current.value,
         editor.getHTML(),
-        tagRef.current.value
+        tagRef.current.value,
+        categoryRef.current.value
       );
       navigate("/blog");
     } catch {
@@ -87,7 +91,8 @@ function CreatePost(props) {
       await submitDraft(
         titleRef.current.value,
         editor.getHTML(),
-        tagRef.current.value
+        tagRef.current.value,
+        categoryRef.current.value
       );
       navigate("/drafts");
     } catch (err) {
@@ -108,6 +113,12 @@ function CreatePost(props) {
       <Form.Control placeholder="Enter a title..." ref={titleRef} type="text" />
       <br />
       <Form.Control placeholder="Enter some tags..." ref={tagRef} type="text" />
+      <br />
+      <Form.Control
+        placeholder="Enter a category"
+        ref={categoryRef}
+        type="text"
+      />
       <br />
       <Editor editor={editor} />
       <br />
