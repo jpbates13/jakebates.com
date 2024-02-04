@@ -6,6 +6,7 @@ import { doc, getDoc, updateDoc } from "firebase/firestore";
 import db from "../firebase";
 import EditProjects from "./EditProjects";
 import ResumeUpload from "./ResumeUpload";
+import Settings from "./Settings";
 
 export default function Dashboard() {
   const [error, setError] = useState("");
@@ -65,6 +66,14 @@ export default function Dashboard() {
           onClick={() => handleComponentChange("resume")}
         >
           Resume Upload
+        </Button>{" "}
+        <Button
+          variant={
+            selectedComponent === "settings" ? "primary" : "outline-primary"
+          }
+          onClick={() => handleComponentChange("settings")}
+        >
+          Settings
         </Button>
       </div>
       <p></p>
@@ -96,6 +105,13 @@ export default function Dashboard() {
         <>
           <h3>Resume Upload</h3>
           <ResumeUpload />
+          <p></p>
+        </>
+      )}
+      {selectedComponent === "settings" && (
+        <>
+          <h3>Settings</h3>
+          <Settings />
           <p></p>
         </>
       )}

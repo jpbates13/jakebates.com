@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../styles/App.scss";
 import Github from "../images/svg/social-1_logo-github.svg";
 import LinkedIn from "../images/svg/social-1_logo-linkedin.svg";
@@ -29,6 +29,19 @@ export default function PageLayout(props) {
       }
     });
   }
+
+  //get the blog-enabled document from the content collection
+  const [blogEnabled, setBlogEnabled] = useState(false);
+  useEffect(() => {
+    const docRef = doc(db, "content", "blogEnabled");
+    getDoc(docRef).then((result) => {
+      if (result.exists()) {
+        setBlogEnabled(result.data().blogEnabled);
+      } else {
+        console.log("No such document!");
+      }
+    });
+  }, []);
 
   function openBase64PDFInNewTab(base64Data) {
     const byteCharacters = atob(base64Data);
@@ -156,6 +169,11 @@ export default function PageLayout(props) {
                       <Nav.Link class="nav-item active" onClick={getResume}>
                         <b>Resume</b>
                       </Nav.Link>
+                      {blogEnabled && (
+                        <Nav.Link class="nav-item active" href="/blog">
+                          <b>Blog</b>
+                        </Nav.Link>
+                      )}
                     </Nav>
                     <Tooltip title="Change theme">
                       <Button onClick={props.themeToggler}>
