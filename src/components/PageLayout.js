@@ -22,7 +22,8 @@ export default function PageLayout(props) {
     const docRef = doc(db, "resume", "resume");
     getDoc(docRef).then((result) => {
       if (result.exists()) {
-        openBase64PDFInNewTab(result.data().base64);
+        // openBase64PDFInNewTab(result.data().base64);
+        downloadBase64PDF(result.data().base64);
       } else {
         // doc.data() will be undefined in this case
         console.log("No such document!");
@@ -43,7 +44,7 @@ export default function PageLayout(props) {
     });
   }, []);
 
-  function openBase64PDFInNewTab(base64Data) {
+  function downloadBase64PDF(base64Data) {
     const byteCharacters = atob(base64Data);
     const byteNumbers = new Array(byteCharacters.length);
     for (let i = 0; i < byteCharacters.length; i++) {
@@ -52,7 +53,10 @@ export default function PageLayout(props) {
     const byteArray = new Uint8Array(byteNumbers);
     const blob = new Blob([byteArray], { type: "application/pdf" });
     const url = URL.createObjectURL(blob);
-
+    const link = document.createElement("a");
+    link.download = "resume.pdf";
+    link.href = url;
+    link.click();
     const newTab = window.open();
     newTab.document.write(
       '<iframe src="' +

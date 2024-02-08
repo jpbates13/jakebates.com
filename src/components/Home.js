@@ -7,15 +7,14 @@ import { doc, getDoc } from "firebase/firestore";
 import db from "../firebase";
 
 export default function Home() {
-
-  const [bio, setBio] = useState("")
+  const [bio, setBio] = useState("");
 
   function getResume() {
     //get resume from firebase
     const docRef = doc(db, "resume", "resume");
     getDoc(docRef).then((result) => {
       if (result.exists()) {
-        openBase64PDFInNewTab(result.data().base64);
+        downloadBase64PDF(result.data().base64);
       } else {
         // doc.data() will be undefined in this case
         console.log("No such document!");
@@ -23,7 +22,7 @@ export default function Home() {
     });
   }
 
-  function openBase64PDFInNewTab(base64Data) {
+  function downloadBase64PDF(base64Data) {
     const byteCharacters = atob(base64Data);
     const byteNumbers = new Array(byteCharacters.length);
     for (let i = 0; i < byteCharacters.length; i++) {
@@ -32,7 +31,10 @@ export default function Home() {
     const byteArray = new Uint8Array(byteNumbers);
     const blob = new Blob([byteArray], { type: "application/pdf" });
     const url = URL.createObjectURL(blob);
-
+    const link = document.createElement("a");
+    link.download = "resume.pdf";
+    link.href = url;
+    link.click();
     const newTab = window.open();
     newTab.document.write(
       '<iframe src="' +
@@ -53,7 +55,6 @@ export default function Home() {
     });
   }, []);
 
-
   return (
     <div>
       <Helmet>
@@ -73,10 +74,13 @@ export default function Home() {
         </div>
         <div class="bio col-lg-6 align-middle text-left hidden-sm align-self-auto">
           <div class="block first">
-            <p>{bio}{" "}
-              You can check
-              out more of my resume <a onClick={getResume} href="#">here</a> and my personal
-              projects <a href="https://github.com/jpbates13">here</a>.
+            <p>
+              {bio} You can check out more of my resume{" "}
+              <a onClick={getResume} href="#">
+                here
+              </a>{" "}
+              and my personal projects{" "}
+              <a href="https://github.com/jpbates13">here</a>.
             </p>
           </div>
         </div>
