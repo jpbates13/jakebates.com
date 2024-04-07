@@ -339,10 +339,6 @@ hr {
   }
 }
 
-.options{
-  padding-left: 20%;
-}
-
 .options.hide {
   transform: translateY(-100%);
   opacity: 0;
@@ -356,6 +352,15 @@ hr {
   .project-title {
     display: flex;
     justify-content: space-between;
+  }
+  .options{
+    padding-left: 20%;
+  }
+}
+
+@media (max-width: 767px) {
+  .options{
+    margin-right: 70%;
   }
 }
 
