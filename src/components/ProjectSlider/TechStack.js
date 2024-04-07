@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import django from "../../images/svg/icons8-django.svg";
 import firebase from "../../images/svg/icons8-firebase.svg";
 import flask from "../../images/svg/icons8-flask.svg";
@@ -42,7 +41,7 @@ function TechStack(props) {
         return (
           techStackMapping[tech] && 
           <Tooltip title={tech} arrow>
-            <a href={techStackMapping[tech.toString().toLowerCase()][1]} target="_blank">
+            <a href={techStackMapping[tech.toString().toLowerCase()][1]} target="_blank" rel="noreferrer">
             <img
               src={techStackMapping[tech.toString().toLowerCase()][0]}
               style={{ width: "45px", height: "45px", cursor: "pointer"}}
