@@ -49,12 +49,12 @@ function Projects(props) {
         return new Date(b.date) - new Date(a.date);
       });
       setProjects(projectData);
-      setProjectType("personal");
+      setProjectType("professional");
       setCurrentProjects(
-        projectData.filter((project) => project.type === "personal")
+        projectData.filter((project) => project.type === "professional")
       );
       setLength(
-        projectData.filter((project) => project.type === "personal").length
+        projectData.filter((project) => project.type === "professional").length
       );
     });
     return () => unsubscribe();
