@@ -12,6 +12,7 @@ import html from "../../images/svg/icons8-html.svg";
 import css from "../../images/svg/icons8-css.svg";
 import github from "../../images/svg/icons8-github-100.svg";
 import android from "../../images/svg/icons8-android-studio.svg";
+import raspberry_pi from "../../images/svg/icons8-raspberry-pi.svg";
 
 import { Tooltip } from "@mui/material";
 
@@ -30,6 +31,7 @@ function TechStack(props) {
     css: css,
     github_pages: github,
     android: android,
+    raspberry_pi: raspberry_pi
   };
 
   const techStack = props.techStack.split(",");
@@ -38,13 +40,15 @@ function TechStack(props) {
     <div>
       {techStack.map((tech) => {
         return (
+          techStackMapping[tech] && 
           <Tooltip title={tech} arrow>
             <img
               src={techStackMapping[tech.toString().toLowerCase()]}
-              style={{ width: "50px", height: "50px" }}
+              style={{ width: "45px", height: "45px" }}
               alt={tech}
             />{" "}
           </Tooltip>
+
         );
       })}
     </div>
