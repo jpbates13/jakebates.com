@@ -103,6 +103,8 @@ const EditProjects = () => {
       date: "",
       description: "",
       repository: "",
+      tech_stack: "",
+      type: "personal",
     });
     setProjects(list);
   };

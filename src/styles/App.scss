@@ -323,3 +323,39 @@ hr {
 .modal-overlay {
   z-index: 5;
 }
+
+.slide-out {
+  animation: slide-out 0.5s forwards;
+}
+
+@keyframes slide-out {
+  0% {
+    transform: translateY(-40%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.options{
+  padding-left: 20%;
+}
+
+.options.hide {
+  transform: translateY(-100%);
+  opacity: 0;
+}
+
+.projects{
+  padding-top: 20px;
+}
+
+@media (min-width: 768px) {
+  .project-title {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+

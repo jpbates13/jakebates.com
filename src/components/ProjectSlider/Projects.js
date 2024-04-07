@@ -14,7 +14,9 @@ function Projects(props) {
   const [current, setCurrent] = useState(0);
   const [pause, setPause] = useState(true);
   const [projects, setProjects] = useState([]);
+  const [currentProjects, setCurrentProjects] = useState([]);
   const [length, setLength] = useState(0);
+  const [projectType, setProjectType] = useState("all");
 
   async function nextSlide() {
     await setCurrent(current === length - 1 ? 0 : current + 1);
@@ -47,23 +49,91 @@ function Projects(props) {
         return new Date(b.date) - new Date(a.date);
       });
       setProjects(projectData);
-      setLength(projectData.length);
+      setProjectType("personal");
+      setCurrentProjects(
+        projectData.filter((project) => project.type === "personal")
+      );
+      setLength(
+        projectData.filter((project) => project.type === "personal").length
+      );
     });
     return () => unsubscribe();
   }, []);
 
-  // if (!Array.isArray(projects) || projects.length <= 0) {
-  //   return null;
-  // }
+  const [showOptions, setShowOptions] = useState(false);
+  const handleProjectTypeClick = () => {
+    setShowOptions(!showOptions);
+  };
 
   return (
     <div>
       <Helmet>
         <title>JakeBates.com | Projects</title>
       </Helmet>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <h2 onClick={handleProjectTypeClick}>
+          You are currently viewing{" "}
+          <u style={{ cursor: "pointer" }}>{projectType}</u> projects.
+        </h2>
+      </div>
+      <div style={{ display: "flex", justifyContent: "center" }}>
+        {showOptions && (
+          <div className={`options ${showOptions ? "slide-out" : "slide-up"}`}>
+            <p
+              style={{ cursor: "pointer" }}
+              onClick={() => {
+                setProjectType("all");
+                setCurrentProjects(projects);
+                setLength(projects.length);
+                setShowOptions(false);
+              }}
+            >
+              all
+            </p>
+            <p
+              style={{ cursor: "pointer" }}
+              onClick={() => {
+                setProjectType("personal");
+                setCurrentProjects(
+                  projects.filter((project) => project.type === "personal")
+                );
+                setLength(
+                  projects.filter((project) => project.type === "personal")
+                    .length
+                );
+                setShowOptions(false);
+              }}
+            >
+              personal
+            </p>
+            <p
+              style={{ cursor: "pointer" }}
+              onClick={() => {
+                setProjectType("professional");
+                setCurrentProjects(
+                  projects.filter((project) => project.type === "professional")
+                );
+                setLength(
+                  projects.filter((project) => project.type === "professional")
+                    .length
+                );
+                setShowOptions(false);
+              }}
+            >
+              professional
+            </p>
+          </div>
+        )}
+      </div>
       <div className="projects">
         <section className="slider">
-          {projects.map((slide, index) => {
+          {currentProjects.map((slide, index) => {
             return (
               <div
                 className={index === current ? "slide active" : "slide"}
@@ -72,12 +142,7 @@ function Projects(props) {
                 {index === current && (
                   <div>
                     <div onClick={nextSlide}>
-                      <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                        }}
-                      >
+                      <div class="project-title">
                         <h1>{slide.title}</h1>
                         <TechStack techStack={slide.tech_stack} />
                       </div>
@@ -86,13 +151,24 @@ function Projects(props) {
                       </p>
                       <p>{slide.description}</p>
                     </div>
-                    <Button
-                      variant="outline-primary"
-                      size="sm"
-                      href={slide.repository}
-                    >
-                      See Repository
-                    </Button>
+                    {slide.repository == "not_public" ? (
+                      <Button
+                        variant="outline-primary"
+                        size="sm"
+                        href={"#"}
+                        disabled={true}
+                      >
+                        Repository not public
+                      </Button>
+                    ) : (
+                      <Button
+                        variant="outline-primary"
+                        size="sm"
+                        href={slide.repository}
+                      >
+                        See Repository
+                      </Button>
+                    )}
                   </div>
                 )}
               </div>
