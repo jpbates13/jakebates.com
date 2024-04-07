@@ -56,6 +56,7 @@ function Projects(props) {
       setLength(
         projectData.filter((project) => project.type === "professional").length
       );
+      setCurrent(0)
     });
     return () => unsubscribe();
   }, []);
@@ -92,6 +93,7 @@ function Projects(props) {
                 setCurrentProjects(projects);
                 setLength(projects.length);
                 setShowOptions(false);
+                setCurrent(0)
               }}
             >
               all
@@ -108,6 +110,7 @@ function Projects(props) {
                     .length
                 );
                 setShowOptions(false);
+                setCurrent(0)
               }}
             >
               personal
@@ -124,6 +127,7 @@ function Projects(props) {
                     .length
                 );
                 setShowOptions(false);
+                setCurrent(0)
               }}
             >
               professional
