@@ -8,6 +8,7 @@ import { IconContext } from "react-icons";
 import { FaCheck, FaTrash } from "react-icons/fa";
 import { Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import InputGroupText from "react-bootstrap/esm/InputGroupText";
 
 const EditProjects = () => {
   const [projects, setProjects] = useState([]);
@@ -55,6 +56,20 @@ const EditProjects = () => {
     const { value } = e.target;
     const list = [...projects];
     list[index].repository = value;
+    setProjects(list);
+  };
+
+  const handleTechStackChange = (e, index) => {
+    const { value } = e.target;
+    const list = [...projects];
+    list[index].tech_stack = value.toLowerCase();
+    setProjects(list);
+  };
+
+  const handleTypeChange = (e, index) => {
+    const { value } = e.target;
+    const list = [...projects];
+    list[index].type = value;
     setProjects(list);
   };
 
@@ -144,6 +159,22 @@ const EditProjects = () => {
                   value={projects[currentProject].repository}
                   onChange={(e) => handleRepositoryChange(e, currentProject)}
                 />
+                <input
+                  className="project-input"
+                  placeholder="Tech,Stack"
+                  type="array"
+                  value={projects[currentProject].tech_stack}
+                  onChange={(e) => handleTechStackChange(e, currentProject)}
+                />
+                <select
+                  className="project-input"
+                  value={projects[currentProject].type}
+                  onChange={(e) => handleTypeChange(e, currentProject)}
+                >
+                  <option value="professional">Professional</option>
+                  <option value="personal">Personal</option>
+                </select>
+
                 <p />
                 <div
                   className="button-container"

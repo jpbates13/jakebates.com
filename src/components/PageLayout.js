@@ -216,7 +216,10 @@ export default function PageLayout(props) {
         </div>
         <br />
         <p>
-          Copyright &copy; {currentYear} <a href="/">JakeBates.com</a>
+          Copyright &copy; {currentYear} <a href="/">JakeBates.com</a> Icons by{" "}
+          <a target="_blank" href="https://icons8.com">
+            Icons8
+          </a>
         </p>
       </footer>
     </div>

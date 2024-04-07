@@ -8,6 +8,7 @@ import { Helmet } from "react-helmet";
 import { Tooltip } from "@mui/material";
 import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
 import db from "../../firebase";
+import TechStack from "./TechStack";
 
 function Projects(props) {
   const [current, setCurrent] = useState(0);
@@ -71,7 +72,15 @@ function Projects(props) {
                 {index === current && (
                   <div>
                     <div onClick={nextSlide}>
-                      <h1>{slide.title}</h1>
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                        }}
+                      >
+                        <h1>{slide.title}</h1>
+                        <TechStack techStack={slide.tech_stack} />
+                      </div>
                       <p>
                         <b>{slide.date}</b>
                       </p>
