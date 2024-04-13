@@ -126,6 +126,12 @@ export default function PageLayout(props) {
                         </Nav.Link>
                         <Nav.Link
                           class="nav-item active"
+                          href="/office-attendance"
+                        >
+                          <b>Office Attendance</b>
+                        </Nav.Link>
+                        <Nav.Link
+                          class="nav-item active"
                           onClick={handleLogout}
                         >
                           <b>Log Out</b>

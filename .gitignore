@@ -4,14 +4,8 @@
 node_modules/.cache/.eslintcache
 node_modules/
 build/
-.DS_STORE
-.DS_Store
 makeAdmin.js
 *.cache
 .firebaserc
-.DS_Store
-src/.DS_Store
-.DS_Store
-.DS_Store
-src/.DS_Store
 .env
+**/.DS_Store
