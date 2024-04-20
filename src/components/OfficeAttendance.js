@@ -5,6 +5,9 @@ import { useState, useEffect } from "react";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { Button } from "react-bootstrap";
 import { get } from "firebase/database";
+import { Tooltip } from "@mui/material";
+import redX from "../images/svg/icons8-x.svg";
+import greenCheck from "../images/svg/icons8-check.svg";
 
 function OfficeAttendance() {
   const { currentUser, logout } = useAuth();
@@ -13,6 +16,7 @@ function OfficeAttendance() {
   const [weeks, setWeeks] = useState([]);
   const [inCompliance, setInCompliance] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const [today, setToday] = useState(new Date());
 
   useEffect(() => {
     const docRef = doc(db, "office-attendance", currentUser.uid);
@@ -69,6 +73,7 @@ function OfficeAttendance() {
       );
 
       let present = 0;
+      let dateArray = [];
       for (let j = 0; j < 7; j++) {
         //skip weekends
         if (j === 5 || j === 6) {
@@ -78,6 +83,7 @@ function OfficeAttendance() {
         day.setDate(day.getDate() + j);
         if (dates.includes(day.toDateString())) {
           present++;
+          dateArray.push(day.toDateString());
         }
       }
       weeks.push({
@@ -86,6 +92,7 @@ function OfficeAttendance() {
           day: "numeric",
         })}`,
         present: present,
+        dates: dateArray,
       });
       if (present >= 2) {
         weeksCompliant++;
@@ -102,20 +109,21 @@ function OfficeAttendance() {
   return (
     <div
       style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        flexDirection: "column",
+        width: "100%",
+        margin: "auto",
+        textAlign: "center",
       }}
     >
-      <div style={{ display: "flex", justifyContent: "space-around" }}>
+      <div style={{ display: "flex", justifyContent: "center" }}>
         <div style={{ marginRight: "10px", marginBottom: "40px" }}>
           <Button
             onClick={() => {
               const today = new Date();
               logPresence(today.toDateString());
             }}
-            disabled={todayLogged}
+            disabled={
+              todayLogged || today.getDay() === 5 || today.getDay() === 6
+            }
             size="lg"
           >
             Log Today
@@ -139,7 +147,7 @@ function OfficeAttendance() {
               disabled={
                 dates.includes(selectedDate.toDateString()) ||
                 selectedDate > new Date() ||
-                selectedDate.getDay() === 0 ||
+                selectedDate.getDay() === 5 ||
                 selectedDate.getDay() === 6 ||
                 selectedDate == null
               }
@@ -156,15 +164,54 @@ function OfficeAttendance() {
           color: inCompliance ? "green" : "red",
           fontSize: "24px",
           fontWeight: "bold",
+          textAlign: "center",
         }}
       >
         STATUS: {inCompliance ? "COMPLIANT" : "UNCOMPLIANT"}
       </p>
-      {weeks.map((week, index) => (
-        <p key={index}>
-          {week.string} {week.present}
-        </p>
-      ))}
+
+      <table style={{ margin: "auto" }}>
+        {weeks.map((week, index) => (
+          <tr>
+            <td style={{ textAlign: "left" }}>
+              <p
+                key={index}
+                style={{
+                  marginRight: "25px",
+                  marginTop: "15px",
+                  marginBottom: "15px",
+                }}
+              >
+                {week.string}
+              </p>
+            </td>
+            <td>
+              <div>
+                {week.dates.map((i) => (
+                  <Tooltip title={i} arrow>
+                    <img
+                      src={greenCheck}
+                      style={{ width: "45px", height: "45px" }}
+                    />
+                  </Tooltip>
+                ))}
+                {week.dates.length < 2 &&
+                  Array.from({ length: 2 - week.dates.length }).map(
+                    (_, index) => (
+                      <Tooltip title="No entry" arrow>
+                        <img
+                          src={redX}
+                          style={{ width: "45px", height: "45px" }}
+                          key={index}
+                        />
+                      </Tooltip>
+                    )
+                  )}
+              </div>
+            </td>
+          </tr>
+        ))}
+      </table>
     </div>
   );
 }
