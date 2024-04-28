@@ -14,7 +14,6 @@ function OfficeAttendance() {
   const { currentUser, logout } = useAuth();
   const [dates, setDates] = useState([]);
   const [timestamps, setTimestamps] = useState([]);
-  const [todayLogged, setTodayLogged] = useState(false);
   const [weeks, setWeeks] = useState([]);
   const [inCompliance, setInCompliance] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -57,13 +56,6 @@ function OfficeAttendance() {
   }, []);
 
   useEffect(() => {
-    //check if a date from today is in the dates array
-    let today = new Date();
-    let todayLogged = dates.some((date) => {
-      let dateObj = new Date(date);
-      return checkDateEquality(dateObj, today);
-    });
-    setTodayLogged(todayLogged);
     setWeeks(getWeeks());
   }, [dates]);
 
@@ -138,7 +130,6 @@ function OfficeAttendance() {
               logPresence(today.getTime());
             }}
             disabled={
-              todayLogged || 
               today.getDay() === 0 || 
               today.getDay() === 6 ||  
               timestamps.some(time => {
