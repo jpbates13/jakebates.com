@@ -4,26 +4,43 @@ import db from "../firebase";
 import { useState, useEffect } from "react";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { Button } from "react-bootstrap";
-import { get } from "firebase/database";
+import { get, set } from "firebase/database";
 import { Tooltip } from "@mui/material";
 import redX from "../images/svg/icons8-x.svg";
 import greenCheck from "../images/svg/icons8-check.svg";
+import { check } from "prettier";
 
 function OfficeAttendance() {
   const { currentUser, logout } = useAuth();
   const [dates, setDates] = useState([]);
+  const [timestamps, setTimestamps] = useState([]);
   const [todayLogged, setTodayLogged] = useState(false);
   const [weeks, setWeeks] = useState([]);
   const [inCompliance, setInCompliance] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [today, setToday] = useState(new Date());
 
+  const checkDateEquality = (date1, date2) => {
+    return (
+      date1.getFullYear() === date2.getFullYear() &&
+      date1.getMonth() === date2.getMonth() &&
+      date1.getDate() === date2.getDate()
+    );
+  };
+
   useEffect(() => {
     const docRef = doc(db, "office-attendance", currentUser.uid);
     getDoc(docRef).then((result) => {
       if (result.exists()) {
         let dateData = result.data().dates;
-        setDates([...dateData]);
+        setTimestamps([...dateData]);
+        //convert the timestamps to dates
+        let parsedDates = [];
+        dateData = dateData.map((timestamp) => {
+          let date = new Date(timestamp);
+          parsedDates.push(date);
+        });
+        setDates([...parsedDates]);
       } else {
         // doc.data() will be undefined in this case, new user probably
         console.log("No such document!");
@@ -39,12 +56,7 @@ function OfficeAttendance() {
     let today = new Date();
     let todayLogged = dates.some((date) => {
       let dateObj = new Date(date);
-      console.log(dateObj);
-      return (
-        dateObj.getFullYear() === today.getFullYear() &&
-        dateObj.getMonth() === today.getMonth() &&
-        dateObj.getDate() === today.getDate()
-      );
+      return checkDateEquality(dateObj, today);
     });
     setTodayLogged(todayLogged);
     setWeeks(getWeeks());
@@ -52,10 +64,14 @@ function OfficeAttendance() {
 
   const logPresence = (date) => {
     const docRef = doc(db, "office-attendance", currentUser.uid);
-    const newDates = [...dates, date];
-    setDoc(docRef, { dates: newDates });
+    const parsedDate = new Date(date);
+    const newTimestamps = [...timestamps, date];
+    const newDates = [...dates, parsedDate];
+    setDoc(docRef, { dates: newTimestamps });
     setDates(newDates);
+    setTimestamps(newTimestamps);
   };
+
   const getWeeks = () => {
     const today = new Date();
     const weeks = [];
@@ -66,22 +82,17 @@ function OfficeAttendance() {
         today.getMonth(),
         today.getDate() - today.getDay() + 1 - 7 * i
       );
-      const sunday = new Date(
-        today.getFullYear(),
-        today.getMonth(),
-        today.getDate() - today.getDay() + 7 - 7 * i
-      );
 
       let present = 0;
       let dateArray = [];
       for (let j = 0; j < 7; j++) {
-        //skip weekends
-        if (j === 5 || j === 6) {
-          continue;
-        }
         const day = new Date(monday);
         day.setDate(day.getDate() + j);
-        if (dates.includes(day.toDateString())) {
+        if (
+          dates.some((date) => {
+            return checkDateEquality(day, date);
+          })
+        ) {
           present++;
           dateArray.push(day.toDateString());
         }
@@ -119,10 +130,10 @@ function OfficeAttendance() {
           <Button
             onClick={() => {
               const today = new Date();
-              logPresence(today.toDateString());
+              logPresence(today.getTime());
             }}
             disabled={
-              todayLogged || today.getDay() === 5 || today.getDay() === 6
+              todayLogged || today.getDay() === 0 || today.getDay() === 6
             }
             size="lg"
           >
@@ -134,20 +145,20 @@ function OfficeAttendance() {
             <input
               type="date"
               onChange={(e) => {
-                const selectedDate = new Date(e.target.value);
-                setSelectedDate(selectedDate);
+                const selectedDateInput = new Date(
+                  e.target.value + "T00:00:00"
+                );
+                setSelectedDate(selectedDateInput);
               }}
-              value={selectedDate.toISOString().split("T")[0]}
             />
             <br />
             <Button
               onClick={() => {
-                logPresence(selectedDate.toDateString());
+                logPresence(selectedDate.getTime());
               }}
               disabled={
-                dates.includes(selectedDate.toDateString()) ||
                 selectedDate > new Date() ||
-                selectedDate.getDay() === 5 ||
+                selectedDate.getDay() === 0 ||
                 selectedDate.getDay() === 6 ||
                 selectedDate == null
               }
