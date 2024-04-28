@@ -138,7 +138,12 @@ function OfficeAttendance() {
               logPresence(today.getTime());
             }}
             disabled={
-              todayLogged || today.getDay() === 0 || today.getDay() === 6
+              todayLogged || 
+              today.getDay() === 0 || 
+              today.getDay() === 6 ||  
+              timestamps.some(time => {
+                return checkDateEquality(new Date(time), today)
+              })
             }
             size="lg"
           >
@@ -165,7 +170,10 @@ function OfficeAttendance() {
                 selectedDate > new Date() ||
                 selectedDate.getDay() === 0 ||
                 selectedDate.getDay() === 6 ||
-                selectedDate == null
+                selectedDate == null ||
+                timestamps.some(time => {
+                  return checkDateEquality(new Date(time), selectedDate)
+                })
               }
               defaultValue={new Date()}
               size="sm"
