@@ -33,6 +33,11 @@ function OfficeAttendance() {
     getDoc(docRef).then((result) => {
       if (result.exists()) {
         let dateData = result.data().dates;
+
+        if (dateData === null || dateData === undefined) {
+          dateData = [];
+        }
+
         setTimestamps([...dateData]);
         //convert the timestamps to dates
         let parsedDates = [];
