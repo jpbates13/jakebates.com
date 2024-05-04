@@ -115,15 +115,26 @@ export default function PageLayout(props) {
                       id="navbarSupportedContent"
                     >
                       <Nav>
-                        <Nav.Link class="nav-item active" href="/dashboard">
-                          <b>Dashboard</b>
-                        </Nav.Link>
-                        <Nav.Link class="nav-item active" href="/create-post">
-                          <b>Create Post</b>
-                        </Nav.Link>
-                        <Nav.Link class="nav-item active" href="/drafts">
-                          <b>Drafts</b>
-                        </Nav.Link>
+                        {currentUser &&
+                          currentUser.email === "jpbates13@gmail.com" && (
+                            <>
+                              <Nav.Link
+                                class="nav-item active"
+                                href="/dashboard"
+                              >
+                                <b>Dashboard</b>
+                              </Nav.Link>
+                              <Nav.Link
+                                class="nav-item active"
+                                href="/create-post"
+                              >
+                                <b>Create Post</b>
+                              </Nav.Link>
+                              <Nav.Link class="nav-item active" href="/drafts">
+                                <b>Drafts</b>
+                              </Nav.Link>
+                            </>
+                          )}
                         <Nav.Link
                           class="nav-item active"
                           href="/office-attendance"

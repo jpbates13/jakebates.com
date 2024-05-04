@@ -4,7 +4,7 @@ import { useAuth } from "../contexts/AuthContext";
 import { Link, useNavigate, Navigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
 
-export default function Signup() {
+export default function Signup({ noRedirect }) {
   const emailRef = useRef();
   const passwordRef = useRef();
   const passwordConfirmRef = useRef();
@@ -18,7 +18,7 @@ export default function Signup() {
 
   const navigate = useNavigate();
 
-  if (currentUser) {
+  if (currentUser && !noRedirect) {
     return <Navigate to="/dashboard" />;
   }
 

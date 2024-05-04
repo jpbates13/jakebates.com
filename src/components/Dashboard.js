@@ -7,6 +7,7 @@ import db from "../firebase";
 import EditProjects from "./EditProjects";
 import ResumeUpload from "./ResumeUpload";
 import Settings from "./Settings";
+import Signup from "./Signup";
 
 export default function Dashboard() {
   const [error, setError] = useState("");
@@ -74,7 +75,15 @@ export default function Dashboard() {
           onClick={() => handleComponentChange("settings")}
         >
           Settings
-        </Button>
+        </Button>{" "}
+        <Button
+          variant={
+            selectedComponent === "createUser" ? "primary" : "outline-primary"
+          }
+          onClick={() => handleComponentChange("createUser")}
+        >
+          Create User
+        </Button>{" "}
       </div>
       <p></p>
       {selectedComponent === "bio" && (
@@ -115,6 +124,13 @@ export default function Dashboard() {
           <p></p>
         </>
       )}
+      {selectedComponent === "createUser" && (
+        <>
+          <h3>Create User</h3>
+          <Signup noRedirect={true} />
+          <p></p>
+        </>
+      )}{" "}
       <div className="w-100 text-center mt-2">
         <Button variant="link" href="/logout">
           Log out

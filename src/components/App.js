@@ -67,16 +67,15 @@ function App() {
                     path="/signup"
                     element={
                       // Private Route for now because we don't want people signing up
-                      <PrivateRoute>
-                        {" "}
-                        <Signup />{" "}
+                      <PrivateRoute adminOnly={true}>
+                        <Signup />
                       </PrivateRoute>
                     }
                   />
                   <Route
                     path="/dashboard"
                     element={
-                      <PrivateRoute>
+                      <PrivateRoute adminOnly={true}>
                         <Dashboard />
                       </PrivateRoute>
                     }
@@ -84,7 +83,7 @@ function App() {
                   <Route
                     path="/create-post"
                     element={
-                      <PrivateRoute>
+                      <PrivateRoute adminOnly={true}>
                         <CreatePost />
                       </PrivateRoute>
                     }
@@ -92,7 +91,7 @@ function App() {
                   <Route
                     path="/edit"
                     element={
-                      <PrivateRoute>
+                      <PrivateRoute adminOnly={true}>
                         <EditPost />
                       </PrivateRoute>
                     }
@@ -100,7 +99,7 @@ function App() {
                   <Route
                     path="/drafts"
                     element={
-                      <PrivateRoute>
+                      <PrivateRoute adminOnly={true}>
                         <Drafts />
                       </PrivateRoute>
                     }
@@ -108,7 +107,7 @@ function App() {
                   <Route
                     path="/preview"
                     element={
-                      <PrivateRoute>
+                      <PrivateRoute adminOnly={true}>
                         <Preview />
                       </PrivateRoute>
                     }
