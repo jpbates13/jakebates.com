@@ -10,9 +10,10 @@ import Dropcursor from "@tiptap/extension-dropcursor";
 import Link from "@tiptap/extension-link";
 import { useNavigate } from "react-router";
 import db from "../firebase";
-import { collection, addDoc, Timestamp } from "firebase/firestore";
+import { collection, addDoc, Timestamp, setDoc, doc } from "firebase/firestore";
 import { Form, Button } from "react-bootstrap";
 import { Helmet } from "react-helmet";
+import { set } from "firebase/database";
 
 function CreatePost(props) {
   const [error, setError] = useState("");
@@ -47,8 +48,13 @@ function CreatePost(props) {
       date: Timestamp.now(),
       updatedDate: null,
     };
-    const collectionRef = collection(db, "posts");
-    await addDoc(collectionRef, data);
+    const titleId = idify(title);
+    const docRef = doc(db, "posts", titleId);
+    await setDoc(docRef, data);
+  }
+
+  function idify(title) {
+    return title.replace(/\s+/g, "-").toLowerCase();
   }
 
   async function submitDraft(title, body, tags, category) {
@@ -61,8 +67,9 @@ function CreatePost(props) {
       updatedDate: null,
       isDraft: true,
     };
-    const collectionRef = collection(db, "drafts");
-    await addDoc(collectionRef, data);
+    const titleId = idify(title);
+    const docRef = doc(db, "drafts", titleId);
+    await setDoc(docRef, data);
   }
 
   async function handlePost(e) {

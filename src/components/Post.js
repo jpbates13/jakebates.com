@@ -8,10 +8,10 @@ import { Helmet } from "react-helmet";
 export default function Post(props) {
   const [post, setPost] = useState({ title: "Loading...", id: "initial" });
   const [serachParam] = useSearchParams();
-  serachParam.get("postId");
+  serachParam.get("post");
 
   useEffect(() => {
-    const docRef = doc(db, "posts", serachParam.get("postId"));
+    const docRef = doc(db, "posts", serachParam.get("post"));
     getDoc(docRef).then((result) => {
       if (result.exists()) {
         setPost(result.data());

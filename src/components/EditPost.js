@@ -22,7 +22,7 @@ import {
 } from "firebase/firestore";
 import { useLocation } from "react-router-dom";
 import { Helmet } from "react-helmet";
-import { getDoc } from "firebase/firestore";
+import { getDoc, setDoc } from "firebase/firestore";
 import { useSearchParams } from "react-router-dom";
 
 function EditPost(props) {
@@ -77,11 +77,11 @@ function EditPost(props) {
 
   useEffect(() => {
     let docRef;
-    //get the post from firebase using the postId in the query string
+    //get the post from firebase using the post in the query string
     if (serachParam.get("draft") == "true") {
-      docRef = doc(db, "drafts", serachParam.get("postId"));
+      docRef = doc(db, "drafts", serachParam.get("post"));
     } else {
-      docRef = doc(db, "posts", serachParam.get("postId"));
+      docRef = doc(db, "posts", serachParam.get("post"));
     }
     getDoc(docRef).then((result) => {
       if (result.exists()) {
@@ -96,20 +96,29 @@ function EditPost(props) {
     });
   }, [serachParam, editor]);
 
+  function idify(title) {
+    return title.replace(/\s+/g, "-").toLowerCase();
+  }
+
   async function submitPost(title, body, tags, category) {
     if (post.isDraft) {
-      const collectionRef = collection(db, "posts");
       const draftDocRef = doc(db, "drafts", post.id);
-      await addDoc(collectionRef, {
+
+      const data = {
         body: body,
         tags: tags,
         title: title,
         category: category,
         date: Timestamp.now(),
         updatedDate: null,
-      }).catch((err) => {
+      };
+
+      const titleId = idify(title);
+      const docRef = doc(db, "posts", titleId);
+      await setDoc(docRef, data).catch((err) => {
         setError(err);
       });
+
       await deleteDoc(draftDocRef);
     } else {
       const documentRef = doc(db, "posts", post.id);
@@ -137,9 +146,8 @@ function EditPost(props) {
         setError(err);
       });
     } else {
-      const collectionRef = collection(db, "drafts");
       const postDocRef = doc(db, "posts", post.id);
-      await addDoc(collectionRef, {
+      const data = {
         body: body,
         tags: tags,
         title: title,
@@ -147,7 +155,11 @@ function EditPost(props) {
         isDraft: true,
         date: Timestamp.now(),
         updatedDate: null,
-      }).catch((err) => {
+      };
+
+      const titleId = idify(title);
+      const docRef = doc(db, "drafts", titleId);
+      await setDoc(docRef, data).catch((err) => {
         setError(err);
       });
       await deleteDoc(postDocRef);

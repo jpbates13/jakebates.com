@@ -164,7 +164,7 @@ function Blog() {
                   {isLoading ? (
                     <h2>{post.title}</h2>
                   ) : (
-                    <a className="post-block" href={"/post?postId=" + post.id}>
+                    <a className="post-block" href={"/post?post=" + post.id}>
                       <Link
                         style={{
                           textDecoration: "none",
@@ -172,7 +172,7 @@ function Blog() {
                           fontWeight: "bold",
                         }}
                         className="blogTitleLink"
-                        to={"/post?postId=" + post.id}
+                        to={"/post?post=" + post.id}
                       >
                         {post.title}
                       </Link>
@@ -183,7 +183,7 @@ function Blog() {
                       {currentUser && (
                         <Link
                           state={{ post: post }}
-                          to={"/edit?postId=" + post.id + "&draft=false"}
+                          to={"/edit?post=" + post.id + "&draft=false"}
                         >
                           Edit
                         </Link>

@@ -171,7 +171,7 @@ function Drafts() {
                     <Link
                       className="post-block"
                       state={{ post: post }}
-                      to={"/preview?postId=" + post.id}
+                      to={"/preview?post=" + post.id}
                     >
                       <Link
                         style={{
@@ -180,7 +180,7 @@ function Drafts() {
                         }}
                         state={{ post: post }}
                         className="blogTitleLink"
-                        to={"/preview?postId=" + post.id}
+                        to={"/preview?post=" + post.id}
                       >
                         {post.title}
                       </Link>
@@ -191,7 +191,7 @@ function Drafts() {
                       {currentUser && (
                         <Link
                           state={{ post: post }}
-                          to={"/edit?postId=" + post.id + "&draft=true"}
+                          to={"/edit?post=" + post.id + "&draft=true"}
                         >
                           Edit
                         </Link>
