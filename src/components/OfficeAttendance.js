@@ -15,7 +15,7 @@ function OfficeAttendance() {
   const [dates, setDates] = useState([]);
   const [timestamps, setTimestamps] = useState([]);
   const [weeks, setWeeks] = useState([]);
-  const [inCompliance, setInCompliance] = useState(false);
+  const [inCompliance, setInCompliance] = useState({weeks: 0, color: "red", text: "Not in compliance"});
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [today, setToday] = useState(new Date());
 
@@ -106,13 +106,18 @@ function OfficeAttendance() {
         weeksCompliant++;
       }
     }
-    if (weeksCompliant >= 4) {
-      setInCompliance(true);
+
+    if (weeksCompliant > 4) {
+      setInCompliance({weeks: weeksCompliant, color: "green", text: "COMPLIANT"});
+    } else if (weeksCompliant == 4) {
+      setInCompliance({weeks: weeksCompliant, color: "darkorange", text: "AT MINIMUM COMPLIANCE"});
     } else {
-      setInCompliance(false);
+      setInCompliance({weeks: weeksCompliant, color: "red", text: "NOT IN COMPLIANCE"});
     }
+
     return weeks;
   };
+
 
   return (
     <div
@@ -176,13 +181,13 @@ function OfficeAttendance() {
       </div>
       <p
         style={{
-          color: inCompliance ? "green" : "red",
+          color: inCompliance.color,
           fontSize: "24px",
           fontWeight: "bold",
           textAlign: "center",
         }}
       >
-        STATUS: {inCompliance ? "COMPLIANT" : "UNCOMPLIANT"}
+        STATUS: {inCompliance.text}
       </p>
 
       <table style={{ margin: "auto" }}>

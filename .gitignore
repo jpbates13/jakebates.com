@@ -9,3 +9,4 @@ makeAdmin.js
 .firebaserc
 .env
 **/.DS_Store
+firebase-debug.log
