@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { doc, getDoc } from "firebase/firestore";
+import { getDraft } from "../services/firestoreService";
 import { useSearchParams } from "react-router-dom";
-import db from "../firebase";
 import DOMPurify from "dompurify";
 import { Helmet } from "react-helmet";
 
@@ -11,8 +10,7 @@ export default function Preview(props) {
   serachParam.get("post");
 
   useEffect(() => {
-    const docRef = doc(db, "drafts", serachParam.get("post"));
-    getDoc(docRef).then((result) => {
+    getDraft(serachParam.get("post")).then((result) => {
       if (result.exists()) {
         console.log("Document data:", result.data());
         setPost(result.data());

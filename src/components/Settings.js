@@ -1,14 +1,12 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { doc, getDoc, updateDoc } from "firebase/firestore";
-import db from "../firebase";
+import { getBlogEnabled, updateBlogEnabled } from "../services/firestoreService";
 
 function Settings() {
   //get the blog-enabled document from the content collection
   const [blogEnabled, setBlogEnabled] = useState(false);
   useEffect(() => {
-    const docRef = doc(db, "content", "blogEnabled");
-    getDoc(docRef).then((result) => {
+    getBlogEnabled().then((result) => {
       if (result.exists()) {
         setBlogEnabled(result.data().blogEnabled);
       } else {
@@ -18,10 +16,7 @@ function Settings() {
   }, []);
 
   function handleBlogEnabledChange() {
-    const docRef = doc(db, "content", "blogEnabled");
-    updateDoc(docRef, {
-      blogEnabled: !blogEnabled,
-    }).catch((err) => {
+    updateBlogEnabled(!blogEnabled).catch((err) => {
       console.log(err);
     });
     setBlogEnabled(!blogEnabled);

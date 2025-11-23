@@ -9,11 +9,10 @@ import Image from "@tiptap/extension-image";
 import Dropcursor from "@tiptap/extension-dropcursor";
 import Link from "@tiptap/extension-link";
 import { useNavigate } from "react-router";
-import db from "../firebase";
-import { collection, addDoc, Timestamp, setDoc, doc } from "firebase/firestore";
+import { createPost, createDraft } from "../services/firestoreService";
+import { Timestamp } from "firebase/firestore";
 import { Form, Button } from "react-bootstrap";
 import { Helmet } from "react-helmet";
-import { set } from "firebase/database";
 
 function CreatePost(props) {
   const [error, setError] = useState("");
@@ -49,8 +48,7 @@ function CreatePost(props) {
       updatedDate: null,
     };
     const titleId = idify(title);
-    const docRef = doc(db, "posts", titleId);
-    await setDoc(docRef, data);
+    await createPost(titleId, data);
   }
 
   function idify(title) {
@@ -68,8 +66,7 @@ function CreatePost(props) {
       isDraft: true,
     };
     const titleId = idify(title);
-    const docRef = doc(db, "drafts", titleId);
-    await setDoc(docRef, data);
+    await createDraft(titleId, data);
   }
 
   async function handlePost(e) {

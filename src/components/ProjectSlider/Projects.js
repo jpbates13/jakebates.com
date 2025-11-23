@@ -6,8 +6,7 @@ import "../../styles/Slider.scss";
 import { Helmet } from "react-helmet";
 // import projects from "./ProjectData";
 import { Tooltip } from "@mui/material";
-import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
-import db from "../../firebase";
+import { subscribeToProjects } from "../../services/firestoreService";
 import TechStack from "./TechStack";
 
 function Projects(props) {
@@ -37,9 +36,7 @@ function Projects(props) {
   }, [pause, length]);
 
   useEffect(() => {
-    const collectionRef = collection(db, "projects");
-    const q = query(collectionRef, orderBy("date", "desc"));
-    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+    const unsubscribe = subscribeToProjects((querySnapshot) => {
       const projectData = [];
       querySnapshot.forEach((doc) => {
         projectData.push(doc.data());

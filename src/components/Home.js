@@ -3,16 +3,14 @@ import Headshot from "../images/headshot.png";
 import Resume from "../assets/resume.pdf";
 import { Helmet } from "react-helmet";
 import { useState, useEffect } from "react";
-import { doc, getDoc } from "firebase/firestore";
-import db from "../firebase";
+import { getResume as getResumeService, getBio } from "../services/firestoreService";
 
 export default function Home() {
   const [bio, setBio] = useState("");
 
   function getResume() {
     //get resume from firebase
-    const docRef = doc(db, "resume", "resume");
-    getDoc(docRef).then((result) => {
+    getResumeService().then((result) => {
       if (result.exists()) {
         downloadBase64PDF(result.data().base64);
       } else {
@@ -44,8 +42,7 @@ export default function Home() {
   }
 
   useEffect(() => {
-    const docRef = doc(db, "content", "bio");
-    getDoc(docRef).then((result) => {
+    getBio().then((result) => {
       if (result.exists()) {
         setBio(result.data().content);
       } else {

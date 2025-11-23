@@ -1,17 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import {
-  updateDoc,
-  doc,
-  writeBatch,
-  deleteDoc,
-  collection,
-  query,
-  orderBy,
-  onSnapshot,
-} from "firebase/firestore";
-import "firebase/firestore";
-import db from "../firebase";
+import { updateResume } from "../services/firestoreService";
 import { Input } from "@mui/material";
 import { Button, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
@@ -25,11 +14,7 @@ function ResumeUpload() {
   const upload = () => {
     // Update the "base64" attribute in the "resume" document
 
-    const documentRef = doc(db, "resume", "resume");
-
-    updateDoc(documentRef, {
-      base64: base64,
-    })
+    updateResume(base64)
       .then(() => {
         console.log("Base64 string updated successfully!");
         navigate("/");

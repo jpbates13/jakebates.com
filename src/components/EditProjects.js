@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
-import db from "../firebase";
-import { updateDoc, doc, writeBatch, deleteDoc } from "firebase/firestore";
+import { subscribeToProjects, saveProjects } from "../services/firestoreService";
 import Modal from "./Modal";
 import { FormLabel } from "react-bootstrap";
 import { IconContext } from "react-icons";
@@ -20,9 +18,7 @@ const EditProjects = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const collectionRef = collection(db, "projects");
-    const q = query(collectionRef, orderBy("date", "desc"));
-    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+    const unsubscribe = subscribeToProjects((querySnapshot) => {
       const projectData = [];
       querySnapshot.forEach((doc) => {
         projectData.push(doc.data());
@@ -75,23 +71,7 @@ const EditProjects = () => {
 
   const handleSubmit = async () => {
     // write to firestore
-    const batch = writeBatch(db);
-    const projectRef = collection(db, "projects");
-    projects.forEach((project, index) => {
-      const projectDoc = doc(projectRef, project.title);
-      batch.set(projectDoc, project);
-    });
-    await batch.commit();
-
-    console.log(toDelete);
-    // delete projects
-    const deleteBatch = writeBatch(db);
-    const deleteRef = collection(db, "projects");
-    toDelete.forEach((project, index) => {
-      const projectDoc = doc(deleteRef, project);
-      deleteBatch.delete(projectDoc);
-    });
-    await deleteBatch.commit();
+    await saveProjects(projects, toDelete);
 
     navigate("/");
   };

@@ -1,10 +1,8 @@
 import React from "react";
 import { useAuth } from "../contexts/AuthContext";
-import db from "../firebase";
+import { getOfficeAttendance, setOfficeAttendance } from "../services/firestoreService";
 import { useState, useEffect } from "react";
-import { doc, getDoc, setDoc } from "firebase/firestore";
 import { Button } from "react-bootstrap";
-import { get, set } from "firebase/database";
 import { Tooltip } from "@mui/material";
 import redX from "../images/svg/icons8-x.svg";
 import greenCheck from "../images/svg/icons8-check.svg";
@@ -28,8 +26,8 @@ function OfficeAttendance() {
   };
 
   useEffect(() => {
-    const docRef = doc(db, "office-attendance", currentUser.uid);
-    getDoc(docRef).then((result) => {
+
+    getOfficeAttendance(currentUser.uid).then((result) => {
       if (result.exists()) {
         let dateData = result.data().dates;
 
@@ -48,11 +46,11 @@ function OfficeAttendance() {
       } else {
         // doc.data() will be undefined in this case, new user probably
         console.log("No such document!");
-        const docRef = doc(db, "office-attendance", currentUser.uid);
         //could add error handling here
-        setDoc(docRef, { dates: [] });
+        setOfficeAttendance(currentUser.uid, { dates: [] });
       }
     });
+
   }, []);
 
   useEffect(() => {
@@ -60,11 +58,10 @@ function OfficeAttendance() {
   }, [dates]);
 
   const logPresence = (date) => {
-    const docRef = doc(db, "office-attendance", currentUser.uid);
     const parsedDate = new Date(date);
     const newTimestamps = [...timestamps, date];
     const newDates = [...dates, parsedDate];
-    setDoc(docRef, { dates: newTimestamps });
+    setOfficeAttendance(currentUser.uid, { dates: newTimestamps });
     setDates(newDates);
     setTimestamps(newTimestamps);
   };

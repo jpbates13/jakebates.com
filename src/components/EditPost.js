@@ -9,20 +9,20 @@ import Image from "@tiptap/extension-image";
 import Dropcursor from "@tiptap/extension-dropcursor";
 import Link from "@tiptap/extension-link";
 import { useNavigate } from "react-router";
-import db from "../firebase";
-import { Form, Button } from "react-bootstrap";
 import {
-  doc,
-  updateDoc,
-  collection,
-  addDoc,
-  deleteDoc,
-  Timestamp,
-  writeBatch,
-} from "firebase/firestore";
+  getPost,
+  getDraft,
+  createPost,
+  createDraft,
+  updatePost,
+  updateDraft,
+  deletePost,
+  deleteDraft,
+} from "../services/firestoreService";
+import { Form, Button } from "react-bootstrap";
+import { Timestamp } from "firebase/firestore";
 import { useLocation } from "react-router-dom";
 import { Helmet } from "react-helmet";
-import { getDoc, setDoc } from "firebase/firestore";
 import { useSearchParams } from "react-router-dom";
 
 function EditPost(props) {
@@ -76,14 +76,14 @@ function EditPost(props) {
   });
 
   useEffect(() => {
-    let docRef;
+    let promise;
     //get the post from firebase using the post in the query string
     if (serachParam.get("draft") == "true") {
-      docRef = doc(db, "drafts", serachParam.get("post"));
+      promise = getDraft(serachParam.get("post"));
     } else {
-      docRef = doc(db, "posts", serachParam.get("post"));
+      promise = getPost(serachParam.get("post"));
     }
-    getDoc(docRef).then((result) => {
+    promise.then((result) => {
       if (result.exists()) {
         setPost({ ...result.data(), id: result.id });
         if (editor) {
@@ -102,8 +102,6 @@ function EditPost(props) {
 
   async function submitPost(title, body, tags, category) {
     if (post.isDraft) {
-      const draftDocRef = doc(db, "drafts", post.id);
-
       const data = {
         body: body,
         tags: tags,
@@ -114,15 +112,13 @@ function EditPost(props) {
       };
 
       const titleId = idify(title);
-      const docRef = doc(db, "posts", titleId);
-      await setDoc(docRef, data).catch((err) => {
+      await createPost(titleId, data).catch((err) => {
         setError(err);
       });
 
-      await deleteDoc(draftDocRef);
+      await deleteDraft(post.id);
     } else {
-      const documentRef = doc(db, "posts", post.id);
-      await updateDoc(documentRef, {
+      await updatePost(post.id, {
         body: body,
         tags: tags,
         title: title,
@@ -135,8 +131,7 @@ function EditPost(props) {
   }
   async function submitDraft(title, body, tags, category) {
     if (post.isDraft) {
-      const documentRef = doc(db, "drafts", post.id);
-      await updateDoc(documentRef, {
+      await updateDraft(post.id, {
         body: body,
         tags: tags,
         title: title,
@@ -146,7 +141,6 @@ function EditPost(props) {
         setError(err);
       });
     } else {
-      const postDocRef = doc(db, "posts", post.id);
       const data = {
         body: body,
         tags: tags,
@@ -158,11 +152,10 @@ function EditPost(props) {
       };
 
       const titleId = idify(title);
-      const docRef = doc(db, "drafts", titleId);
-      await setDoc(docRef, data).catch((err) => {
+      await createDraft(titleId, data).catch((err) => {
         setError(err);
       });
-      await deleteDoc(postDocRef);
+      await deletePost(post.id);
     }
   }
 
@@ -250,12 +243,10 @@ function EditPost(props) {
             return;
           }
           if (post.isDraft) {
-            let draftDocRef = doc(db, "drafts", post.id);
-            await deleteDoc(draftDocRef);
+            await deleteDraft(post.id);
             navigate("/drafts");
           } else {
-            let postDocRef = doc(db, "posts", post.id);
-            await deleteDoc(postDocRef);
+            await deletePost(post.id);
             navigate("/blog");
           }
         }}

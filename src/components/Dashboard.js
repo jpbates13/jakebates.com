@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Card, Button, Alert } from "react-bootstrap";
 import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
-import { doc, getDoc, updateDoc } from "firebase/firestore";
-import db from "../firebase";
+import { getBio, updateBio } from "../services/firestoreService";
 import EditProjects from "./EditProjects";
 import ResumeUpload from "./ResumeUpload";
 import Settings from "./Settings";
@@ -17,8 +16,7 @@ export default function Dashboard() {
   const [selectedComponent, setSelectedComponent] = useState("bio");
 
   useEffect(() => {
-    const docRef = doc(db, "content", "bio");
-    getDoc(docRef).then((result) => {
+    getBio().then((result) => {
       if (result.exists()) {
         setBio(result.data().content);
       } else {
@@ -28,10 +26,7 @@ export default function Dashboard() {
   }, []);
 
   async function submitBio() {
-    const documentRef = doc(db, "content", "bio");
-    await updateDoc(documentRef, {
-      content: bio,
-    }).catch((err) => {
+    await updateBio(bio).catch((err) => {
       console.log(err);
     });
     navigate("/");

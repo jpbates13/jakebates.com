@@ -9,8 +9,7 @@ import { Button } from "react-bootstrap";
 import { FaMoon, FaSun } from "react-icons/fa";
 import CookieConsent from "react-cookie-consent";
 import { Tooltip } from "@mui/material";
-import { doc, getDoc } from "firebase/firestore";
-import db from "../firebase";
+import { getResume as getResumeService, getBlogEnabled } from "../services/firestoreService";
 
 export default function PageLayout(props) {
   const currentYear = new Date().getFullYear();
@@ -19,8 +18,7 @@ export default function PageLayout(props) {
 
   function getResume() {
     //get resume from firebase
-    const docRef = doc(db, "resume", "resume");
-    getDoc(docRef).then((result) => {
+    getResumeService().then((result) => {
       if (result.exists()) {
         // openBase64PDFInNewTab(result.data().base64);
         downloadBase64PDF(result.data().base64);
@@ -34,8 +32,7 @@ export default function PageLayout(props) {
   //get the blog-enabled document from the content collection
   const [blogEnabled, setBlogEnabled] = useState(false);
   useEffect(() => {
-    const docRef = doc(db, "content", "blogEnabled");
-    getDoc(docRef).then((result) => {
+    getBlogEnabled().then((result) => {
       if (result.exists()) {
         setBlogEnabled(result.data().blogEnabled);
       } else {

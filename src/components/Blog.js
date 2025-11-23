@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { onSnapshot, collection } from "firebase/firestore";
+import { subscribeToPosts } from "../services/firestoreService";
 import { Link } from "react-router-dom";
-import db from "../firebase";
 import { useAuth } from "../contexts/AuthContext";
 import { Helmet } from "react-helmet";
 function Blog() {
@@ -15,7 +14,7 @@ function Blog() {
 
   useEffect(() => {
     setIsLoading(true);
-    onSnapshot(collection(db, "posts"), (snapshot) => {
+    const unsubscribe = subscribeToPosts((snapshot) => {
       setPosts(
         // we sort it so the most recent posts are on top
         snapshot.docs
@@ -29,6 +28,8 @@ function Blog() {
       }
       setIsLoading(false);
     });
+
+    return () => unsubscribe();
 
     // check query string for category
     const urlParams = new URLSearchParams(window.location.search);

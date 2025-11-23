@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { onSnapshot, collection } from "firebase/firestore";
+import { subscribeToDrafts } from "../services/firestoreService";
 import { Link } from "react-router-dom";
-import db from "../firebase";
 import { useAuth } from "../contexts/AuthContext";
 import { Helmet } from "react-helmet";
 function Drafts() {
@@ -15,7 +14,8 @@ function Drafts() {
 
   useEffect(() => {
     setIsLoading(true);
-    onSnapshot(collection(db, "drafts"), (snapshot) => {
+    setIsLoading(true);
+    const unsubscribe = subscribeToDrafts((snapshot) => {
       setPosts(
         // we sort it so the most recent posts are on top
         snapshot.docs
@@ -31,6 +31,7 @@ function Drafts() {
 
       setIsLoading(false);
     });
+    return () => unsubscribe();
     // check query string for category
     const urlParams = new URLSearchParams(window.location.search);
     const category = urlParams.get("category");
