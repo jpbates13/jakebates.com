@@ -1,11 +1,11 @@
 /* Basic editor styles */
 .ProseMirror {
-  > * + * {
-    margin-top: 0.75em;
-  }
-
   border: 1px solid #0d0d0d;
   padding: 20px;
+
+  >*+* {
+    margin-top: 0.75em;
+  }
 
   ul,
   ol {
