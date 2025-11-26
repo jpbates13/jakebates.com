@@ -78,12 +78,12 @@ export default function PageLayout(props) {
         This website uses cookies to improve user experience and analyze website
         traffic.
       </CookieConsent>
-      <div class="container page-content">
-        <div class="header page-header">
-          <div class="header-content">
+      <div className="container page-content">
+        <div className="header page-header">
+          <div className="header-content">
             <a href="/" style={{ textDecoration: "none" }}>
-              <div class="pageTitle">
-                <h1 class="pageTitleText">Jake Bates</h1>
+              <div className="pageTitle">
+                <h1 className="pageTitleText">Jake Bates</h1>
               </div>
             </a>
             {error && <p>error</p>}
@@ -92,11 +92,11 @@ export default function PageLayout(props) {
                 <Navbar
                   collapseOnSelect
                   expand="sm"
-                  class="navbar navbar-expand-lg"
+                  className="navbar navbar-expand-lg"
                 >
                   <Container>
                     <Navbar.Toggle
-                      class="navbar-toggler"
+                      className="navbar-toggler"
                       type="button"
                       data-toggle="collapse"
                       data-target="#navbarSupportedContent"
@@ -104,42 +104,42 @@ export default function PageLayout(props) {
                       aria-expanded="false"
                       aria-label="Toggle navigation"
                     >
-                      <span class="mobileMenuIcon navbar-toggler-icon"></span>
+                      <span className="mobileMenuIcon navbar-toggler-icon"></span>
                     </Navbar.Toggle>
 
                     <Navbar.Collapse
-                      class="collapse navbar-collapse"
+                      className="collapse navbar-collapse"
                       id="navbarSupportedContent"
                     >
-                      <Nav>
+                    <Nav className="align-items-baseline">
                         {currentUser &&
                           currentUser.email === "jpbates13@gmail.com" && (
                             <>
                               <Nav.Link
-                                class="nav-item active"
+                                className="nav-item active"
                                 href="/dashboard"
                               >
                                 <b>Dashboard</b>
                               </Nav.Link>
                               <Nav.Link
-                                class="nav-item active"
+                                className="nav-item active"
                                 href="/create-post"
                               >
                                 <b>Create Post</b>
                               </Nav.Link>
-                              <Nav.Link class="nav-item active" href="/drafts">
+                              <Nav.Link className="nav-item active" href="/drafts">
                                 <b>Drafts</b>
                               </Nav.Link>
                             </>
                           )}
                         <Nav.Link
-                          class="nav-item active"
+                          className="nav-item active"
                           href="/office-attendance"
                         >
                           <b>Office Attendance</b>
                         </Nav.Link>
                         <Nav.Link
-                          class="nav-item active"
+                          className="nav-item active"
                           onClick={handleLogout}
                         >
                           <b>Log Out</b>
@@ -150,15 +150,15 @@ export default function PageLayout(props) {
                 </Navbar>
               </div>
             )}
-            <div class="pageMenu">
+            <div className="pageMenu">
               <Navbar
                 collapseOnSelect
                 expand="sm"
-                class="navbar navbar-expand-lg navbar-light"
+                className="navbar navbar-expand-lg navbar-light"
               >
                 <Container>
                   <Navbar.Toggle
-                    class="navbar-toggler"
+                    className="navbar-toggler"
                     type="button"
                     data-toggle="collapse"
                     data-target="#navbarSupportedContent"
@@ -166,29 +166,29 @@ export default function PageLayout(props) {
                     aria-expanded="false"
                     aria-label="Toggle navigation"
                   >
-                    <span class="mobileMenuIcon navbar-toggler-icon"></span>
+                    <span className="mobileMenuIcon navbar-toggler-icon"></span>
                   </Navbar.Toggle>
 
                   <Navbar.Collapse
-                    class="collapse navbar-collapse"
+                    className="collapse navbar-collapse"
                     id="navbarSupportedContent"
                   >
-                    <Nav>
-                      <Nav.Link class="nav-item active" href="/">
+                    <Nav className="align-items-baseline">
+                      <Nav.Link className="nav-item active" href="/">
                         <b>Home</b>
                       </Nav.Link>
                       {/* Temporarily disabling blog until we have actual content */}
-                      {/* <Nav.Link class="nav-item active" href="/blog">
+                      {/* <Nav.Link className="nav-item active" href="/blog">
                         <b>Blog</b>
                       </Nav.Link> */}
-                      <Nav.Link class="nav-item active" href="/projects">
+                      <Nav.Link className="nav-item active" href="/projects">
                         <b>Projects</b>
                       </Nav.Link>
-                      <Nav.Link class="nav-item active" onClick={getResume}>
+                      <Nav.Link className="nav-item active" onClick={getResume}>
                         <b>Resume</b>
                       </Nav.Link>
                       {blogEnabled && (
-                        <Nav.Link class="nav-item active" href="/blog">
+                        <Nav.Link className="nav-item active" href="/blog">
                           <b>Blog</b>
                         </Nav.Link>
                       )}
@@ -204,24 +204,24 @@ export default function PageLayout(props) {
             </div>
           </div>
         </div>
-        <div class="current-content">{props.children}</div>
+        <div className="current-content">{props.children}</div>
       </div>
-      <footer class="footer page-footer text-center block third">
+      <footer className="footer page-footer text-center block third">
         <br />
-        <div class="social-icon-set">
-          <div class="social-icon">
+        <div className="social-icon-set">
+          <div className="social-icon">
             <a href="https://www.linkedin.com/in/joshua-jake-bates/">
               <img
-                class={props.theme === "dark" ? "social-svg-lighter" : ""}
+                className={props.theme === "dark" ? "social-svg-lighter" : ""}
                 alt=""
                 src={LinkedIn}
               />
             </a>
           </div>
-          <div class="social-icon">
+          <div className="social-icon">
             <a href="https://github.com/jpbates13">
               <img
-                class={props.theme === "dark" ? "social-svg-lighter" : ""}
+                className={props.theme === "dark" ? "social-svg-lighter" : ""}
                 alt=""
                 src={Github}
               />
