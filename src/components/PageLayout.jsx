@@ -80,7 +80,7 @@ export default function PageLayout(props) {
       </CookieConsent>
       <div className="container page-content">
         <div className="header page-header">
-          <div className="header-content">
+          <div className="header-content baseline">
             <a href="/" style={{ textDecoration: "none" }}>
               <div className="pageTitle">
                 <h1 className="pageTitleText">Jake Bates</h1>

@@ -203,7 +203,7 @@ function OfficeAttendance() {
               </p>
             </td>
             <td>
-              <div>
+              <div className="baseline">
                 {week.dates.map((i) => (
                   <Tooltip title={i} arrow>
                     <img

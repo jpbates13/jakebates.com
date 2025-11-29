@@ -9,6 +9,11 @@
   font-size: 2.5rem;
 }
 
+.baseline {
+  display: flex;
+  align-items: baseline;
+}
+
 .nav-link {
   position: relative;
   text-decoration: none;
@@ -143,6 +148,8 @@ pre {
   display: flex;
   justify-content: space-between;
 }
+
+
 
 .page-content {
   min-height: 85vh;
