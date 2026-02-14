@@ -19,6 +19,8 @@ import styled, { ThemeProvider } from "styled-components";
 import { lightTheme, darkTheme, GlobalStyles } from "../themes";
 import OfficeAttendance from "./OfficeAttendance";
 
+const StyledApp = styled.div``;
+
 function App() {
   const [theme, setTheme] = useState(() => {
     // getting stored value
@@ -45,7 +47,6 @@ function App() {
     }
   };
 
-  const StyledApp = styled.div``;
   return (
     <Router>
       <AuthProvider>
