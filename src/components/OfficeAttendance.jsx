@@ -395,30 +395,12 @@ function OfficeAttendance() {
     <Container>
       <Header>
         <Title>Office Attendance</Title>
+
         <StatusBadge $compliant={complianceStats.isCompliant}>
           {complianceStats.isCompliant ? <FaCheckCircle /> : <FaTimesCircle />}
           {complianceStats.status}
         </StatusBadge>
       </Header>
-
-      <StatsGrid>
-        <StatCard>
-          <StatLabel>8-Week Compliance</StatLabel>
-          <StatValue>{complianceStats.weeksCompliant} / 8</StatValue>
-          <StatSub>Weeks with 2+ days</StatSub>
-        </StatCard>
-        <StatCard>
-          <StatLabel>Total Days Logged</StatLabel>
-          <StatValue>{timestamps.length}</StatValue>
-          <StatSub>All time</StatSub>
-        </StatCard>
-        <StatCard>
-          <StatLabel>This Week</StatLabel>
-          <StatValue>{weeks[0]?.present || 0}</StatValue>
-          <StatSub>Days logged so far</StatSub>
-        </StatCard>
-      </StatsGrid>
-
       <ActionSection>
         <ActionTitle>Log Your Attendance</ActionTitle>
         <ButtonGroup>
@@ -452,6 +434,24 @@ function OfficeAttendance() {
           </SecondaryAction>
         </ButtonGroup>
       </ActionSection>
+
+      <StatsGrid>
+        <StatCard>
+          <StatLabel>8-Week Compliance</StatLabel>
+          <StatValue>{complianceStats.weeksCompliant} / 8</StatValue>
+          <StatSub>Weeks with 2+ days</StatSub>
+        </StatCard>
+        <StatCard>
+          <StatLabel>Total Days Logged</StatLabel>
+          <StatValue>{timestamps.length}</StatValue>
+          <StatSub>All time</StatSub>
+        </StatCard>
+        <StatCard>
+          <StatLabel>This Week</StatLabel>
+          <StatValue>{weeks[0]?.present || 0}</StatValue>
+          <StatSub>Days logged so far</StatSub>
+        </StatCard>
+      </StatsGrid>
 
       <Header>
         <Title as="h2" style={{ fontSize: "1.5rem" }}>
