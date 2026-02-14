@@ -24,6 +24,11 @@ export default function Post(props) {
     <div>
       <Helmet>
         <title>{post.title} | JakeBates.com</title>
+        <meta property="og:title" content={post.title} />
+        <meta property="og:description" content={post.summary || "A blog post by Jake Bates"} />
+        <meta property="og:image" content={post.imageUrl || "https://jakebates.com/logo512.png"} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="description" content={post.summary || "A blog post by Jake Bates"} />
       </Helmet>
       <div key={post.id} style={{ paddingBottom: "50px" }}>
         <div style={{ lineHeight: "1%" }}>
