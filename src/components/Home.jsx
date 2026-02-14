@@ -120,12 +120,13 @@ const Greeting = styled.h1`
   }
 `;
 
-const BioText = styled.p`
+const BioText = styled(motion.div)`
   font-size: 1.1rem;
   line-height: 1.6;
   color: ${(props) => props.theme.fontColor};
   margin: 0;
   max-width: 600px;
+  overflow: hidden;
 `;
 
 const LinkGroup = styled.div`
@@ -267,18 +268,6 @@ export default function Home() {
     window.open(url, "_blank");
   }
 
-  const getTruncatedBio = (text) => {
-    if (!text) return "";
-    const firstPeriodIndex = text.indexOf(". ");
-    if (firstPeriodIndex !== -1) {
-      return text.substring(0, firstPeriodIndex + 1);
-    }
-    return text;
-  };
-
-  const displayBio = isExpanded ? bio : getTruncatedBio(bio);
-  const showButton = bio && bio !== getTruncatedBio(bio);
-
   const ReadMoreButton = styled.span`
     color: ${(props) => props.theme.linkColor};
     font-weight: bold;
@@ -313,7 +302,7 @@ export default function Home() {
           <Greeting>
             Hello! I'm{" "}
             <Tooltip
-              title="My legal name is Joshua, but everyone calls me Jake!"
+              title="Legally Joshua, colloquially Jake"
               arrow
               placement="top"
             >
@@ -324,16 +313,28 @@ export default function Home() {
             <BlinkingCursor $visible={showCursor} />.
           </Greeting>
 
-          <BioText>
-            {displayBio || "Loading bio..."}
-            {showButton && !isExpanded && (
-              <ReadMoreButton onClick={() => setIsExpanded(true)}>
-                Read more
-              </ReadMoreButton>
-            )}
-            {showButton && isExpanded && (
-              <ReadMoreButton onClick={() => setIsExpanded(false)}>
-                Show less
+          <BioText layout>
+            <span
+              dangerouslySetInnerHTML={{
+                __html: isExpanded
+                  ? bio
+                  : (() => {
+                      // Find first period followed by space outside of tags
+                      let inTag = false;
+                      for (let i = 0; i < bio.length; i++) {
+                        if (bio[i] === "<") inTag = true;
+                        if (bio[i] === ">") inTag = false;
+                        if (!inTag && bio[i] === "." && bio[i + 1] === " ") {
+                          return bio.substring(0, i + 1);
+                        }
+                      }
+                      return bio;
+                    })(),
+              }}
+            />
+            {bio && bio !== bio.substring(0, bio.indexOf(". ") + 1) && (
+              <ReadMoreButton onClick={() => setIsExpanded(!isExpanded)}>
+                {isExpanded ? "Show less" : "Read more"}
               </ReadMoreButton>
             )}
           </BioText>
