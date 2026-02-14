@@ -4,7 +4,37 @@ import { motion } from "framer-motion";
 import { FaGithub, FaFileDownload } from "react-icons/fa";
 import { Helmet } from "react-helmet";
 import Headshot from "../images/headshot.png";
-import { getResume as getResumeService, getBio } from "../services/firestoreService";
+import {
+  getResume as getResumeService,
+  getBio,
+} from "../services/firestoreService";
+
+import { Tooltip } from "@mui/material";
+
+const BlinkingCursor = styled.span`
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  background-color: ${(props) => props.theme.titleColor};
+  margin-left: 2px;
+  animation: ${(props) =>
+    props.$visible ? "blink 1s step-end infinite" : "none"};
+  opacity: ${(props) => (props.$visible ? 1 : 0)};
+  transition: opacity 1s ease-out;
+  vertical-align: middle;
+  position: relative;
+  top: -0.1em;
+
+  @keyframes blink {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0;
+    }
+  }
+`;
 
 const HomeContainer = styled.div`
   min-height: 80vh;
@@ -35,7 +65,7 @@ const ImageSection = styled(motion.div)`
   display: flex;
   justify-content: center;
   align-items: center;
-  
+
   img {
     width: 280px;
     height: 280px;
@@ -54,8 +84,8 @@ const ImageSection = styled(motion.div)`
       height: 350px;
     }
     @media (min-width: 992px) {
-        width: 400px;
-        height: 400px;
+      width: 400px;
+      height: 400px;
     }
   }
 `;
@@ -80,7 +110,7 @@ const Greeting = styled.h1`
   font-weight: 800;
   color: ${(props) => props.theme.titleColor};
   margin: 0;
-  
+
   span {
     color: ${(props) => props.theme.linkColor};
   }
@@ -105,7 +135,7 @@ const LinkGroup = styled.div`
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  
+
   @media (min-width: 992px) {
     justify-content: flex-start;
   }
@@ -127,7 +157,7 @@ const StyledButton = styled(motion.a)`
   min-width: 160px;
   height: 50px;
   margin: 0 !important;
-  
+
   &:hover {
     background: ${(props) => props.theme.linkColor};
     color: ${(props) => props.theme.buttonFontColor || "#fff"};
@@ -138,6 +168,67 @@ const StyledButton = styled(motion.a)`
 export default function Home() {
   const [bio, setBio] = useState("");
   const [isExpanded, setIsExpanded] = useState(false);
+  const [typedName, setTypedName] = useState("");
+  const [showCursor, setShowCursor] = useState(true);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const runAnimation = async () => {
+      const startDelay = 1200; // Wait for entrance animations
+      const typeDelay = 100;
+      const backspaceDelay = 100;
+      const pauseDelay = 1500;
+      const cursorFadeDelay = 2500;
+
+      // Initial Delay
+      await new Promise((r) => setTimeout(r, startDelay));
+      if (!isMounted) return;
+
+      const type = async (text) => {
+        for (let i = 0; i <= text.length; i++) {
+          if (!isMounted) return;
+          setTypedName(text.substring(0, i));
+          await new Promise((r) => setTimeout(r, typeDelay));
+        }
+      };
+
+      const backspace = async (current) => {
+        for (let i = current.length; i >= 0; i--) {
+          if (!isMounted) return;
+          setTypedName(current.substring(0, i));
+          await new Promise((r) => setTimeout(r, backspaceDelay));
+        }
+      };
+
+      // 1. Type Joshua
+      await type("Joshua");
+      if (!isMounted) return;
+
+      // 2. Wait
+      await new Promise((r) => setTimeout(r, pauseDelay));
+      if (!isMounted) return;
+
+      // 3. Backspace Joshua
+      await backspace("Joshua");
+      if (!isMounted) return;
+
+      // 4. Type Jake
+      await type("Jake");
+      if (!isMounted) return;
+
+      // 5. Wait then fade cursor
+      await new Promise((r) => setTimeout(r, cursorFadeDelay));
+      if (!isMounted) return;
+      setShowCursor(false);
+    };
+
+    runAnimation();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   useEffect(() => {
     getBio().then((result) => {
@@ -173,12 +264,12 @@ export default function Home() {
     link.download = "resume.pdf";
     link.href = url;
     link.click();
-    window.open(url, '_blank');
+    window.open(url, "_blank");
   }
 
   const getTruncatedBio = (text) => {
     if (!text) return "";
-    const firstPeriodIndex = text.indexOf('. ');
+    const firstPeriodIndex = text.indexOf(". ");
     if (firstPeriodIndex !== -1) {
       return text.substring(0, firstPeriodIndex + 1);
     }
@@ -193,7 +284,7 @@ export default function Home() {
     font-weight: bold;
     cursor: pointer;
     margin-left: 5px;
-    
+
     &:hover {
       text-decoration: underline;
     }
@@ -204,7 +295,7 @@ export default function Home() {
       <Helmet>
         <title>JakeBates.com | Home</title>
       </Helmet>
-      
+
       <ContentWrapper>
         <ImageSection
           initial={{ opacity: 0, x: -50 }}
@@ -220,9 +311,19 @@ export default function Home() {
           transition={{ duration: 0.8, delay: 0.2 }}
         >
           <Greeting>
-            Hello! I'm <span>Jake</span>.
+            Hello! I'm{" "}
+            <Tooltip
+              title="My legal name is Joshua, but everyone calls me Jake!"
+              arrow
+              placement="top"
+            >
+              <span style={{ cursor: "help", borderBottom: "1px dotted" }}>
+                {typedName}
+              </span>
+            </Tooltip>
+            <BlinkingCursor $visible={showCursor} />.
           </Greeting>
-          
+
           <BioText>
             {displayBio || "Loading bio..."}
             {showButton && !isExpanded && (
@@ -230,7 +331,7 @@ export default function Home() {
                 Read more
               </ReadMoreButton>
             )}
-             {showButton && isExpanded && (
+            {showButton && isExpanded && (
               <ReadMoreButton onClick={() => setIsExpanded(false)}>
                 Show less
               </ReadMoreButton>
@@ -246,7 +347,7 @@ export default function Home() {
             >
               <FaFileDownload /> Resume
             </StyledButton>
-            
+
             <StyledButton
               href="/projects"
               whileHover={{ scale: 1.05 }}
