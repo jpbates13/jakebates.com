@@ -9,7 +9,7 @@ import Dashboard from "./Dashboard";
 import PrivateRoute from "./PrivateRoute";
 import Blog from "./Blog";
 import Post from "./Post";
-import CreatePost from "./CreatePost";
+// import CreatePost from "./CreatePost";
 import PageLayout from "./PageLayout";
 import EditPost from "./EditPost";
 import Projects from "./ProjectSlider/Projects";
@@ -85,7 +85,7 @@ function App() {
                     path="/create-post"
                     element={
                       <PrivateRoute adminOnly={true}>
-                        <CreatePost />
+                        <EditPost />
                       </PrivateRoute>
                     }
                   />

@@ -1,5 +1,79 @@
 import React from "react";
-import "../../styles/EditorStyles.scss";
+import styled from "styled-components";
+import {
+  FaBold,
+  FaItalic,
+  FaStrikethrough,
+  FaCode,
+  FaParagraph,
+  FaHeading,
+  FaListUl,
+  FaListOl,
+  FaQuoteRight,
+  FaUndo,
+  FaRedo,
+  FaImage,
+  FaLink,
+  FaUnlink,
+  FaMinus,
+  FaEraser,
+  FaCodeBranch,
+} from "react-icons/fa";
+
+const MenuBarContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  background: ${(props) => props.theme.body + "cc"};
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid ${(props) => props.theme.fontColor}1a;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  border-radius: 12px 12px 0 0;
+`;
+
+const MenuButton = styled.button`
+  background: ${(props) =>
+    props.isActive ? props.theme.linkColor : "transparent"};
+  color: ${(props) => (props.isActive ? "#fff" : props.theme.fontColor)};
+  border: 1px solid
+    ${(props) =>
+      props.isActive ? props.theme.linkColor : props.theme.fontColor + "33"};
+  border-radius: 6px;
+  padding: 0.4rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  min-width: 32px;
+  height: 32px;
+
+  &:hover {
+    background: ${(props) =>
+      props.isActive ? props.theme.linkColor : props.theme.fontColor + "1a"};
+    transform: translateY(-1px);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    &:hover {
+      transform: none;
+      background: transparent;
+    }
+  }
+`;
+
+const Divider = styled.div`
+  width: 1px;
+  background: ${(props) => props.theme.fontColor}33;
+  margin: 0 0.5rem;
+  height: 24px;
+  align-self: center;
+`;
 
 export default function MenuBar({ editor }) {
   if (!editor) {
@@ -12,145 +86,160 @@ export default function MenuBar({ editor }) {
       editor.chain().focus().setImage({ src: url }).run();
     }
   }
-  function setLink(editor) {
+
+  function setLink() {
     const previousUrl = editor.getAttributes("link").href;
     const url = window.prompt("URL", previousUrl);
 
-    // cancelled
-    if (url === null) {
-      return;
-    }
+    if (url === null) return;
 
-    // empty
     if (url === "") {
       editor.chain().focus().extendMarkRange("link").unsetLink().run();
-
       return;
     }
 
-    // update link
     editor.chain().focus().extendMarkRange("link").setLink({ href: url }).run();
   }
 
   return (
-    <>
-      <button
+    <MenuBarContainer>
+      <MenuButton
         onClick={() => editor.chain().focus().toggleBold().run()}
-        className={editor.isActive("bold") ? "is-active" : ""}
+        isActive={editor.isActive("bold")}
+        title="Bold"
       >
-        bold
-      </button>
-      <button
+        <FaBold />
+      </MenuButton>
+      <MenuButton
         onClick={() => editor.chain().focus().toggleItalic().run()}
-        className={editor.isActive("italic") ? "is-active" : ""}
+        isActive={editor.isActive("italic")}
+        title="Italic"
       >
-        italic
-      </button>
-      <button
+        <FaItalic />
+      </MenuButton>
+      <MenuButton
         onClick={() => editor.chain().focus().toggleStrike().run()}
-        className={editor.isActive("strike") ? "is-active" : ""}
+        isActive={editor.isActive("strike")}
+        title="Strikethrough"
       >
-        strike
-      </button>
-      <button
+        <FaStrikethrough />
+      </MenuButton>
+      <MenuButton
         onClick={() => editor.chain().focus().toggleCode().run()}
-        className={editor.isActive("code") ? "is-active" : ""}
+        isActive={editor.isActive("code")}
+        title="Inline Code"
       >
-        code
-      </button>
-      <button onClick={() => editor.chain().focus().unsetAllMarks().run()}>
-        clear marks
-      </button>
-      <button onClick={() => editor.chain().focus().clearNodes().run()}>
-        clear nodes
-      </button>
-      <button
+        <FaCode />
+      </MenuButton>
+
+      <Divider />
+
+      <MenuButton
         onClick={() => editor.chain().focus().setParagraph().run()}
-        className={editor.isActive("paragraph") ? "is-active" : ""}
+        isActive={editor.isActive("paragraph")}
+        title="Paragraph"
       >
-        paragraph
-      </button>
-      <button
+        <FaParagraph />
+      </MenuButton>
+      <MenuButton
         onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
-        className={editor.isActive("heading", { level: 1 }) ? "is-active" : ""}
+        isActive={editor.isActive("heading", { level: 1 })}
+        title="Heading 1"
       >
-        h1
-      </button>
-      <button
+        H1
+      </MenuButton>
+      <MenuButton
         onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-        className={editor.isActive("heading", { level: 2 }) ? "is-active" : ""}
+        isActive={editor.isActive("heading", { level: 2 })}
+        title="Heading 2"
       >
-        h2
-      </button>
-      <button
+        H2
+      </MenuButton>
+      <MenuButton
         onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
-        className={editor.isActive("heading", { level: 3 }) ? "is-active" : ""}
+        isActive={editor.isActive("heading", { level: 3 })}
+        title="Heading 3"
       >
-        h3
-      </button>
-      <button
-        onClick={() => editor.chain().focus().toggleHeading({ level: 4 }).run()}
-        className={editor.isActive("heading", { level: 4 }) ? "is-active" : ""}
-      >
-        h4
-      </button>
-      <button
-        onClick={() => editor.chain().focus().toggleHeading({ level: 5 }).run()}
-        className={editor.isActive("heading", { level: 5 }) ? "is-active" : ""}
-      >
-        h5
-      </button>
-      <button
-        onClick={() => editor.chain().focus().toggleHeading({ level: 6 }).run()}
-        className={editor.isActive("heading", { level: 6 }) ? "is-active" : ""}
-      >
-        h6
-      </button>
-      <button
+        H3
+      </MenuButton>
+
+      <Divider />
+
+      <MenuButton
         onClick={() => editor.chain().focus().toggleBulletList().run()}
-        className={editor.isActive("bulletList") ? "is-active" : ""}
+        isActive={editor.isActive("bulletList")}
+        title="Bullet List"
       >
-        bullet list
-      </button>
-      <button
+        <FaListUl />
+      </MenuButton>
+      <MenuButton
         onClick={() => editor.chain().focus().toggleOrderedList().run()}
-        className={editor.isActive("orderedList") ? "is-active" : ""}
+        isActive={editor.isActive("orderedList")}
+        title="Ordered List"
       >
-        ordered list
-      </button>
-      <button
+        <FaListOl />
+      </MenuButton>
+      <MenuButton
         onClick={() => editor.chain().focus().toggleCodeBlock().run()}
-        className={editor.isActive("codeBlock") ? "is-active" : ""}
+        isActive={editor.isActive("codeBlock")}
+        title="Code Block"
       >
-        code block
-      </button>
-      <button
+        <FaCodeBranch />
+      </MenuButton>
+      <MenuButton
         onClick={() => editor.chain().focus().toggleBlockquote().run()}
-        className={editor.isActive("blockquote") ? "is-active" : ""}
+        isActive={editor.isActive("blockquote")}
+        title="Blockquote"
       >
-        blockquote
-      </button>
-      <button onClick={() => editor.chain().focus().setHorizontalRule().run()}>
-        horizontal rule
-      </button>
-      <button onClick={() => editor.chain().focus().setHardBreak().run()}>
-        hard break
-      </button>
-      <button onClick={addImage}>add image</button>
-      <button
-        onClick={() => setLink(editor)}
-        className={editor.isActive("link") ? "is-active" : ""}
+        <FaQuoteRight />
+      </MenuButton>
+
+      <Divider />
+
+      <MenuButton
+        onClick={() => editor.chain().focus().setHorizontalRule().run()}
+        title="Horizontal Rule"
       >
-        setLink
-      </button>
-      <button
+        <FaMinus />
+      </MenuButton>
+      <MenuButton onClick={addImage} title="Add Image">
+        <FaImage />
+      </MenuButton>
+      <MenuButton
+        onClick={setLink}
+        isActive={editor.isActive("link")}
+        title="Set Link"
+      >
+        <FaLink />
+      </MenuButton>
+      <MenuButton
         onClick={() => editor.chain().focus().unsetLink().run()}
         disabled={!editor.isActive("link")}
+        title="Unlink"
       >
-        unsetLink
-      </button>
-      <button onClick={() => editor.chain().focus().undo().run()}>undo</button>
-      <button onClick={() => editor.chain().focus().redo().run()}>redo</button>
-    </>
+        <FaUnlink />
+      </MenuButton>
+
+      <Divider />
+
+      <MenuButton
+        onClick={() => editor.chain().focus().unsetAllMarks().run()}
+        title="Clear Marks"
+      >
+        <FaEraser />
+      </MenuButton>
+      <MenuButton
+        onClick={() => editor.chain().focus().undo().run()}
+        title="Undo"
+      >
+        <FaUndo />
+      </MenuButton>
+      <MenuButton
+        onClick={() => editor.chain().focus().redo().run()}
+        title="Redo"
+      >
+        <FaRedo />
+      </MenuButton>
+    </MenuBarContainer>
   );
 }
