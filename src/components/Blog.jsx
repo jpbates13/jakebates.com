@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { subscribeToPosts } from "../services/firestoreService";
+import {
+  subscribeToPosts,
+  subscribeToDrafts,
+} from "../services/firestoreService";
 import { Link } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { Helmet } from "react-helmet";
@@ -95,7 +98,7 @@ const BackLink = styled(Link)`
   }
 `;
 
-function Blog() {
+function Blog({ isDrafts = false }) {
   const { currentUser } = useAuth();
   const [posts, setPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -106,7 +109,8 @@ function Blog() {
 
   useEffect(() => {
     setIsLoading(true);
-    const unsubscribe = subscribeToPosts((snapshot) => {
+    const subscribe = isDrafts ? subscribeToDrafts : subscribeToPosts;
+    const unsubscribe = subscribe((snapshot) => {
       setPosts(
         // we sort it so the most recent posts are on top
         snapshot.docs
@@ -181,7 +185,7 @@ function Blog() {
   return (
     <PageContainer>
       <Helmet>
-        <title>JakeBates.com | Blog</title>
+        <title>JakeBates.com | {isDrafts ? "Drafts" : "Blog"}</title>
       </Helmet>
 
       {selectedCategory && (
@@ -227,7 +231,9 @@ function Blog() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                 >
-                  <CardTitle to={"/post?post=" + post.id}>
+                  <CardTitle
+                    to={(isDrafts ? "/preview?post=" : "/post?post=") + post.id}
+                  >
                     {post.title}
                   </CardTitle>
                   <CardDate>{post.date?.toDate().toDateString()}</CardDate>
@@ -235,7 +241,7 @@ function Blog() {
                     <Link
                       style={{ marginTop: "1rem", fontSize: "0.8rem" }}
                       state={{ post: post }}
-                      to={"/edit?post=" + post.id + "&draft=false"}
+                      to={"/edit?post=" + post.id + "&draft=" + isDrafts}
                     >
                       Edit
                     </Link>

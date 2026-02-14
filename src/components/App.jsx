@@ -13,8 +13,8 @@ import CreatePost from "./CreatePost";
 import PageLayout from "./PageLayout";
 import EditPost from "./EditPost";
 import Projects from "./ProjectSlider/Projects";
-import Drafts from "./Drafts";
-import Preview from "./Preview";
+
+// import Preview from "./Preview";
 import styled, { ThemeProvider } from "styled-components";
 import { lightTheme, darkTheme, GlobalStyles } from "../themes";
 import OfficeAttendance from "./OfficeAttendance";
@@ -101,7 +101,7 @@ function App() {
                     path="/drafts"
                     element={
                       <PrivateRoute adminOnly={true}>
-                        <Drafts />
+                        <Blog isDrafts={true} />
                       </PrivateRoute>
                     }
                   />
@@ -109,7 +109,7 @@ function App() {
                     path="/preview"
                     element={
                       <PrivateRoute adminOnly={true}>
-                        <Preview />
+                        <Post isDraft={true} />
                       </PrivateRoute>
                     }
                   />

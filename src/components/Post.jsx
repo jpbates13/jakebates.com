@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { getPost } from "../services/firestoreService";
+import { getPost, getDraft } from "../services/firestoreService";
 import { useSearchParams } from "react-router-dom";
-import DOMPurify from "dompurify";
 import { Helmet } from "react-helmet";
 import PostDisplay from "./PostDisplay";
 
-export default function Post(props) {
+export default function Post({ isDraft = false }) {
   const [post, setPost] = useState(null);
   const [loading, setLoading] = useState(true);
   const [searchParam] = useSearchParams();
@@ -14,7 +13,8 @@ export default function Post(props) {
   useEffect(() => {
     if (postId) {
       setLoading(true);
-      getPost(postId).then((result) => {
+      const fetchPost = isDraft ? getDraft : getPost;
+      fetchPost(postId).then((result) => {
         if (result.exists()) {
           setPost(result.data());
         } else {
@@ -23,13 +23,16 @@ export default function Post(props) {
         setLoading(false);
       });
     }
-  }, [postId]);
+  }, [postId, isDraft]);
 
   return (
     <div>
       {post && (
         <Helmet>
-          <title>{post.title} | JakeBates.com</title>
+          <title>
+            {isDraft ? "Previewing " : ""}
+            {post.title} | JakeBates.com
+          </title>
           <meta property="og:title" content={post.title} />
           <meta
             property="og:description"
@@ -49,8 +52,8 @@ export default function Post(props) {
       <PostDisplay
         post={post}
         loading={loading}
-        backTo="/blog"
-        backText="Back to Blog"
+        backTo={isDraft ? "/drafts" : "/blog"}
+        backText={isDraft ? "Back to Drafts" : "Back to Blog"}
       />
     </div>
   );
