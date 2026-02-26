@@ -1,6 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
 import {
-  signup as authServiceSignup,
   login as authServiceLogin,
   logout as authServiceLogout,
   subscribeToAuthChanges,
@@ -24,10 +23,6 @@ export function AuthProvider({ children }) {
     return unsubscribe;
   }, []);
 
-  function signup(email, password, fullName) {
-    return authServiceSignup(email, password, fullName);
-  }
-
   function login(email, password) {
     return authServiceLogin(email, password);
   }
@@ -36,7 +31,7 @@ export function AuthProvider({ children }) {
     return authServiceLogout();
   }
 
-  const value = { currentUser, signup, login, logout };
+  const value = { currentUser, login, logout };
 
   return (
     <AuthContext.Provider value={value}>

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { flushSync } from "react-dom";
-import Signup from "./Signup";
 import Login from "./Login";
 import Home from "./Home";
 import { Container } from "react-bootstrap";
@@ -109,15 +108,6 @@ function App() {
                   <Route
                     path="/projects"
                     element={<Projects theme={theme} />}
-                  />
-                  <Route
-                    path="/signup"
-                    element={
-                      // Private Route for now because we don't want people signing up
-                      <PrivateRoute adminOnly={true}>
-                        <Signup />
-                      </PrivateRoute>
-                    }
                   />
                   <Route
                     path="/dashboard"

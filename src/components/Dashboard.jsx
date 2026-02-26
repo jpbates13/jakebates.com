@@ -6,13 +6,11 @@ import { getBio, updateBio } from "../services/firestoreService";
 import EditProjects from "./EditProjects";
 import ResumeUpload from "./ResumeUpload";
 import Settings from "./Settings";
-import Signup from "./Signup";
 import {
   FaUser,
   FaProjectDiagram,
   FaFileAlt,
   FaCog,
-  FaUserPlus,
   FaSignOutAlt,
   FaBars,
   FaTimes,
@@ -229,7 +227,6 @@ export default function Dashboard() {
     { id: "projects", label: "Projects", icon: <FaProjectDiagram /> },
     { id: "resume", label: "Resume", icon: <FaFileAlt /> },
     { id: "settings", label: "Settings", icon: <FaCog /> },
-    { id: "createUser", label: "Create User", icon: <FaUserPlus /> },
   ];
 
   const renderContent = () => {
@@ -285,16 +282,6 @@ export default function Dashboard() {
               <Subtitle>Configure global application settings</Subtitle>
             </ContentHeader>
             <Settings />
-          </>
-        );
-      case "createUser":
-        return (
-          <>
-            <ContentHeader>
-              <Title>Create User</Title>
-              <Subtitle>Add a new administrator account</Subtitle>
-            </ContentHeader>
-            <Signup noRedirect={true} />
           </>
         );
       default:
