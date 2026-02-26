@@ -319,3 +319,9 @@ hr {
 .projects {
   padding-top: 20px;
 }
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { flushSync } from "react-dom";
 import Signup from "./Signup";
 import Login from "./Login";
 import Home from "./Home";
@@ -37,14 +38,59 @@ function App() {
     return saved || "dark";
   });
 
-  const themeToggler = () => {
-    if (theme === "light") {
-      setTheme("dark");
-      localStorage.setItem("theme", "dark");
-    } else {
-      setTheme("light");
-      localStorage.setItem("theme", "light");
+  const themeToggler = (e) => {
+    // Fallback if browser doesn't support View Transitions
+    if (!document.startViewTransition) {
+      if (theme === "light") {
+        setTheme("dark");
+        localStorage.setItem("theme", "dark");
+      } else {
+        setTheme("light");
+        localStorage.setItem("theme", "light");
+      }
+      return;
     }
+
+    // Get the click position, or fall back to the center of the screen
+    const x = e?.clientX ?? window.innerWidth / 2;
+    const y = e?.clientY ?? window.innerHeight / 2;
+
+    // Calculate the distance to the furthest corner
+    const endRadius = Math.hypot(
+      Math.max(x, window.innerWidth - x),
+      Math.max(y, window.innerHeight - y),
+    );
+
+    const transition = document.startViewTransition(() => {
+      flushSync(() => {
+        if (theme === "light") {
+          setTheme("dark");
+          localStorage.setItem("theme", "dark");
+        } else {
+          setTheme("light");
+          localStorage.setItem("theme", "light");
+        }
+      });
+    });
+
+    // Wait for the pseudo-elements to be created so we can animate them
+    transition.ready.then(() => {
+      // Animate the root's new view
+      document.documentElement.animate(
+        {
+          clipPath: [
+            `circle(0px at ${x}px ${y}px)`,
+            `circle(${endRadius}px at ${x}px ${y}px)`,
+          ],
+        },
+        {
+          duration: 500,
+          easing: "ease-in",
+          // Specify which pseudo-element to animate
+          pseudoElement: "::view-transition-new(root)",
+        },
+      );
+    });
   };
 
   return (

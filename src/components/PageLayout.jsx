@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import "../styles/App.scss";
 import {
   FaMoon,
@@ -7,6 +7,8 @@ import {
   FaTimes,
   FaGithub,
   FaLinkedin,
+  FaUserCircle,
+  FaCaretDown,
 } from "react-icons/fa";
 import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
@@ -151,6 +153,14 @@ const MobileNavLink = styled(NavLink)`
   font-size: 1.5rem;
 `;
 
+const MobileDivider = styled.div`
+  width: 60px;
+  height: 2px;
+  background-color: ${(props) => props.theme.fontColor};
+  opacity: 0.2;
+  margin: 0.5rem 0;
+`;
+
 const FooterContainer = styled.footer`
   width: 100%;
   padding: 3rem 0;
@@ -211,13 +221,98 @@ const Copyright = styled.p`
   }
 `;
 
+const DropdownContainer = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+`;
+
+const DropdownButton = styled.button`
+  background: none;
+  border: none;
+  color: ${(props) => props.theme.fontColor};
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: ${(props) => props.theme.linkColor + "20"};
+    color: ${(props) => props.theme.linkColor};
+  }
+`;
+
+const DropdownMenu = styled.div`
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 0.5rem;
+  background: ${(props) => props.theme.body};
+  border: 1px solid ${(props) => props.theme.fontColor}1a;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  padding: 0.5rem;
+  min-width: 220px;
+  opacity: ${(props) => (props.isOpen ? 1 : 0)};
+  visibility: ${(props) => (props.isOpen ? "visible" : "hidden")};
+  transform: translateY(${(props) => (props.isOpen ? "0" : "-10px")});
+  transition: all 0.2s ease;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+`;
+
+const DropdownItem = styled.a`
+  display: block;
+  padding: 0.75rem 1rem;
+  color: ${(props) => props.theme.fontColor};
+  text-decoration: none;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  font-size: 0.95rem;
+  cursor: pointer;
+  margin-top: 0 !important;
+  text-align: left;
+
+  &:hover {
+    background-color: ${(props) => props.theme.linkColor + "10"};
+    color: ${(props) => props.theme.linkColor};
+    text-decoration: none;
+  }
+`;
+
+const Divider = styled.div`
+  height: 1px;
+  background-color: ${(props) => props.theme.fontColor}1a;
+  margin: 0.5rem 0;
+`;
+
 export default function PageLayout(props) {
   const currentYear = new Date().getFullYear();
   const [error, setError] = useState("");
   const { currentUser, logout } = useAuth();
   const [blogEnabled, setBlogEnabled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsDropdownOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [dropdownRef]);
 
   useEffect(() => {
     getBlogEnabled().then((result) => {
@@ -272,30 +367,34 @@ export default function PageLayout(props) {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
-  const navItems = [
+  const isAdmin = currentUser && currentUser.email === "jpbates13@gmail.com";
+
+  const publicItems = [
     { label: "Home", href: "/", show: true },
     { label: "Projects", href: "/projects", show: true },
     { label: "Resume", onClick: getResume, show: true },
     { label: "Blog", href: "/blog", show: blogEnabled },
+  ];
 
-    // Admin links
+  const adminItems = [
     {
       label: "Dashboard",
       href: "/dashboard",
-      show: currentUser && currentUser.email === "jpbates13@gmail.com",
+      show: isAdmin,
     },
     {
       label: "Create Post",
       href: "/create-post",
-      show: currentUser && currentUser.email === "jpbates13@gmail.com",
+      show: isAdmin,
     },
     {
       label: "Drafts",
       href: "/drafts",
-      show: currentUser && currentUser.email === "jpbates13@gmail.com",
+      show: isAdmin,
     },
+  ];
 
-    // User links
+  const userItems = [
     {
       label: "Office Attendance",
       href: "/office-attendance",
@@ -318,13 +417,58 @@ export default function PageLayout(props) {
           <Logo href="/">Jake Bates</Logo>
 
           <NavContainer>
-            {navItems.map(
+            {publicItems.map(
               (item, index) =>
                 item.show && (
                   <NavLink key={index} href={item.href} onClick={item.onClick}>
                     {item.label}
                   </NavLink>
                 ),
+            )}
+
+            {currentUser && (
+              <DropdownContainer ref={dropdownRef}>
+                <DropdownButton
+                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                >
+                  <FaUserCircle size={20} />
+                  {isAdmin ? "Admin" : "Account"}
+                  <FaCaretDown />
+                </DropdownButton>
+                <DropdownMenu isOpen={isDropdownOpen}>
+                  {adminItems.map(
+                    (item, index) =>
+                      item.show && (
+                        <DropdownItem
+                          key={`admin-${index}`}
+                          href={item.href}
+                          onClick={(e) => {
+                            if (item.onClick) item.onClick(e);
+                            setIsDropdownOpen(false);
+                          }}
+                        >
+                          {item.label}
+                        </DropdownItem>
+                      ),
+                  )}
+                  {isAdmin && <Divider />}
+                  {userItems.map(
+                    (item, index) =>
+                      item.show && (
+                        <DropdownItem
+                          key={`user-${index}`}
+                          href={item.href}
+                          onClick={(e) => {
+                            if (item.onClick) item.onClick(e);
+                            setIsDropdownOpen(false);
+                          }}
+                        >
+                          {item.label}
+                        </DropdownItem>
+                      ),
+                  )}
+                </DropdownMenu>
+              </DropdownContainer>
             )}
             <ThemeToggle onClick={props.themeToggler}>
               {props.theme === "light" ? <FaSun /> : <FaMoon />}
@@ -336,11 +480,42 @@ export default function PageLayout(props) {
           </MobileMenuToggle>
 
           <MobileMenuOverlay isOpen={isMobileMenuOpen}>
-            {navItems.map(
+            {publicItems.map(
               (item, index) =>
                 item.show && (
                   <MobileNavLink
                     key={index}
+                    href={item.href}
+                    onClick={(e) => {
+                      if (item.onClick) item.onClick(e);
+                      setIsMobileMenuOpen(false);
+                    }}
+                  >
+                    {item.label}
+                  </MobileNavLink>
+                ),
+            )}
+            {currentUser && <MobileDivider />}
+            {adminItems.map(
+              (item, index) =>
+                item.show && (
+                  <MobileNavLink
+                    key={`admin-${index}`}
+                    href={item.href}
+                    onClick={(e) => {
+                      if (item.onClick) item.onClick(e);
+                      setIsMobileMenuOpen(false);
+                    }}
+                  >
+                    {item.label}
+                  </MobileNavLink>
+                ),
+            )}
+            {userItems.map(
+              (item, index) =>
+                item.show && (
+                  <MobileNavLink
+                    key={`user-${index}`}
                     href={item.href}
                     onClick={(e) => {
                       if (item.onClick) item.onClick(e);
