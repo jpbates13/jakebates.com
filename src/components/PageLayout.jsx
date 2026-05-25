@@ -21,6 +21,7 @@ import {
   getBlogEnabled,
 } from "../services/firestoreService";
 import styled from "styled-components";
+import SpotifyWidget from "./SpotifyWidget";
 
 const HeaderWrapper = styled.header`
   width: 100%;
@@ -544,6 +545,7 @@ export default function PageLayout(props) {
 
       <FooterContainer>
         <FooterContent>
+          <SpotifyWidget />
           <SocialLinks>
             <SocialIconLink
               href="https://www.linkedin.com/in/joshua-jake-bates/"

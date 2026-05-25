@@ -133,3 +133,13 @@ export const updateBlogEnabled = (enabled) => {
   const docRef = doc(db, "content", "blogEnabled");
   return updateDoc(docRef, { blogEnabled: enabled });
 };
+
+export const getSpotifyEnabled = () => {
+  const docRef = doc(db, "content", "spotifyEnabled");
+  return getDoc(docRef);
+};
+
+export const updateSpotifyEnabled = (enabled) => {
+  const docRef = doc(db, "content", "spotifyEnabled");
+  return setDoc(docRef, { spotifyEnabled: enabled });
+};
