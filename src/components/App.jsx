@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { flushSync } from "react-dom";
 import Login from "./Login";
 import Home from "./Home";
@@ -13,6 +13,7 @@ import Post from "./Post";
 import PageLayout from "./PageLayout";
 import EditPost from "./EditPost";
 import Projects from "./ProjectSlider/Projects";
+import OutOfMoney from "./OutOfMoney";
 
 // import Preview from "./Preview";
 import styled, { ThemeProvider } from "styled-components";
@@ -22,6 +23,24 @@ import OfficeAttendance from "./OfficeAttendance";
 const StyledApp = styled.div``;
 
 function App() {
+  const [isBroke, setIsBroke] = useState(false);
+
+  useEffect(() => {
+    const handler = (event) => {
+      const err = event.reason;
+      if (
+        err &&
+        (err.code === "resource-exhausted" ||
+          err.code === "permission-denied" ||
+          (err.message && err.message.toLowerCase().includes("quota")))
+      ) {
+        setIsBroke(true);
+      }
+    };
+    window.addEventListener("unhandledrejection", handler);
+    return () => window.removeEventListener("unhandledrejection", handler);
+  }, []);
+
   const [theme, setTheme] = useState(() => {
     // getting stored value
     const saved = localStorage.getItem("theme");
@@ -91,6 +110,15 @@ function App() {
       );
     });
   };
+
+  if (isBroke) {
+    return (
+      <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>
+        <GlobalStyles />
+        <OutOfMoney />
+      </ThemeProvider>
+    );
+  }
 
   return (
     <Router>

@@ -1,0 +1,9 @@
+{
+  "name": "billing-kill-switch",
+  "version": "1.0.0",
+  "description": "Google Cloud Function to automatically disable billing when a budget is exceeded.",
+  "main": "index.js",
+  "dependencies": {
+    "google-auth-library": "^8.0.0"
+  }
+}
